@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { articleSeoByPath, type ArticleCanonicalPath } from "@/content/seo-routes";
 import { getSiteUrl } from "@/lib/site-url";
 
+export const dynamic = "force-static";
+
 /**
  * URL из `articleSeoByPath` + hreflang-заготовки (`ru-RU`, `x-default`) для консистентности с `buildArticleMetadata`.
  * ИИ: новый маршрут — ключ в `seo-routes`, иначе URL не попадёт сюда.
