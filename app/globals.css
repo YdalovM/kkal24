@@ -1,26 +1,453 @@
 @import "tailwindcss";
 
+/**
+ * Визуал: уголь + surface. Акцент — сочный лайм с мятным подтоном (CTA, цифры).
+ * `--app-accent-soft` — чуть светлее для крупного текста и hover-свечений без «кислоты» на всём экране.
+ */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --app-page-base: #0a0a0a;
+  --app-surface: #141414;
+  --app-elevated: #1c1c1c;
+  --app-border: #2a2a2a;
+  /* Фокус клавиатуры: заметный, но не «кислотный» на каждом поле */
+  --app-border-focus: #737373;
+
+  --app-fg: #fafafa;
+  --app-fg-muted: #a3a3a3;
+  --app-fg-subtle: #737373;
+  --app-fg-dim: #525252;
+
+  --app-accent: #b8e943;
+  --app-accent-hover: #a3d636;
+  /** Светлый лайм для заголовков и вторичных бликов (читается на #0a0a0a). */
+  --app-accent-soft: #daf97a;
+  --app-on-accent: #0a0a0a;
+
+  --app-warn: #e8c84a;
+  --app-danger: #f87171;
+
+  /**
+   * Якоря на главной: небольшой отступ сверху (нет sticky-шапки; сайдбар сбоку).
+   * При смене вёрстки синхронизируйте с rootMargin в CalorieMobileTdeeBar.
+   */
+  --app-scroll-anchor-offset: max(0.75rem, env(safe-area-inset-top, 0px));
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  --color-page: var(--app-page-base);
+  --color-page-mid: var(--app-page-base);
+  --color-surface: var(--app-surface);
+  --color-elevated: var(--app-elevated);
+  --color-border: var(--app-border);
+  --color-border-focus: var(--app-border-focus);
+  --color-fg: var(--app-fg);
+  --color-fg-muted: var(--app-fg-muted);
+  --color-fg-subtle: var(--app-fg-subtle);
+  --color-fg-dim: var(--app-fg-dim);
+  --color-accent: var(--app-accent);
+  --color-accent-hover: var(--app-accent-hover);
+  --color-accent-soft: var(--app-accent-soft);
+  --color-on-accent: var(--app-on-accent);
+  --color-warn: var(--app-warn);
+  --color-danger: var(--app-danger);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/**
+ * Skip-link: виден только при фокусе с клавиатуры (WCAG 2.4.1), не занимает место в потоке.
+ * ИИ: не удалять — полезен аудитам доступности и качеству сниппетов в выдаче.
+ */
+.skip-to-main {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.skip-to-main:focus {
+  position: fixed;
+  left: max(1rem, env(safe-area-inset-left, 0px));
+  top: max(1rem, env(safe-area-inset-top, 0px));
+  z-index: 60;
+  width: auto;
+  height: auto;
+  padding: 0.65rem 1rem;
+  margin: 0;
+  overflow: visible;
+  clip: auto;
+  white-space: normal;
+  border-radius: 0.5rem;
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-decoration: none;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+}
+.skip-to-main:focus-visible {
+  outline: 2px solid var(--app-border-focus);
+  outline-offset: 2px;
+}
+
+html {
+  background-color: var(--app-page-base);
+  scroll-behavior: smooth;
+  overflow-x: clip;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* Тост пересчёта: только появление, без сдвига вёрстки (см. RecalcToast). */
+@keyframes cal-recalc-toast-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.cal-recalc-toast {
+  animation: cal-recalc-toast-in 0.2s ease-out both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cal-recalc-toast {
+    animation: none;
+    opacity: 1;
+  }
+}
+
+/* Лёгкое «дыхание» свечения у главной CTA; отключается при reduced-motion. */
+@keyframes calorie-primary-glow {
+  0%,
+  100% {
+    box-shadow:
+      0 0 28px rgba(184, 233, 67, 0.22),
+      0 0 56px rgba(184, 233, 67, 0.08);
+  }
+  50% {
+    box-shadow:
+      0 0 36px rgba(184, 233, 67, 0.32),
+      0 0 72px rgba(184, 233, 67, 0.12);
+  }
+}
+
+.calorie-primary-glow {
+  animation: calorie-primary-glow 3.2s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calorie-primary-glow {
+    animation: none;
+    box-shadow: 0 0 28px rgba(184, 233, 67, 0.24);
+  }
+}
+
+/** Оболочка калькулятора на главной: лёгкий лаймовый кант при наведении. */
+.calculator-shell:hover {
+  border-color: color-mix(in srgb, var(--app-accent) 22%, transparent);
+  box-shadow:
+    0 4px 40px rgba(0, 0, 0, 0.4),
+    0 0 0 1px color-mix(in srgb, var(--app-accent) 14%, transparent),
+    0 0 48px rgba(184, 233, 67, 0.06);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .calculator-shell:hover {
+    box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/**
+ * Горизонтальные поля контента: не меньше 1rem и не меньше safe-area (вырезы, «острова»).
+ * Подключать к основным контейнерам вместе с `max-w-3xl mx-auto`.
+ */
+.app-gutter-x {
+  padding-left: max(1rem, env(safe-area-inset-left, 0px));
+  padding-right: max(1rem, env(safe-area-inset-right, 0px));
+}
+
+@media (min-width: 768px) {
+  .app-gutter-x {
+    padding-left: max(1.5rem, env(safe-area-inset-left, 0px));
+    padding-right: max(1.5rem, env(safe-area-inset-right, 0px));
   }
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  overflow-x: clip;
+  background-color: var(--app-page-base);
+  /* Нейтральная глубина: лёгкие «прожектора», без цветового каста */
+  background-image:
+    radial-gradient(
+      ellipse 120% 70% at 50% -30%,
+      rgba(255, 255, 255, 0.055) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      ellipse 50% 45% at 100% 15%,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 45% 40% at 0% 85%,
+      rgba(255, 255, 255, 0.025) 0%,
+      transparent 45%
+    );
+  background-attachment: fixed;
+  color: var(--app-fg);
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background-color: rgba(255, 255, 255, 0.18);
+  color: var(--app-fg);
+}
+
+/* Числовые поля: убираем стрелки stepper (редко нужны и портят вид) */
+input[type="number"].input-no-spin::-webkit-outer-spin-button,
+input[type="number"].input-no-spin::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"].input-no-spin {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+input[type="checkbox"] {
+  accent-color: var(--app-fg-muted);
+}
+
+/* Выпадающий список: единый стиль с полями, без системного «глянца». */
+select.calorie-select {
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.65rem center;
+  background-size: 1.15rem;
+}
+
+select.calorie-select:hover {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c9ff2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+select.calorie-select option {
+  background-color: var(--app-elevated);
+  color: var(--app-fg);
+}
+
+/* ─── Типографика статей (article-prose) ───────────────────────────────────
+ * Используется в ArticleShell как обёртка над контентом статьи.
+ * Намеренно без @tailwindcss/typography — чтобы не тянуть плагин.
+ */
+.article-prose h1 {
+  color: var(--app-fg);
+  font-size: clamp(1.5rem, 5vw, 2rem);
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  margin-bottom: 0.75rem;
+}
+
+.article-prose h2 {
+  color: var(--app-fg);
+  font-size: 1.0625rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-top: 2.25rem;
+  margin-bottom: 0.625rem;
+}
+
+.article-prose h3 {
+  color: var(--app-fg);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  margin-top: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-prose p {
+  color: var(--app-fg-muted);
+  font-size: 0.9375rem;
+  line-height: 1.75;
+  margin-bottom: 1rem;
+  text-wrap: pretty;
+  max-width: 72ch;
+}
+
+.article-prose ul,
+.article-prose ol {
+  padding-left: 1.375rem;
+  margin-bottom: 1rem;
+  max-width: 68ch;
+}
+
+.article-prose li {
+  color: var(--app-fg-muted);
+  font-size: 0.9375rem;
+  line-height: 1.7;
+  margin-bottom: 0.375rem;
+}
+
+.article-prose ul > li::marker {
+  color: color-mix(in srgb, var(--app-accent) 65%, transparent);
+}
+
+.article-prose strong {
+  color: var(--app-fg);
+  font-weight: 600;
+}
+
+.article-prose a {
+  color: var(--app-accent);
+  text-decoration: underline;
+  text-decoration-color: color-mix(in srgb, var(--app-accent) 35%, transparent);
+  text-underline-offset: 2px;
+  transition: text-decoration-color 0.15s;
+}
+
+.article-prose a:hover {
+  text-decoration-color: var(--app-accent);
+}
+
+/**
+ * Таблицы в статьях: перенос текста + при необходимости горизонтальный скролл только у таблицы
+ * (блок как прямой ребёнок .article-prose — см. страницы в app/<slug>/page.tsx).
+ */
+.article-prose > table {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  margin-bottom: 1.25rem;
+  border-collapse: collapse;
+  font-size: 0.8125rem;
+}
+
+.article-prose > table thead,
+.article-prose > table tbody {
+  display: table;
+  width: 100%;
+  table-layout: fixed;
+}
+
+@media (min-width: 640px) {
+  .article-prose > table {
+    font-size: 0.875rem;
+  }
+}
+
+.article-prose th {
+  color: var(--app-accent);
+  font-weight: 600;
+  text-align: left;
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid var(--app-border);
+  background-color: color-mix(in srgb, var(--app-accent) 8%, transparent);
+  white-space: normal;
+  word-break: break-word;
+  hyphens: auto;
+}
+
+@media (min-width: 640px) {
+  .article-prose th {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.article-prose td {
+  color: var(--app-fg-muted);
+  padding: 0.45rem 0.5rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--app-border) 70%, transparent);
+  vertical-align: top;
+  word-break: break-word;
+  hyphens: auto;
+  overflow-wrap: anywhere;
+}
+
+@media (min-width: 640px) {
+  .article-prose td {
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+.article-prose blockquote {
+  border-left: 2px solid color-mix(in srgb, var(--app-accent) 50%, transparent);
+  padding-left: 1rem;
+  margin: 1.5rem 0;
+  color: var(--app-fg-subtle);
+  font-size: 0.9375rem;
+}
+
+/* Блок подсказки / предупреждения */
+.article-prose .callout {
+  border: 1px solid var(--app-border);
+  border-left: 3px solid var(--app-warn);
+  background: color-mix(in srgb, var(--app-warn) 6%, transparent);
+  border-radius: 0.5rem;
+  padding: 0.875rem 1rem;
+  margin: 1.5rem 0;
+  font-size: 0.875rem;
+  color: var(--app-fg-muted);
+  max-width: 72ch;
+}
+
+.article-prose .callout p {
+  margin: 0;
+  color: inherit;
+  font-size: inherit;
+}
+
+/* CTA-блок внутри статьи */
+.article-prose .article-cta {
+  margin: 2rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 36rem;
+}
+
+.article-prose .article-cta a {
+  display: inline-flex;
+  min-height: 2.75rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.75rem;
+  background-color: var(--app-accent);
+  color: var(--app-on-accent);
+  font-size: 0.9375rem;
+  font-weight: 600;
+  padding: 0 1.5rem;
+  text-decoration: none;
+  transition: background-color 0.15s, transform 0.1s;
+}
+
+.article-prose .article-cta a:hover {
+  background-color: var(--app-accent-hover);
+  text-decoration: none;
+}
+
+.article-prose .article-cta a:active {
+  transform: scale(0.98);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .article-prose .article-cta a:active {
+    transform: none;
+  }
 }

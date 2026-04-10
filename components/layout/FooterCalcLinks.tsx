@@ -1,0 +1,32 @@
+"use client";
+
+import { CalcAnchorLink } from "@/components/layout/CalcAnchorLink";
+import { footerNavLinkClass } from "@/components/layout/footer-nav-link-classes";
+import { siteContent } from "@/content/site";
+
+/**
+ * Якоря блоков главной — дубль сайдбара для перелинковки внизу страницы (SEO).
+ */
+export function FooterCalcLinks() {
+  const { base, idle } = footerNavLinkClass;
+
+  return (
+    <nav aria-label="Калькуляторы на главной">
+      <p className="mb-2 text-[10px] font-semibold uppercase tracking-wider text-fg-dim">
+        Калькуляторы
+      </p>
+      <ul className="flex flex-wrap gap-x-1 gap-y-1">
+        {siteContent.calcQuickLinks.map((item) => (
+          <li key={item.anchorId}>
+            <CalcAnchorLink
+              anchorId={item.anchorId}
+              className={`${base} ${idle}`}
+            >
+              {item.label}
+            </CalcAnchorLink>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+}
