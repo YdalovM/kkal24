@@ -55,9 +55,10 @@ export const metadata: Metadata = {
       "max-video-preview": -1,
     },
   },
-  ...(googleVerification
-    ? { verification: { google: googleVerification } }
-    : {}),
+  verification: {
+    yandex: "95e6516a9f3d4b0e",
+    ...(googleVerification ? { google: googleVerification } : {}),
+  },
 };
 
 /** Масштаб под ширину устройства; maximumScale — чтобы не ломать доступность зума. */
@@ -80,9 +81,6 @@ export default function RootLayout({
       lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <head>
-        <meta name="yandex-verification" content="95e6516a9f3d4b0e" />
-      </head>
       <body className="flex min-h-full flex-col font-sans text-fg antialiased [text-wrap:pretty] selection:bg-[color-mix(in_srgb,var(--app-accent)_32%,transparent)]">
         <SiteShell>{children}</SiteShell>
       </body>
