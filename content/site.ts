@@ -49,5 +49,6 @@ export const siteContent = {
     { href: "/imt/", label: "ИМТ — справка" },
     { href: "/norma-vody/", label: "Вода — справка" },
     { href: "/o-proekte/", label: "О проекте" },
+    { href: "/politika-konfidencialnosti/", label: "Конфиденциальность" },
   ] as const,
 } as const;

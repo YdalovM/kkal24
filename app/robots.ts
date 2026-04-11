@@ -5,6 +5,13 @@ export const dynamic = "force-static";
 
 export default function robots(): MetadataRoute.Robots {
   const base = getSiteUrl();
+  /** Для Яндекса в `Host:` нужен только хост без схемы (не `https://…`). */
+  let host: string | undefined;
+  try {
+    host = new URL(base).host;
+  } catch {
+    host = undefined;
+  }
 
   return {
     rules: {
@@ -12,6 +19,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
     },
     sitemap: `${base}/sitemap.xml`,
-    host: base,
+    ...(host ? { host } : {}),
   };
 }

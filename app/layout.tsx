@@ -6,6 +6,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { siteContent } from "@/content/site";
 import { getSiteUrl } from "@/lib/site-url";
+import { YandexMetrika } from "@/components/analytics/YandexMetrika";
 import { SiteShell } from "@/components/layout/SiteShell";
 import "./globals.css";
 
@@ -83,6 +84,7 @@ export default function RootLayout({
     >
       <body className="flex min-h-full flex-col font-sans text-fg antialiased [text-wrap:pretty] selection:bg-[color-mix(in_srgb,var(--app-accent)_32%,transparent)]">
         <SiteShell>{children}</SiteShell>
+        <YandexMetrika />
       </body>
     </html>
   );

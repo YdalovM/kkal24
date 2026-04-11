@@ -26,7 +26,8 @@ export type ArticleCanonicalPath =
   | "/deficit-kalorij/"
   | "/imt/"
   | "/norma-vody/"
-  | "/o-proekte/";
+  | "/o-proekte/"
+  | "/politika-konfidencialnosti/";
 
 export type ArticleSeoEntry = {
   title: string;
@@ -127,5 +128,18 @@ export const articleSeoByPath: Record<ArticleCanonicalPath, ArticleSeoEntry> = {
     ],
     ogDescription:
       "Методика расчётов, кому калькулятор не подходит и как относиться к цифрам.",
+  },
+  "/politika-konfidencialnosti/": {
+    title: "Политика конфиденциальности kkal24.ru — Метрика, cookies и реклама",
+    description:
+      "Как на сайте kkal24.ru обрабатываются данные: калькулятор без серверного хранения параметров, Яндекс.Метрика, реклама (РСЯ), файл ads.txt и cookies партнёров.",
+    keywords: [
+      "политика конфиденциальности калькулятор калорий",
+      "kkal24 обработка данных",
+      "cookies реклама сайт",
+      "яндекс метрика политика",
+    ],
+    ogDescription:
+      "Прозрачно: что собирает Метрика, как устроены реклама и ads.txt, что не уходит на сервер калькулятора.",
   },
 };
