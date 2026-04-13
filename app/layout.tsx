@@ -29,7 +29,7 @@ const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
  * на стороне Caddy/хостинга (www ↔ без www, HTTP→HTTPS, IPv6) или несовпадение URL сайта в панели с финальным адресом.
  */
 const yandexVerification =
-  process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "ab509c1c3603f2f7";
+  process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "abf89c1c3883f2f7";
 
 /**
  * Глобальные умолчания. Canonical, полные OG/Twitter и title главной — в `app/page.tsx` (`buildHomeMetadata`).
