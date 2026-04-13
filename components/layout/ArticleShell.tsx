@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import type { BreadcrumbItem } from "@/components/layout/Breadcrumbs";
 import { Breadcrumbs } from "@/components/layout/Breadcrumbs";
+import styles from "@/components/layout/ArticleShell.module.css";
 
 type ArticleShellProps = {
   breadcrumbs: BreadcrumbItem[];
@@ -18,7 +19,9 @@ export function ArticleShell({ breadcrumbs, children }: ArticleShellProps) {
     <main className="min-w-0 flex-1 overflow-x-clip">
       <div className="app-gutter-x mx-auto min-w-0 max-w-3xl py-8 sm:py-10 md:py-14">
         <Breadcrumbs items={breadcrumbs} />
-        <article className="article-prose mt-6 min-w-0 max-w-full">{children}</article>
+        <article className={`${styles.prose} mt-6 min-w-0 max-w-full`}>
+          {children}
+        </article>
       </div>
     </main>
   );

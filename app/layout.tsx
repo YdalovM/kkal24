@@ -89,7 +89,7 @@ export default function RootLayout({
       lang="ru"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col font-sans text-fg antialiased [text-wrap:pretty] selection:bg-[color-mix(in_srgb,var(--app-accent)_32%,transparent)]">
+      <body className="flex min-h-full flex-col font-sans text-fg antialiased">
         <SiteShell>{children}</SiteShell>
         <YandexMetrika />
       </body>

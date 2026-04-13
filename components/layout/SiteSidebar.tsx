@@ -1,11 +1,5 @@
-"use client";
-
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { siteContent } from "@/content/site";
-import { CalcAnchorLink } from "@/components/layout/CalcAnchorLink";
-import { useLocationHash } from "@/hooks/useLocationHash";
-import { normalizeAppPath } from "@/lib/nav-path";
 
 const sectionClass =
   "px-1 pb-1 pt-3 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-subtle first:pt-0";
@@ -19,19 +13,6 @@ const linkRow =
  * ИИ: активный якорь на главной зависит от `useLocationHash` + `normalizeAppPath`.
  */
 export function SiteSidebar() {
-  const pathname = usePathname();
-  const hash = useLocationHash(pathname);
-
-  const p = normalizeAppPath(pathname);
-  const onHome = p === "/";
-
-  const calcActive = (anchorId: string) =>
-    onHome &&
-    (hash === `#${anchorId}` ||
-      (anchorId === "calc-main" && (!hash || hash === "#")));
-
-  const articleActive = (href: string) => normalizeAppPath(href) === p;
-
   return (
     <div className="flex flex-col py-4 pb-5 pt-[max(1rem,env(safe-area-inset-top,0px))] md:py-6">
       <Link
@@ -46,12 +27,9 @@ export function SiteSidebar() {
         <ul className="mb-1 space-y-0.5">
           {siteContent.calcQuickLinks.map((item) => (
             <li key={item.anchorId}>
-              <CalcAnchorLink
-                anchorId={item.anchorId}
-                className={`${linkRow} ${calcActive(item.anchorId) ? "translate-x-0 border-accent/35 bg-accent/[0.1] text-accent shadow-[inset_0_0_0_1px_rgba(184,233,67,0.12)] md:translate-x-0.5" : ""}`}
-              >
+              <a href={`/#${item.anchorId}`} className={linkRow}>
                 {item.label}
-              </CalcAnchorLink>
+              </a>
             </li>
           ))}
         </ul>
@@ -60,10 +38,7 @@ export function SiteSidebar() {
         <ul className="space-y-0.5">
           {siteContent.articleNavLinks.map((link) => (
             <li key={link.href}>
-              <Link
-                href={link.href}
-                className={`${linkRow} ${articleActive(link.href) ? "translate-x-0 border-accent/35 bg-accent/[0.1] text-accent shadow-[inset_0_0_0_1px_rgba(184,233,67,0.12)] md:translate-x-0.5" : ""}`}
-              >
+              <Link href={link.href} className={linkRow}>
                 {link.label}
               </Link>
             </li>

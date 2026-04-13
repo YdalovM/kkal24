@@ -1,5 +1,3 @@
-"use client";
-
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteSidebar } from "@/components/layout/SiteSidebar";

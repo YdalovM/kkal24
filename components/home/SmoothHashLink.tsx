@@ -31,13 +31,16 @@ export function SmoothHashLink({
     const reduce =
       typeof window !== "undefined" &&
       window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    el.scrollIntoView({
-      behavior: reduce ? "auto" : "smooth",
-      block: "start",
-    });
     const url = `${window.location.pathname}${window.location.search}${href}`;
     window.history.replaceState(null, "", url);
     onNavigate?.();
+    /* scrollIntoView в следующем кадре — не смешиваем синхронный layout после клика с остальной работой браузера. */
+    requestAnimationFrame(() => {
+      el.scrollIntoView({
+        behavior: reduce ? "auto" : "smooth",
+        block: "start",
+      });
+    });
   };
 
   return (

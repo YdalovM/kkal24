@@ -1,0 +1,72 @@
+.heroAccent {
+  text-shadow: 0 0 40px rgba(184, 233, 67, 0.35);
+}
+
+.jumpPrimary {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+
+.jumpPrimary:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--app-accent) 100%, transparent);
+  box-shadow: 0 0 32px rgba(184, 233, 67, 0.22);
+}
+
+.jumpPrimary:active {
+  transform: scale(0.99);
+}
+
+.jumpSecondary {
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
+}
+
+.jumpSecondary:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in srgb, var(--app-accent) 50%, transparent);
+  background-color: var(--app-elevated);
+}
+
+.jumpSecondary:active {
+  transform: scale(0.99);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .jumpPrimary,
+  .jumpSecondary {
+    transition: none;
+  }
+
+  .jumpPrimary:hover,
+  .jumpSecondary:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .jumpPrimary:active,
+  .jumpSecondary:active {
+    transform: none;
+  }
+}
+
+.calculatorShell {
+  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.4);
+}
+
+.stepRingAccent {
+  box-shadow: 0 0 20px rgba(184, 233, 67, 0.12);
+}
+
+.sectionDivider {
+  background-image: linear-gradient(
+    to right,
+    transparent,
+    color-mix(in srgb, var(--app-accent) 25%, transparent),
+    transparent
+  );
+}

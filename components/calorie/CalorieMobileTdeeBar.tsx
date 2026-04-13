@@ -24,19 +24,25 @@ export function CalorieMobileTdeeBar({
     /* rootMargin сверху: без sticky-шапки; см. --app-scroll-anchor-offset в globals.css */
     const obs = new IntersectionObserver(
       ([e]) => {
-        setShowBar(!e?.isIntersecting);
+        /* Откладываем setState на кадр после отчёта IO — меньше принудительных компоновок на мобильных. */
+        requestAnimationFrame(() => {
+          setShowBar(!e?.isIntersecting);
+        });
       },
       { rootMargin: "-12px 0px 0px 0px", threshold: 0 },
     );
 
     obs.observe(el);
     return () => obs.disconnect();
-  }, [sentinelRef, tdee]);
+    /* tdee не в deps: переподключение observer при каждом пересчёте лишнее и даёт лишние layout/read. */
+  }, [sentinelRef]);
 
   const scrollToResult = useCallback(() => {
-    document
-      .getElementById(scrollTargetId)
-      ?.scrollIntoView({ block: "start", inline: "nearest" });
+    requestAnimationFrame(() => {
+      document
+        .getElementById(scrollTargetId)
+        ?.scrollIntoView({ block: "start", inline: "nearest" });
+    });
   }, [scrollTargetId]);
 
   if (!showBar) return null;

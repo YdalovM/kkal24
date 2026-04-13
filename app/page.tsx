@@ -12,12 +12,13 @@ import {
   SmoothHashLink,
   TrustAndFaqSection,
 } from "@/components/home";
-import { MiniCalculators } from "@/components/mini/MiniCalculators";
+import { DeferredMiniCalculators } from "@/components/mini/DeferredMiniCalculators";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { calculatorUx } from "@/content/calculator-ux";
 import { siteContent } from "@/content/site";
 import { buildHomeJsonLd } from "@/lib/seo-home-jsonld";
 import { buildHomeMetadata } from "@/lib/seo-page-metadata";
+import styles from "@/app/page.module.css";
 
 export const metadata: Metadata = buildHomeMetadata();
 
@@ -55,7 +56,7 @@ function SectionStep({
   children: ReactNode;
 }) {
   const stepRing = accent
-    ? "border-accent/55 bg-accent/[0.12] text-accent shadow-[0_0_20px_rgba(184,233,67,0.12)]"
+    ? `border-accent/55 bg-accent/[0.12] text-accent ${styles.stepRingAccent}`
     : "border-border bg-elevated text-fg-muted";
 
   return (
@@ -107,7 +108,7 @@ export default function Home() {
           </p>
           <h1 className="mt-3 text-balance text-[clamp(1.5rem,5.5vw+0.6rem,2.25rem)] font-bold leading-tight tracking-tight text-fg sm:text-4xl sm:leading-none">
             {hero.titleLeading}{" "}
-            <span className="text-accent [text-shadow:0_0_40px_rgba(184,233,67,0.35)]">
+            <span className={`text-accent ${styles.heroAccent}`}>
               {hero.titleAccent}
             </span>{" "}
             {hero.titleTrailing}
@@ -121,7 +122,7 @@ export default function Home() {
           >
             <SmoothHashLink
               href="#calc-main"
-              className="touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-accent/55 bg-accent/[0.14] px-5 py-2.5 text-left text-fg transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-px hover:border-accent hover:shadow-[0_0_32px_rgba(184,233,67,0.22)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 sm:w-auto sm:inline-flex"
+              className={`touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-accent/55 bg-accent/[0.14] px-5 py-2.5 text-left text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:inline-flex sm:w-auto ${styles.jumpPrimary}`}
             >
               <span className="text-sm font-semibold">
                 {hero.jumpMainLabel}
@@ -130,7 +131,7 @@ export default function Home() {
             </SmoothHashLink>
             <SmoothHashLink
               href="#calc-extra"
-              className="touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-border bg-elevated/80 px-5 py-2.5 text-left text-fg transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-px hover:border-accent/50 hover:bg-elevated active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 sm:w-auto sm:inline-flex"
+              className={`touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-border bg-elevated/80 px-5 py-2.5 text-left text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:inline-flex sm:w-auto ${styles.jumpSecondary}`}
             >
               <span className="text-sm font-semibold">
                 {hero.jumpExtraLabel}
@@ -146,7 +147,9 @@ export default function Home() {
         </header>
 
         <HomeInteractiveShell>
-          <div className="calculator-shell mt-8 min-w-0 rounded-2xl border border-white/[0.08] bg-surface/50 p-4 shadow-[0_4px_40px_rgba(0,0,0,0.4)] backdrop-blur-sm transition-[border-color,box-shadow] duration-300 sm:mt-10 sm:p-5 md:p-8">
+          <div
+            className={`calculator-shell mt-8 min-w-0 rounded-2xl border border-white/[0.08] bg-surface/50 p-4 backdrop-blur-sm transition-[border-color,box-shadow] duration-300 sm:mt-10 sm:p-5 md:p-8 ${styles.calculatorShell}`}
+          >
             <div className="flex flex-col gap-10 sm:gap-14 md:gap-16">
               <SectionStep
                 step={sections.mainStep}
@@ -168,7 +171,7 @@ export default function Home() {
               </SectionStep>
 
               <div
-                className="h-px w-full bg-gradient-to-r from-transparent via-accent/25 to-transparent"
+                className={`h-px w-full ${styles.sectionDivider}`}
                 aria-hidden
               />
 
@@ -181,7 +184,7 @@ export default function Home() {
                 anchorId="calc-extra"
               >
                 <div className="min-w-0">
-                  <MiniCalculators />
+                  <DeferredMiniCalculators />
                 </div>
               </SectionStep>
             </div>
