@@ -1,17 +1,13 @@
 import Script from "next/script";
+import { resolveYandexMetrikaCounterId } from "@/lib/yandex-metrika-counter";
 
 /**
- * Яндекс.Метрика: номер счётчика в `NEXT_PUBLIC_YM_COUNTER_ID` (только цифры).
- * Скрипт — первый в `<body>` (`layout.tsx`); `afterInteractive` — рекомендуемая стратегия для App Router
- * ( `beforeInteractive` в eslint привязан к `pages/_document` ).
- * После выполнения доступны `window.ym` и `window.YM_COUNTER_ID` для `reachGoal` в `lib/analytics.ts`.
+ * Яндекс.Метрика: `NEXT_PUBLIC_YM_COUNTER_ID` или резерв из `lib/yandex-metrika-counter.ts`.
+ * `beforeInteractive` — ранняя вставка в документ (проверка «код установлен» в кабинете Метрики).
+ * В App Router корневой `layout.tsx` — допустимое место; правило eslint ориентировано на Pages `/_document`.
  */
 export function YandexMetrika() {
-  const raw = process.env.NEXT_PUBLIC_YM_COUNTER_ID;
-  const counterId = raw ? Number.parseInt(String(raw).trim(), 10) : NaN;
-  if (!Number.isFinite(counterId) || counterId <= 0) {
-    return null;
-  }
+  const counterId = resolveYandexMetrikaCounterId();
 
   const inline = `
 (function(m,e,t,r,i,k,a){
@@ -27,9 +23,10 @@ window.YM_COUNTER_ID=${counterId};
 
   return (
     <>
+      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document -- корневой App Router layout */}
       <Script
         id="ym-metrika"
-        strategy="afterInteractive"
+        strategy="beforeInteractive"
         dangerouslySetInnerHTML={{ __html: inline }}
       />
       <noscript>
