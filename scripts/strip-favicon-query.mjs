@@ -7,9 +7,14 @@ import fs from "node:fs";
 import path from "node:path";
 
 const outDir = path.join(process.cwd(), "out");
-const patterns = [
-  [/\/favicon\.ico\?favicon\.[^"]+/g, "/favicon.ico"],
-  [/\/icon\.png\?icon\.[^"]+/g, "/icon.png"],
+/**
+ * Важно: правим только настоящие HTML-атрибуты href="..."
+ * (иначе можно зацепить сериализованный JSON внутри inline-скриптов Next
+ * и сломать рантайм с `Invalid or unexpected token`).
+ */
+const htmlHrefPatterns = [
+  [/href="\/favicon\.ico\?favicon\.[^"]*"/g, 'href="/favicon.ico"'],
+  [/href="\/icon\.png\?icon\.[^"]*"/g, 'href="/icon.png"'],
 ];
 
 function walk(dir) {
@@ -19,7 +24,7 @@ function walk(dir) {
     else if (name.name.endsWith(".html")) {
       let s = fs.readFileSync(p, "utf8");
       let next = s;
-      for (const [re, rep] of patterns) {
+      for (const [re, rep] of htmlHrefPatterns) {
         next = next.replace(re, rep);
       }
       if (next !== s) fs.writeFileSync(p, next, "utf8");

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build && node scripts/strip-favicon-query.mjs",
-    "start": "next start",
+    "start": "npx serve@latest out -p 3000",
     "lint": "eslint"
   },
   "dependencies": {
