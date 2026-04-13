@@ -23,7 +23,11 @@ const geistMono = Geist_Mono({
 const siteUrl = getSiteUrl();
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
-/** Яндекс.Вебмастер: значение `content` из метатега верификации. На проде можно переопределить через env. */
+/**
+ * Яндекс.Вебмастер: `content` метатега `yandex-verification` (дублирует файл `public/yandex_<код>.html`).
+ * Если Вебмастер пишет «страница недоступна» при проверке главной — чаще всего виноват редирект 301/308
+ * на стороне Caddy/хостинга (www ↔ без www, HTTP→HTTPS, IPv6) или несовпадение URL сайта в панели с финальным адресом.
+ */
 const yandexVerification =
   process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "abf89c1c3883f2f7";
 
