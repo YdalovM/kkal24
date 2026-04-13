@@ -70,6 +70,21 @@ export function parseShareSearchParams(searchParams: URLSearchParams): ParsedQue
   return out;
 }
 
+/**
+ * Стабильная строка query при том же наборе параметров, независимо от порядка ключей.
+ * У `URLSearchParams#toString()` порядок может отличаться между рендерами в Next.js —
+ * тогда зависимость эффекта «дрожит» и может вызвать цикл обновлений и `__next_error__`.
+ */
+export function stableSearchParamsKey(
+  sp: Pick<URLSearchParams, "entries">,
+): string {
+  const entries = [...sp.entries()].sort((a, b) => {
+    const byKey = a[0].localeCompare(b[0]);
+    return byKey !== 0 ? byKey : String(a[1]).localeCompare(String(b[1]));
+  });
+  return new URLSearchParams(entries).toString();
+}
+
 export type SerializeInput = {
   sex: Sex;
   age: number;

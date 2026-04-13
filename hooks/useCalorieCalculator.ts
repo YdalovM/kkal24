@@ -37,6 +37,7 @@ import { getPal, type Sex } from "@/lib/calories";
 import {
   parseShareSearchParams,
   serializeShareParams,
+  stableSearchParamsKey,
 } from "@/lib/shareUrl";
 import type { CalorieFieldErrors } from "@/lib/calorie-form-validation";
 import { calculatorUx } from "@/content/calculator-ux";
@@ -44,10 +45,16 @@ import { useMainFormToMiniSyncOptional } from "@/contexts/main-form-to-mini-sync
 
 export function useCalorieCalculator() {
   const searchParams = useSearchParams();
-  /** Строка query стабильна по значению; сам объект searchParams в Next может менять ссылку каждый рендер → бесконечный useEffect и падение вкладки. */
-  const searchParamsKey = searchParams.toString();
+  /**
+   * Каноническая строка query: и порядок ключей нормализован (см. `stableSearchParamsKey`),
+   * иначе `toString()` между рендерами может «прыгать» → эффект синхронизации с URL
+   * срабатывает снова и снова → падение вкладки / `__next_error__` на проде.
+   */
+  const searchParamsKey = stableSearchParamsKey(searchParams);
   const pathname = usePathname();
   const pushToMinis = useMainFormToMiniSyncOptional();
+  const pushToMinisRef = useRef(pushToMinis);
+  pushToMinisRef.current = pushToMinis;
 
   const [sex, setSex] = useState<Sex>("m");
   const [age, setAge] = useState("");
@@ -112,17 +119,26 @@ export function useCalorieCalculator() {
       ) {
         const act = (parsed.activity ?? DEFAULT_ACTIVITY_INDEX) as ActivityIndex;
         const palO = parsed.pal ?? null;
-        const built = buildCalorieResult(
-          parsed.sex,
-          parsed.age,
-          parsed.height,
-          parsed.weight,
-          act,
-          palO,
-        );
-        setResult(built);
-        pushToMinis?.(String(parsed.height), String(parsed.weight), built.tdee);
-        prevTdeeAfterUserCalcRef.current = built.tdee;
+        try {
+          const built = buildCalorieResult(
+            parsed.sex,
+            parsed.age,
+            parsed.height,
+            parsed.weight,
+            act,
+            palO,
+          );
+          setResult(built);
+          pushToMinisRef.current?.(
+            String(parsed.height),
+            String(parsed.weight),
+            built.tdee,
+          );
+          prevTdeeAfterUserCalcRef.current = built.tdee;
+        } catch {
+          setResult(null);
+          prevTdeeAfterUserCalcRef.current = null;
+        }
       } else {
         setResult(null);
         prevTdeeAfterUserCalcRef.current = null;
@@ -140,7 +156,7 @@ export function useCalorieCalculator() {
       setResult(null);
       prevTdeeAfterUserCalcRef.current = null;
     }
-  }, [applyParsedQuery, searchParamsKey, pushToMinis]);
+  }, [applyParsedQuery, searchParamsKey]);
 
   const onCalculate = useCallback(() => {
     setErrors({});
