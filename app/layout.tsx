@@ -23,6 +23,9 @@ const geistMono = Geist_Mono({
 const siteUrl = getSiteUrl();
 
 const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+/** Яндекс.Вебмастер: значение `content` из метатега верификации. На проде можно переопределить через env. */
+const yandexVerification =
+  process.env.NEXT_PUBLIC_YANDEX_VERIFICATION ?? "abf89c1c3883f2f7";
 
 /**
  * Глобальные умолчания. Canonical, полные OG/Twitter и title главной — в `app/page.tsx` (`buildHomeMetadata`).
@@ -57,7 +60,7 @@ export const metadata: Metadata = {
     },
   },
   verification: {
-    yandex: "95e6516a9f3d4b0e",
+    yandex: yandexVerification,
     ...(googleVerification ? { google: googleVerification } : {}),
   },
 };
