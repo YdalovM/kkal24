@@ -33,7 +33,8 @@ export function SiteFooter() {
         {/* Дисклеймер */}
         <p className="max-w-2xl text-pretty text-fg-dim">
           Информационный сервис, не медицинская услуга. Расчёты — ориентировочные; при
-          заболеваниях, беременности или приёме препаратов — только с врачом.{" "}
+          болезнях, беременности, лактации, приёме препаратов и для детей до 18 лет —
+          решения только с врачом или диетологом.{" "}
           <Link
             href="/o-proekte/"
             className="text-fg-subtle underline decoration-border underline-offset-2 hover:text-fg-muted"

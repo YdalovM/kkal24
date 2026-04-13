@@ -1,7 +1,20 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  ArticleLeadSummary,
+  ArticleSources,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { ArticleShell } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  efsaWaterDrv2010,
+  faoWhoUnuHumanEnergy2004,
+  frankenfieldMifflinDoi,
+  mifflinOriginalDoi,
+  whoBmiRu,
+  whoOverweightEn,
+} from "@/content/external-references";
 import { siteContent } from "@/content/site";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
@@ -19,11 +32,23 @@ export default function AboutPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/o-proekte/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>О проекте</h1>
+      <ArticleLeadSummary>
+        <p>
+          <strong>kkal24.ru</strong> — бесплатный информационный сервис: калькулятор
+          суточной нормы калорий (TDEE), КБЖУ, ИМТ, воды и блок «темп веса» без
+          регистрации. Цель — дать понятные <strong>ориентиры</strong>, а не диагноз
+          или план лечения: расчёты в браузере, без хранения ваших полей на нашем
+          сервере.
+        </p>
+        <p>
+          Аудитория не ограничена РФ: методика опирается на международные обзоры и
+          рекомендации (ВОЗ, FAO/WHO/UNU, EFSA и др.); ниже указаны ссылки на
+          первоисточники. Тексты и формулы проверяет редакция.
+        </p>
+      </ArticleLeadSummary>
       <p>
-        Это бесплатный информационный сервис для быстрой оценки суточной нормы
-        калорий, базального обмена, КБЖУ, индекса массы тела и нормы воды.
-        Сервис создан как инструмент самоориентации, а не как замена консультации
-        специалиста.
+        Если нужна персональная медицинская или диетологическая помощь — обратитесь
+        к специалисту очно; сайт её не заменяет.
       </p>
 
       <h2>Что умеет сервис</h2>
@@ -40,7 +65,7 @@ export default function AboutPage() {
         <li>
           Строит таблицу дефицита калорий с расчётом темпа изменения веса —
           подробнее в статье{" "}
-          <Link href="/deficit-kalorij/">про дефицит калорий</Link>.
+          <Link href="/deficit-kalorij/">про дефицит и профицит</Link>.
         </li>
         <li>
           Считает <Link href="/imt/">ИМТ</Link> и{" "}
@@ -54,16 +79,66 @@ export default function AboutPage() {
 
       <h2>Используемые формулы</h2>
       <p>
-        Основной расчёт — формула Миффлина — Сан Жеора (1990). Она показывает
-        наименьшую среднюю ошибку при прогнозировании измеренного BMR у
-        современных взрослых по сравнению с более ранними уравнениями (источник:
-        Frankenfield et&nbsp;al., 2005, Journal of the American Dietetic
-        Association).
+        Основной расчёт — формула Миффлина — Сан Жеора (1990), см.{" "}
+        <a
+          href={mifflinOriginalDoi.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          оригинальную публикацию (DOI)
+        </a>
+        . Для сравнения с другими уравнениями у взрослых — обзор{" "}
+        <a
+          href={frankenfieldMifflinDoi.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Frankenfield et&nbsp;al., 2005 (DOI)
+        </a>
+        .
       </p>
       <p>
-        Коэффициенты активности PAL — стандартные значения из рекомендаций
-        FAO/WHO/UNU (2004) и EFSA (2013). ИМТ — формула и диапазоны ВОЗ.
-        Норма воды — модель 35&nbsp;мл/кг из рекомендаций EFSA по потреблению воды.
+        Коэффициенты активности <strong>PAL</strong> — ориентиры из отчёта{" "}
+        <a
+          href={faoWhoUnuHumanEnergy2004.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          FAO/WHO/UNU (2004)
+        </a>{" "}
+        и согласованные с ними шкалы в калькуляторе. <strong>ИМТ</strong> — формула
+        и пороговые зоны в духе классификации{" "}
+        <a
+          href={whoBmiRu.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ВОЗ (RU)
+        </a>
+        , см. также{" "}
+        <a
+          href={whoOverweightEn.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          обзор ВОЗ (EN)
+        </a>
+        . <strong>Вода</strong> — модель 30–35&nbsp;мл/кг в сутки как практический
+        ориентир; см.{" "}
+        <a
+          href={efsaWaterDrv2010.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          EFSA по потреблению воды
+        </a>
+        .
       </p>
 
       <h2>Важные ограничения</h2>
@@ -104,10 +179,27 @@ export default function AboutPage() {
 
       <h2>Редакция</h2>
       <p>
-        Тексты и методология последний раз проверялись в {siteContent.contentRevision}.
-        Если вы обнаружили фактическую ошибку или хотите предложить улучшение —
-        напишите на адрес, указанный в разделе контактов ниже.
+        Тексты и методология последний раз приводились к одному виду в{" "}
+        {siteContent.contentRevision}. Ответственный за редакцию и проверку
+        материалов по смыслу и формулам:{" "}
+        <strong>Удалов Михаил Анатольевич</strong>. Если вы заметили фактическую
+        ошибку или хотите предложить улучшение — сообщите автору проекта удобным
+        для вас способом.
       </p>
+
+      <YmylWhenDoctorBlock />
+
+      <ArticleSources
+        intro="Первоисточники и международные обзоры, на которые опирается калькулятор и статьи."
+        items={[
+          mifflinOriginalDoi,
+          frankenfieldMifflinDoi,
+          faoWhoUnuHumanEnergy2004,
+          whoBmiRu,
+          whoOverweightEn,
+          efsaWaterDrv2010,
+        ]}
+      />
 
       <h2>Связанные материалы</h2>
       <ul>
@@ -118,7 +210,7 @@ export default function AboutPage() {
           <Link href="/bmr-i-tdee/">Что такое BMR и TDEE</Link>
         </li>
         <li>
-          <Link href="/deficit-kalorij/">Дефицит калорий</Link>
+          <Link href="/deficit-kalorij/">Дефицит и набор веса</Link>
         </li>
         <li>
           <Link href="/imt/">Индекс массы тела</Link>

@@ -14,12 +14,12 @@ export default function manifest(): MetadataRoute.Manifest {
     theme_color: "#0a0a0a",
     lang: "ru",
     categories: ["health", "lifestyle", "utilities"],
-    /** Статический `app/favicon.ico` (копия в `out/`); см. `scripts/strip-favicon-query.mjs` для URL без query. */
+    /** PNG из `app/icon.png` (тот же рисунок, что и `app/favicon.ico`). */
     icons: [
       {
-        src: "/favicon.ico",
-        sizes: "48x48",
-        type: "image/x-icon",
+        src: "/icon.png",
+        sizes: "32x32",
+        type: "image/png",
         purpose: "any",
       },
     ],

@@ -22,13 +22,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   };
 
+  const articlePriority = (path: ArticleCanonicalPath): number => {
+    if (path === "/politika-konfidencialnosti/") return 0.45;
+    if (path === "/o-proekte/") return 0.65;
+    return 0.85;
+  };
+
   const articleEntries: MetadataRoute.Sitemap = (
     Object.keys(articleSeoByPath) as ArticleCanonicalPath[]
   ).map((path) => ({
     url: `${base}${path}`,
     lastModified: now,
     changeFrequency: "monthly",
-    priority: path === "/o-proekte/" ? 0.65 : 0.85,
+    priority: articlePriority(path),
     alternates: hreflangs(path),
   }));
 

@@ -1,5 +1,5 @@
 /**
- * Доменная логика мини-калькуляторов (ИМТ, дефицит по кг/нед, вода).
+ * Доменная логика мини-калькуляторов (ИМТ, дефицит/профицит по кг/нед, вода).
  * UI-компоненты остаются тонкими; сценарии можно покрыть unit-тестами здесь.
  */
 
@@ -38,16 +38,25 @@ export function dailyKcalDeficitForWeeklyKgLoss(weeklyKg: number): number | null
 }
 
 /**
- * Насколько выбранный суточный дефицит «тяжёлый» относительно расчётной нормы поддержания.
- * null — нормы нет (основной калькулятор ещё не считали) или дефицит невалиден.
+ * Суточный профицит (ккал/сут) под цель «~X кг в неделю» — то же арифметическое приближение,
+ * что и для дефицита; на практике при наборе больше доля жидкости и гликогена, состав массы другой.
+ */
+export function dailyKcalSurplusForWeeklyKgGain(weeklyKg: number): number | null {
+  return dailyKcalDeficitForWeeklyKgLoss(weeklyKg);
+}
+
+/**
+ * Насколько суточное отклонение от TDEE «тяжёлое» (доля и абсолютные пороги в ккал).
+ * Используется и для дефицита, и для профицита: в обоих случаях передаётся положительное
+ * число ккал/сут ниже или выше нормы. null — нормы нет или величина невалидна.
  */
 export type DeficitRelativeLevel = "moderate" | "aggressive" | "very_high";
 
 export function deficitRelativeToMaintenance(
-  dailyDeficitKcal: number,
+  dailyAbsDeltaKcal: number,
   maintenanceKcal: number | null | undefined,
 ): DeficitRelativeLevel | null {
-  if (!Number.isFinite(dailyDeficitKcal) || dailyDeficitKcal <= 0) return null;
+  if (!Number.isFinite(dailyAbsDeltaKcal) || dailyAbsDeltaKcal <= 0) return null;
   if (
     maintenanceKcal == null ||
     !Number.isFinite(maintenanceKcal) ||
@@ -55,13 +64,14 @@ export function deficitRelativeToMaintenance(
   ) {
     return null;
   }
-  const frac = dailyDeficitKcal / maintenanceKcal;
+  const frac = dailyAbsDeltaKcal / maintenanceKcal;
   // Пороги грубые: подсказка в интерфейсе, не клинические критерии.
-  if (frac >= 0.33 || dailyDeficitKcal >= 750) return "very_high";
-  if (frac >= 0.22 || dailyDeficitKcal >= 550) return "aggressive";
+  if (frac >= 0.33 || dailyAbsDeltaKcal >= 750) return "very_high";
+  if (frac >= 0.22 || dailyAbsDeltaKcal >= 550) return "aggressive";
   return "moderate";
 }
 
+/** Диапазон ккал/сут для ориентира ~0,5–1 кг/нед (то же правило для потери и набора в мини-блоках). */
 export function weeklyLossRangeKcalPerDay(): { low: number; high: number } {
   return {
     low: (0.5 * KCAL_PER_KG_FAT_APPROX) / 7,

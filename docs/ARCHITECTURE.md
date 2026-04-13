@@ -12,7 +12,7 @@ components/
   calorie/              основной калькулятор: форма, результат, RecalcToast, мобильная плашка TDEE
   home/                 HomeInteractiveShell, SmoothHashLink, TrustAndFaqSection
   layout/               SiteShell, SiteSidebar, SiteFooter, ArticleShell, Breadcrumbs, AdSlot, CalcAnchorLink
-  mini/                 ИМТ, вода, темп похудения; MiniCalculators — сетка и id якорей
+  mini/                 ИМТ, вода, темп веса (дефицит+профицит в одном якоре); MiniCalculators — сетка и id
   seo/                  JsonLd
 content/
   site.ts               бренд, SEO-строки, навигация (calcQuickLinks + articleNavLinks)
@@ -23,6 +23,7 @@ contexts/               MainFormToMiniSync: рост/вес/TDEE → мини-к
 constants/              лимиты формы, PAL; ui-behavior — тайминги тостов/подсказок
 hooks/                  useCalorieCalculator; useLocationHash — hash для сайдбара на главной
 lib/                    чистая логика без React; nav-path — нормализация путей для активных ссылок
+scripts/                постобработка статического экспорта (например `strip-favicon-query.mjs` после `next build`)
 docs/                   этот файл
 ```
 
@@ -51,8 +52,9 @@ docs/                   этот файл
 - **Новая формула BMR / PAL**: `lib/calories.ts`, при необходимости `lib/calorie-result.ts`.
 - **Новое поле формы**: `constants/calculator.ts` → `lib/shareUrl.ts` → `lib/calorie-form-validation.ts` → `useCalorieCalculator.ts` → `CalorieFormCard.tsx`.
 - **Новый ряд таблицы дефицита**: `lib/calories.ts` (`DEFICIT_ROWS`) + **две** строки в `calculator-ux.ts` (`deficitLabelsTdee`, `deficitLabelsBmr`).
-- **Новый мини-калькулятор**: `lib/mini-calculations.ts` + компонент в `components/mini/` + обёртка с `id` в `MiniCalculators.tsx` + запись в `siteContent.calcQuickLinks` + при необходимости контекст.
+- **Новый мини-калькулятор**: `lib/mini-calculations.ts` + компонент в `components/mini/` + обёртка с `id` в `MiniCalculators.tsx` + запись в `siteContent.calcQuickLinks` + при необходимости контекст. Похудение/набор в одном месте меню — расширять блок `#mini-balance`, а не дублировать якоря.
 - **Новая статья (URL)**: `app/<slug>/page.tsx` (`metadata`, `ArticleShell`, контент), строка в `siteContent.articleNavLinks`, запись в `content/seo-routes.ts`, URL попадёт в `app/sitemap.ts` через ключи `articleSeoByPath`.
+- **Дефицит + профицит (справка)**: один маршрут `app/deficit-kalorij/page.tsx`; якоря в тексте `#deficit`, `#profic`. Отдельный URL под набор не заводить — плодит дубли и путает меню.
 - **Новый якорь на главной**: согласовать `app/page.tsx`, `MiniCalculators.tsx` (или другой блок) и `calcQuickLinks` в `content/site.ts`.
 
 ## Навигация и якоря (важно для ИИ)
@@ -82,7 +84,7 @@ docs/                   этот файл
 - В `layout.tsx` задано `viewport.viewportFit: "cover"`, чтобы работали `env(safe-area-inset-*)` на iPhone.
 - Класс **`.app-gutter-x`** — горизонтальные поля контента (не уже 1rem / 1.5rem на md и с учётом выреза).
 - **`.skip-to-main`** — переход к основному блоку (`#site-primary` в `SiteShell`); не удалять без замены.
-- CSS-переменная **`--app-scroll-anchor-offset`** — `scroll-margin-top` для якорей на главной (`#calc-main`, мини-калькуляторы, блок доверия `#o-servise`). Sticky-шапки нет; при смене вёрстки синхронизировать с `rootMargin` в `CalorieMobileTdeeBar`.
+- CSS-переменная **`--app-scroll-anchor-offset`** — `scroll-margin-top` для якорей на главной (`#calc-main`, `#mini-balance`, `#mini-bmi`, `#mini-water`, блок доверия `#o-servise`). Sticky-шапки нет; при смене вёрстки синхронизировать с `rootMargin` в `CalorieMobileTdeeBar`.
 - Таблицы в статьях: селектор `.article-prose > table` — горизонтальный скролл только у таблицы; длинный текст в ячейках переносится.
 
 ## Технический SEO (база)
@@ -96,7 +98,7 @@ docs/                   этот файл
 | `lib/seo-article-jsonld.ts` | JSON-LD `WebPage` + `Article` (даты, publisher), `@id` сайта как на главной. |
 | `lib/seo-home-jsonld.ts` | JSON-LD на главной: `WebSite`, `WebPage`, `WebApplication` (`isAccessibleForFree`), `FAQPage` из `trust-public`. |
 | `app/opengraph-image.tsx`, `app/twitter-image.tsx`, `lib/og-image-brand.tsx` | Дефолтное превью 1200×630 для соцсетей. |
-| `app/icon.tsx` | Favicon 32×32; при бренд-гайде заменить на статический `icon.png`. |
+| `app/favicon.ico`, `app/icon.png` | Статические иконки; после `npm run build` скрипт `scripts/strip-favicon-query.mjs` убирает `?` из href в HTML (см. комментарий в скрипте). |
 | `content/trust-public.ts` | Доверие на главной; FAQ совпадает с JSON-LD. |
 | `components/home/TrustAndFaqSection.tsx` | Рендер; якорь `#o-servise` (`sectionId` в trust-public). |
 | `lib/site-url.ts` | Базовый URL: `NEXT_PUBLIC_SITE_URL` или `VERCEL_URL`. |

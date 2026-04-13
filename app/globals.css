@@ -394,6 +394,50 @@ select.calorie-select option {
   font-size: 0.9375rem;
 }
 
+/* Краткий «ответ сразу» в начале длинной статьи */
+.article-prose .article-lead-summary {
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--app-accent) 22%, var(--app-border));
+  background: color-mix(in srgb, var(--app-accent) 5%, transparent);
+  padding: 0.875rem 1rem;
+  margin: 0 0 1.25rem;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+  color: var(--app-fg-muted);
+  max-width: 72ch;
+}
+
+.article-prose .article-lead-summary p {
+  margin: 0;
+}
+
+.article-prose .article-lead-summary p + p {
+  margin-top: 0.65rem;
+}
+
+/* Список внешних первоисточников в конце статьи */
+.article-prose .article-sources {
+  margin-top: 2.25rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--app-border);
+}
+
+.article-prose .article-sources h2 {
+  font-size: 1.05rem;
+  margin-bottom: 0.5rem;
+}
+
+.article-prose .article-sources ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.15rem;
+}
+
+.article-prose .article-sources li {
+  margin: 0.35rem 0;
+  font-size: 0.875rem;
+  color: var(--app-fg-muted);
+}
+
 /* Блок подсказки / предупреждения */
 .article-prose .callout {
   border: 1px solid var(--app-border);
@@ -413,17 +457,19 @@ select.calorie-select option {
   font-size: inherit;
 }
 
-/* CTA-блок внутри статьи */
+/* CTA-блок внутри статьи (на телефоне — на всю ширину колонки, удобнее палец) */
 .article-prose .article-cta {
   margin: 2rem 0;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
   max-width: 36rem;
+  width: 100%;
 }
 
 .article-prose .article-cta a {
   display: inline-flex;
+  width: 100%;
   min-height: 2.75rem;
   align-items: center;
   justify-content: center;
@@ -432,9 +478,18 @@ select.calorie-select option {
   color: var(--app-on-accent);
   font-size: 0.9375rem;
   font-weight: 600;
-  padding: 0 1.5rem;
+  padding: 0.625rem 1.25rem;
   text-decoration: none;
+  text-align: center;
+  text-wrap: balance;
   transition: background-color 0.15s, transform 0.1s;
+}
+
+@media (min-width: 640px) {
+  .article-prose .article-cta a {
+    width: auto;
+    align-self: flex-start;
+  }
 }
 
 .article-prose .article-cta a:hover {

@@ -11,7 +11,7 @@ export const siteContent = {
   title:
     "Калькулятор калорий и КБЖУ — Миффлин — Сан Жеор, BMR и TDEE онлайн",
   description:
-    "Бесплатный расчёт суточной нормы калорий (TDEE), базового обмена (BMR) по формуле Миффлина — Сан Жеора, ориентир КБЖУ, таблица дефицита, ИМТ и норма воды. Информационный сервис, не медицинская консультация.",
+    "Бесплатный расчёт суточной нормы калорий (TDEE), базового обмена (BMR) по формуле Миффлина — Сан Жеора, ориентир КБЖУ, дефицит и профицит в одной справке, ИМТ и норма воды. Информационный сервис, не медицинская консультация.",
   /** Текст в футере: когда последний раз приводили тексты/методику к одному виду (редакция). */
   contentRevision: "Апрель 2026",
   /** Набор формулировок для meta keywords (умеренно; поисковики опираются на контент). */
@@ -23,6 +23,7 @@ export const siteContent = {
     "BMR TDEE",
     "расчёт калорий онлайн",
     "дефицит калорий",
+    "профицит калорий набор веса",
     "ИМТ калькулятор",
   ] as const,
   /**
@@ -36,7 +37,7 @@ export const siteContent = {
   calcQuickLinks: [
     { anchorId: "calc-main", label: "Калории" },
     { anchorId: "mini-bmi", label: "ИМТ" },
-    { anchorId: "mini-deficit", label: "Темп похудения" },
+    { anchorId: "mini-balance", label: "Темп веса" },
     { anchorId: "mini-water", label: "Вода" },
   ] as const,
   /**
@@ -45,7 +46,7 @@ export const siteContent = {
   articleNavLinks: [
     { href: "/mifflin-san-zheor/", label: "Формула Миффлина" },
     { href: "/bmr-i-tdee/", label: "BMR и TDEE" },
-    { href: "/deficit-kalorij/", label: "Дефицит калорий" },
+    { href: "/deficit-kalorij/", label: "Дефицит и набор веса" },
     { href: "/imt/", label: "ИМТ — справка" },
     { href: "/norma-vody/", label: "Вода — справка" },
     { href: "/o-proekte/", label: "О проекте" },

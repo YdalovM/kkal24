@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  ArticleLeadSummary,
+  ArticleSources,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  efsaWaterDrv2010,
+  whoDrinkingWaterEn,
+  whoHealthyDietRu,
+} from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
 
@@ -18,11 +28,21 @@ export default function WaterPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/norma-vody/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Норма воды в день</h1>
+      <ArticleLeadSummary>
+        <p>
+          Универсальных «двух литров всем» нет: ориентир чаще задают как{" "}
+          <strong>30–35&nbsp;мл на кг</strong> массы тела в сутки{" "}
+          <strong>суммарно</strong> по всей жидкости (вода, чай, супы, вода из еды).
+        </p>
+        <p>
+          Жара, спорт, грудное вскармливание и ряд болезней сдвигают норму вверх или
+          вниз. Ниже — таблица и признаки обезвоживания; при отёках, болезнях почек
+          и сердца ориентиры задаёт только врач.
+        </p>
+      </ArticleLeadSummary>
       <p>
-        «Пейте 2 литра воды в день» — популярная рекомендация, которую часто
-        повторяют как универсальный закон. На самом деле потребность в жидкости
-        зависит от веса, уровня активности, климата, состава рациона и общего
-        состояния здоровья — и у разных людей она существенно различается.
+        Фраза «пейте 2 литра в день» часто упрощает картину: у части людей это
+        разумно, у части — избыточно или недостаточно без учёта контекста.
       </p>
 
       <AdSlot id="ad-water-top" />
@@ -126,6 +146,8 @@ export default function WaterPage() {
         чем показывает расчёт.
       </p>
 
+      <YmylWhenDoctorBlock />
+
       <h2>Часто задаваемые вопросы</h2>
 
       <h3>Кофе и чай считаются?</h3>
@@ -147,10 +169,24 @@ export default function WaterPage() {
         <Link href="/#calc-extra">Рассчитать норму воды онлайн →</Link>
       </div>
 
+      <ArticleSources
+        intro="Справочные значения потребления воды — у международных организаций; на бытовом уровне ориентиры всё равно индивидуальны."
+        items={[efsaWaterDrv2010, whoDrinkingWaterEn, whoHealthyDietRu]}
+      />
+
       <h2>Связанные материалы</h2>
       <ul>
         <li>
+          <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+        </li>
+        <li>
           <Link href="/bmr-i-tdee/">BMR и TDEE</Link>
+        </li>
+        <li>
+          <Link href="/deficit-kalorij/">Дефицит и профицит калорий</Link>
+        </li>
+        <li>
+          <Link href="/imt/">ИМТ — справка</Link>
         </li>
         <li>
           <Link href="/o-proekte/">О проекте и методологии</Link>

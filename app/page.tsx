@@ -116,22 +116,28 @@ export default function Home() {
             {hero.lead}
           </p>
           <nav
-            className="mx-auto mt-6 flex w-full max-w-xl flex-col gap-3 sm:flex-row sm:flex-wrap md:mx-0"
+            className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-3 sm:flex-row md:mx-0"
             aria-label="Быстрый переход по странице"
           >
             <SmoothHashLink
               href="#calc-main"
               className="touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-accent/55 bg-accent/[0.14] px-5 py-2.5 text-left text-fg transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-px hover:border-accent hover:shadow-[0_0_32px_rgba(184,233,67,0.22)] active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 sm:w-auto sm:inline-flex"
             >
-              <span className="text-sm font-semibold">{hero.jumpMainLabel}</span>
+              <span className="text-sm font-semibold">
+                {hero.jumpMainLabel}
+              </span>
               <span className="text-xs text-fg-muted">{hero.jumpMainHint}</span>
             </SmoothHashLink>
             <SmoothHashLink
               href="#calc-extra"
               className="touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-border bg-elevated/80 px-5 py-2.5 text-left text-fg transition-[transform,box-shadow,border-color] duration-200 hover:-translate-y-px hover:border-accent/50 hover:bg-elevated active:scale-[0.99] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent motion-reduce:hover:translate-y-0 motion-reduce:active:scale-100 sm:w-auto sm:inline-flex"
             >
-              <span className="text-sm font-semibold">{hero.jumpExtraLabel}</span>
-              <span className="text-xs text-fg-muted">{hero.jumpExtraHint}</span>
+              <span className="text-sm font-semibold">
+                {hero.jumpExtraLabel}
+              </span>
+              <span className="text-xs text-fg-muted">
+                {hero.jumpExtraHint}
+              </span>
             </SmoothHashLink>
           </nav>
           <p className="mx-auto mt-4 max-w-xl text-pretty text-xs leading-relaxed text-fg-subtle md:mx-0">
@@ -191,6 +197,9 @@ export default function Home() {
         >
           <p className="mb-4 text-xs font-medium uppercase tracking-widest text-fg-subtle">
             Полезные материалы
+          </p>
+          <p className="mb-4 max-w-2xl text-pretty text-sm leading-relaxed text-fg-muted">
+            {calculatorUx.materialsNavIntro}
           </p>
           <ul className="grid grid-cols-1 gap-2 min-[400px]:grid-cols-2 sm:grid-cols-3">
             {siteContent.articleNavLinks.map((link) => (

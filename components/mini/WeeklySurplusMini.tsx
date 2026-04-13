@@ -5,7 +5,7 @@ import { useMemo, useState } from "react";
 import { useMainFormToMiniSync } from "@/contexts/main-form-to-mini-sync";
 import {
   KCAL_PER_KG_FAT_APPROX,
-  dailyKcalDeficitForWeeklyKgLoss,
+  dailyKcalSurplusForWeeklyKgGain,
   deficitRelativeToMaintenance,
   weeklyLossRangeKcalPerDay,
 } from "@/lib/mini-calculations";
@@ -17,19 +17,20 @@ import {
 } from "@/components/mini/mini-field-classes";
 import { calculatorUx } from "@/content/calculator-ux";
 
-export function WeeklyDeficitMini() {
-  const { miniWeekly: ux } = calculatorUx;
+export function WeeklySurplusMini() {
+  const { miniWeeklyGain: ux } = calculatorUx;
   const { lastTdee } = useMainFormToMiniSync();
-  const [kg, setKg] = useState("0.7");
+  const [kg, setKg] = useState("0.3");
 
   const range = useMemo(() => {
     const k = Number.parseFloat(kg);
-    const pick = dailyKcalDeficitForWeeklyKgLoss(k);
+    const pick = dailyKcalSurplusForWeeklyKgGain(k);
     if (pick == null) return null;
     const { low, high } = weeklyLossRangeKcalPerDay();
     return { low, high, pick };
   }, [kg]);
 
+  /** Та же шкала «доля от TDEE», что у дефицита (`deficitRelativeToMaintenance`). */
   const relativeLevel = useMemo(() => {
     if (range == null) return null;
     return deficitRelativeToMaintenance(range.pick, lastTdee);
@@ -69,7 +70,7 @@ export function WeeklyDeficitMini() {
             <strong className="font-semibold text-accent">
               ~{Math.round(range.pick)}
             </strong>{" "}
-            ккал в сутки ниже поддержания. Для схемы «~0,5–1 кг в неделю»
+            ккал в сутки сверх поддержания. Для схемы «~0,5–1 кг в неделю»
             обычно упоминают диапазон порядка{" "}
             <strong className="font-semibold text-accent">
               {Math.round(range.low)}–{Math.round(range.high)}
@@ -104,17 +105,17 @@ export function WeeklyDeficitMini() {
           Почему это приближение
         </summary>
         <p className="mt-2">
-          Реальный расход и состав потерь веса индивидуальны; число{" "}
+          Реальный прирост и доля мышц / жира индивидуальны; число{" "}
           {KCAL_PER_KG_FAT_APPROX} удобно для порядка величины, не для точного
           плана без мониторинга и врача / диетолога.
         </p>
       </details>
       <p className="mt-3 text-sm text-fg-subtle">
         <Link
-          href="/deficit-kalorij/#deficit"
+          href="/deficit-kalorij/#profic"
           className="font-medium text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
         >
-          Подробнее про дефицит и диапазоны →
+          Подробнее про профицит и риски →
         </Link>
       </p>
     </section>

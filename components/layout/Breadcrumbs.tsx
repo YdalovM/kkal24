@@ -30,9 +30,9 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
     <>
       <JsonLd data={jsonLd} />
       <nav aria-label="Хлебные крошки">
-        <ol className="flex flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-fg-dim">
+        <ol className="flex min-w-0 flex-wrap items-center gap-x-1.5 gap-y-1 text-xs text-fg-dim">
           {items.map((item, i) => (
-            <li key={item.href} className="flex items-center gap-1.5">
+            <li key={item.href} className="flex min-w-0 max-w-full items-center gap-1.5">
               {i > 0 && (
                 <span aria-hidden className="select-none">
                   /
@@ -41,12 +41,15 @@ export function Breadcrumbs({ items }: { items: BreadcrumbItem[] }) {
               {i < items.length - 1 ? (
                 <Link
                   href={item.href}
-                  className="transition-colors hover:text-fg-muted"
+                  className="min-w-0 break-words transition-colors hover:text-fg-muted"
                 >
                   {item.label}
                 </Link>
               ) : (
-                <span className="text-fg-subtle" aria-current="page">
+                <span
+                  className="min-w-0 max-w-full break-words text-fg-subtle"
+                  aria-current="page"
+                >
                   {item.label}
                 </span>
               )}

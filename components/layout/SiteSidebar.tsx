@@ -11,7 +11,7 @@ const sectionClass =
   "px-1 pb-1 pt-3 text-[11px] font-medium uppercase tracking-[0.14em] text-fg-subtle first:pt-0";
 
 const linkRow =
-  "touch-manipulation flex min-h-11 w-full items-center rounded-lg border border-transparent px-3 py-2.5 text-left text-sm text-fg transition-[background-color,border-color,color,transform] duration-200 ease-out hover:border-accent/15 hover:bg-accent/[0.06] hover:text-fg motion-reduce:hover:translate-x-0 md:hover:translate-x-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus";
+  "touch-manipulation flex min-h-11 w-full min-w-0 items-center rounded-lg border border-transparent px-3 py-2.5 text-left text-sm leading-snug text-fg transition-[background-color,border-color,color,transform] duration-200 ease-out [overflow-wrap:anywhere] hover:border-accent/15 hover:bg-accent/[0.06] hover:text-fg motion-reduce:hover:translate-x-0 md:hover:translate-x-0.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-border-focus";
 
 /**
  * Постоянный сайдбар: единственный источник структуры меню в боковой колонке.

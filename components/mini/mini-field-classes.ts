@@ -7,7 +7,8 @@ export const MINI_INPUT_CLASS =
 /** Левый лайм — визуальная связь со второй секцией и общей темой. */
 export const MINI_SECTION_CLASS = `${CALORIE_CARD_CLASS} min-w-0 w-full border-l-4 border-l-accent/80`;
 
+/** min-w-0 + text-pretty — длинные заголовки (темп похудения/набора) на узком экране не ломают flex. */
 export const MINI_HEADING_ROW =
-  "mb-2 flex items-center gap-2.5 text-lg font-semibold tracking-tight text-fg";
+  "mb-2 flex min-w-0 items-center gap-2.5 text-base font-semibold tracking-tight text-fg text-pretty sm:text-lg";
 export const MINI_HEADING_MARK =
   "inline-block h-5 w-1 shrink-0 rounded-full bg-accent shadow-sm shadow-accent/20";

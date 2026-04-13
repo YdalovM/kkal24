@@ -3,12 +3,13 @@
 /**
  * Составная секция мини-инструментов на главной.
  *
- * ИИ: `id` на обёртках (`mini-bmi`, …) должны совпадать с `siteContent.calcQuickLinks`
- * в `content/site.ts`. Новый мини: математика в `lib/mini-calculations.ts`, компонент здесь,
- * строка в этом файле + запись в `site.ts` + при необходимости контекст `main-form-to-mini-sync`.
+ * ИИ: `id` на обёртках (`mini-bmi`, `mini-balance`, `mini-water`) = `siteContent.calcQuickLinks`.
+ * `mini-balance` — один якорь на два мини (дефицит + профицит); в меню не плодить отдельные URL.
+ * Новый мини: `lib/mini-calculations.ts` → компонент → обёртка с `id` → `site.ts` → при нужде контекст.
  */
 import { BmiMini } from "@/components/mini/BmiMini";
 import { WeeklyDeficitMini } from "@/components/mini/WeeklyDeficitMini";
+import { WeeklySurplusMini } from "@/components/mini/WeeklySurplusMini";
 import { WaterMini } from "@/components/mini/WaterMini";
 
 export function MiniCalculators() {
@@ -21,10 +22,11 @@ export function MiniCalculators() {
         <BmiMini />
       </div>
       <div
-        id="mini-deficit"
-        className="min-w-0 scroll-mt-[var(--app-scroll-anchor-offset)]"
+        id="mini-balance"
+        className="min-w-0 scroll-mt-[var(--app-scroll-anchor-offset)] space-y-6 sm:space-y-8"
       >
         <WeeklyDeficitMini />
+        <WeeklySurplusMini />
       </div>
       <div
         id="mini-water"

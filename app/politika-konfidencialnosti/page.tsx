@@ -18,7 +18,7 @@ export default function PrivacyPolicyPage() {
     <>
       <JsonLd data={buildArticleWebPageJsonLd("/politika-konfidencialnosti/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
-        <h1>Политика конфиденциальности</h1>
+        <h1>Политика конфиденциальности — kkal24.ru</h1>
         <p>
           Действует для сайта <strong>kkal24.ru</strong> (далее — «Сервис»). Цель
           документа — в понятной форме описать, какие данные могут обрабатываться при

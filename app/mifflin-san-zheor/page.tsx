@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  ArticleLeadSummary,
+  ArticleSources,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  faoWhoUnuHumanEnergy2004,
+  frankenfieldMifflinDoi,
+  mifflinOriginalDoi,
+} from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
 
@@ -18,12 +28,24 @@ export default function MifflinPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/mifflin-san-zheor/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Формула Миффлина&nbsp;— Сан&nbsp;Жеора</h1>
+      <ArticleLeadSummary>
+        <p>
+          Уравнение <strong>Миффлина — Сан Жеора (1990)</strong> оценивает{" "}
+          <strong>BMR</strong> — калории в полном покое — по полу, весу, росту и
+          возрасту. Для <strong>TDEE</strong> результат умножают на коэффициент
+          активности <strong>PAL</strong> (см.{" "}
+          <Link href="/bmr-i-tdee/">статью про BMR и TDEE</Link>).
+        </p>
+        <p>
+          У современных взрослых это уравнение в среднем ближе к измерениям, чем
+          классический Харрис — Бенедикт; всё равно запас по точности порядка{" "}
+          <strong>10–15&nbsp;%</strong> считается нормальным. Уравнения и пример —
+          ниже.
+        </p>
+      </ArticleLeadSummary>
       <p>
-        Это математическое уравнение, которое оценивает базальный обмен веществ
-        (BMR) — количество энергии, которое организм тратит в полном покое только
-        на поддержание жизни: дыхание, сердцебиение, работу внутренних органов.
-        Формулу разработали Марк Миффлин и Сатхи Сан Жеор в&nbsp;1990&nbsp;году
-        и опубликовали в&nbsp;Journal of&nbsp;the American Dietetic Association.
+        Формулу разработали Марк Миффлин и Сатхи Сан Жеор и опубликовали в Journal of
+        the American Dietetic Association.
       </p>
 
       <AdSlot id="ad-mifflin-top" />
@@ -86,11 +108,8 @@ export default function MifflinPage() {
       <h2>Точность и ограничения</h2>
       <div className="callout">
         <p>
-          Расчёт — ориентировочный. Индивидуальный обмен может отличаться от
-          формульного на 10–15&nbsp;% в&nbsp;обе стороны. При заболеваниях
-          (гипотиреоз, диабет, почечная недостаточность), беременности, высоком
-          уровне спортивной нагрузки или приёме гормональных препаратов —
-          обязательно проконсультируйтесь с&nbsp;врачом.
+          Расчёт — ориентировочный: индивидуальный обмен может отличаться от
+          формульного примерно на <strong>10–15&nbsp;%</strong> в обе стороны.
         </p>
       </div>
       <ul>
@@ -114,6 +133,8 @@ export default function MifflinPage() {
       </ul>
 
       <AdSlot id="ad-mifflin-mid" />
+
+      <YmylWhenDoctorBlock />
 
       <h2>Часто задаваемые вопросы</h2>
 
@@ -144,13 +165,24 @@ export default function MifflinPage() {
         <Link href="/#calc-main">Рассчитать по формуле Миффлина онлайн →</Link>
       </div>
 
+      <ArticleSources
+        intro="Оригинальная статья с уравнением, сравнение с другими формулами BMR и отчёт по суточной энергии."
+        items={[mifflinOriginalDoi, frankenfieldMifflinDoi, faoWhoUnuHumanEnergy2004]}
+      />
+
       <h2>Связанные материалы</h2>
       <ul>
+        <li>
+          <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+        </li>
         <li>
           <Link href="/bmr-i-tdee/">Что такое BMR и TDEE — полный разбор</Link>
         </li>
         <li>
-          <Link href="/deficit-kalorij/">Дефицит калорий: сколько и как безопасно</Link>
+          <Link href="/deficit-kalorij/">Дефицит и профицит: сколько и как безопасно</Link>
+        </li>
+        <li>
+          <Link href="/norma-vody/">Норма воды в день</Link>
         </li>
       </ul>
     </ArticleShell>

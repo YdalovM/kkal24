@@ -1,7 +1,13 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  ArticleLeadSummary,
+  ArticleSources,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import { whoBmiRu, whoOverweightEn } from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
 
@@ -18,11 +24,21 @@ export default function ImtPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/imt/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Индекс массы тела (ИМТ)</h1>
+      <ArticleLeadSummary>
+        <p>
+          <strong>ИМТ</strong> = вес (кг) / рост² (м). По шкале <strong>ВОЗ</strong>{" "}
+          для взрослых выделяют зоны от дефицита массы до ожирения III степени — в
+          таблице ниже.
+        </p>
+        <p>
+          Это <strong>скрининговый</strong> показатель, а не диагноз: мышечная масса,
+          возраст, этничность и беременность меняют трактовку. Калькулятор на главной
+          даёт число; разбор ограничений — на этой странице.
+        </p>
+      </ArticleLeadSummary>
       <p>
-        ИМТ — простой числовой показатель соотношения роста и веса. Он придуман не
-        как медицинский инструмент, а как удобный ориентир для демографических
-        исследований населения. Тем не менее его широко используют врачи и
-        диетологи как первичный скрининговый показатель.
+        Исторически ИМТ удобен для эпидемиологии; в клинике его дополняют другими
+        данными.
       </p>
 
       <AdSlot id="ad-imt-top" />
@@ -79,6 +95,28 @@ export default function ImtPage() {
           </tr>
         </tbody>
       </table>
+      <p>
+        Пороговые значения приведены в духе классификации ВОЗ; актуальные формулировки
+        — на страницах{" "}
+        <a
+          href={whoBmiRu.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ВОЗ (RU)
+        </a>{" "}
+        и{" "}
+        <a
+          href={whoOverweightEn.href}
+          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ВОЗ (EN)
+        </a>
+        .
+      </p>
 
       <h2>Когда ИМТ вводит в заблуждение</h2>
       <div className="callout">
@@ -138,17 +176,30 @@ export default function ImtPage() {
         с&nbsp;лучшими исходами («парадокс ожирения»).
       </p>
 
+      <YmylWhenDoctorBlock />
+
       <div className="article-cta">
         <Link href="/#calc-extra">Рассчитать ИМТ онлайн →</Link>
       </div>
 
+      <ArticleSources
+        intro="Официальные страницы ВОЗ по ИМТ и избыточному весу."
+        items={[whoBmiRu, whoOverweightEn]}
+      />
+
       <h2>Связанные материалы</h2>
       <ul>
+        <li>
+          <Link href="/#calc-main">Калькулятор калорий и КБЖУ на главной</Link>
+        </li>
         <li>
           <Link href="/bmr-i-tdee/">Что такое BMR и TDEE</Link>
         </li>
         <li>
-          <Link href="/deficit-kalorij/">Дефицит калорий</Link>
+          <Link href="/deficit-kalorij/">Дефицит и набор веса</Link>
+        </li>
+        <li>
+          <Link href="/mifflin-san-zheor/">Формула Миффлина — Сан Жеора</Link>
         </li>
       </ul>
     </ArticleShell>

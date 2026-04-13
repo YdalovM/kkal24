@@ -1,7 +1,17 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import {
+  ArticleLeadSummary,
+  ArticleSources,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
+import {
+  faoWhoUnuHumanEnergy2004,
+  frankenfieldMifflinDoi,
+  nhsCaloriesOverview,
+} from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
 
@@ -18,11 +28,20 @@ export default function BmrTdeePage() {
       <JsonLd data={buildArticleWebPageJsonLd("/bmr-i-tdee/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>BMR и TDEE — базальный обмен и суточная норма калорий</h1>
+      <ArticleLeadSummary>
+        <p>
+          <strong>BMR</strong> — ориентир обмена в покое; <strong>TDEE</strong> = BMR
+          × <strong>PAL</strong> (коэффициент активности). От TDEE обычно отталкиваются
+          при поддержании, снижении или наборе веса.
+        </p>
+        <p>
+          Любая формула даёт лишь приближение: индивидуальная норма часто отличается
+          на порядка <strong>10–15&nbsp;%</strong>. Таблица PAL и примеры — ниже.
+        </p>
+      </ArticleLeadSummary>
       <p>
-        Прежде чем составлять рацион или считать дефицит, нужно понять две базовые
-        цифры: сколько калорий организм тратит в полном покое (BMR) и сколько — с
-        учётом вашей реальной активности (TDEE). Именно от TDEE отталкиваются при
-        выборе калоража для поддержания, снижения или набора веса.
+        Прежде чем составлять рацион или считать дефицит, имеет смысл зафиксировать
+        обе цифры и затем смотреть на динамику веса 2–3 недели.
       </p>
 
       <AdSlot id="ad-bmr-top" />
@@ -122,14 +141,14 @@ export default function BmrTdeePage() {
         </li>
       </ul>
 
-      <div className="callout">
-        <p>
-          Расчёт — ориентир, а не медицинская норма. PAL сложно оценить точно, и
-          реальная потребность у двух людей с одинаковым TDEE может отличаться
-          из-за состава тела, генетики, уровня стресса и качества сна. При
-          заболеваниях или специальных диетах — только с врачом.
-        </p>
-      </div>
+      <p className="text-sm text-fg-muted">
+        <strong>О точности.</strong> PAL сложно оценить «на глаз»: два человека с
+        одинаковым TDEE по формуле могут по-разному тратить энергию из-за состава
+        тела, непроизвольной активности, сна и стресса. Имеет смысл трактовать TDEE
+        как стартовую точку и корректировать по реакции веса.
+      </p>
+
+      <YmylWhenDoctorBlock />
 
       <h2>Часто задаваемые вопросы</h2>
 
@@ -159,13 +178,24 @@ export default function BmrTdeePage() {
         <Link href="/#calc-main">Рассчитать BMR и TDEE онлайн →</Link>
       </div>
 
+      <ArticleSources
+        intro="Методология суточной энергии и сравнение уравнений BMR — в международных отчётах и обзорах."
+        items={[faoWhoUnuHumanEnergy2004, frankenfieldMifflinDoi, nhsCaloriesOverview]}
+      />
+
       <h2>Связанные материалы</h2>
       <ul>
+        <li>
+          <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+        </li>
         <li>
           <Link href="/mifflin-san-zheor/">Формула Миффлина — Сан Жеора</Link>
         </li>
         <li>
-          <Link href="/deficit-kalorij/">Дефицит калорий: сколько и как безопасно</Link>
+          <Link href="/deficit-kalorij/">Дефицит и профицит: сколько и как безопасно</Link>
+        </li>
+        <li>
+          <Link href="/imt/">Индекс массы тела (ИМТ)</Link>
         </li>
       </ul>
     </ArticleShell>
