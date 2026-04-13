@@ -44,6 +44,8 @@ import { useMainFormToMiniSyncOptional } from "@/contexts/main-form-to-mini-sync
 
 export function useCalorieCalculator() {
   const searchParams = useSearchParams();
+  /** Строка query стабильна по значению; сам объект searchParams в Next может менять ссылку каждый рендер → бесконечный useEffect и падение вкладки. */
+  const searchParamsKey = searchParams.toString();
   const pathname = usePathname();
   const pushToMinis = useMainFormToMiniSyncOptional();
 
@@ -90,7 +92,7 @@ export function useCalorieCalculator() {
 
   useEffect(() => {
     const parsed = parseShareSearchParams(
-      new URLSearchParams(searchParams.toString()),
+      new URLSearchParams(searchParamsKey),
     );
     const hasQuery =
       parsed.sex != null ||
@@ -138,7 +140,7 @@ export function useCalorieCalculator() {
       setResult(null);
       prevTdeeAfterUserCalcRef.current = null;
     }
-  }, [applyParsedQuery, searchParams, pushToMinis]);
+  }, [applyParsedQuery, searchParamsKey, pushToMinis]);
 
   const onCalculate = useCallback(() => {
     setErrors({});
