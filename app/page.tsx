@@ -148,7 +148,7 @@ export default function Home() {
 
         <HomeInteractiveShell>
           <div
-            className={`calculator-shell mt-8 min-w-0 rounded-2xl border border-white/[0.08] bg-surface/50 p-4 backdrop-blur-sm transition-[border-color,box-shadow] duration-300 sm:mt-10 sm:p-5 md:p-8 ${styles.calculatorShell}`}
+            className={`calculator-shell mt-8 min-w-0 rounded-2xl border border-white/[0.08] bg-surface/85 p-4 transition-[border-color,box-shadow] duration-300 sm:mt-10 sm:p-5 md:bg-surface/50 md:backdrop-blur-sm md:p-8 ${styles.calculatorShell}`}
           >
             <div className="flex flex-col gap-10 sm:gap-14 md:gap-16">
               <SectionStep

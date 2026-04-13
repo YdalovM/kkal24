@@ -2,6 +2,13 @@
   text-shadow: 0 0 40px rgba(184, 233, 67, 0.35);
 }
 
+@media (max-width: 767px) {
+  .heroAccent {
+    /* Меньше слоёв композиции на GPU — быстрее отрисовка LCP (заголовок). */
+    text-shadow: 0 0 12px rgba(184, 233, 67, 0.25);
+  }
+}
+
 .jumpPrimary {
   transition:
     transform 0.2s,

@@ -13,11 +13,17 @@ import "./globals.css";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin", "cyrillic"],
+  display: "swap",
+  adjustFontFallback: true,
 });
 
+/** Моноширинный шрифт не на первом экране — не конкурирует с Geist Sans за LCP на мобилке. */
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin", "cyrillic"],
+  display: "swap",
+  adjustFontFallback: true,
+  preload: false,
 });
 
 const siteUrl = getSiteUrl();
@@ -90,8 +96,8 @@ export default function RootLayout({
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans text-fg antialiased">
-        <SiteShell>{children}</SiteShell>
         <YandexMetrika />
+        <SiteShell>{children}</SiteShell>
       </body>
     </html>
   );

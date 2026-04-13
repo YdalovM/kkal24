@@ -17,7 +17,7 @@ export function SiteShell({ children }: SiteShellProps) {
   return (
     <div className="flex min-h-full min-w-0 flex-1 flex-col md:flex-row">
       <aside
-        className="w-full shrink-0 border-b border-border bg-surface/95 backdrop-blur-sm md:sticky md:top-0 md:h-[100dvh] md:w-56 md:shrink-0 md:overflow-y-auto md:border-b-0 md:border-r"
+        className="w-full shrink-0 border-b border-border bg-surface md:bg-surface/95 md:backdrop-blur-sm md:sticky md:top-0 md:h-[100dvh] md:w-56 md:shrink-0 md:overflow-y-auto md:border-b-0 md:border-r"
         aria-label="Навигация по разделам сайта"
       >
         <div className="app-gutter-x">
