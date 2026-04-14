@@ -5,15 +5,18 @@
  *
  * ИИ: логику не добавлять — только провода. Статус пересчёта — `RecalcToast` (fixed, без layout shift);
  * длительность через `RECALC_SUCCESS_TOAST_MS` в `constants/ui-behavior.ts`.
+ * Нижний padding при `result`: запас под `CalorieMobileTdeeBar` + `safe-area-inset-bottom` (iPhone).
  */
 import { useRef } from "react";
 import { CalorieFormCard } from "@/components/calorie/CalorieFormCard";
 import { CalorieMobileTdeeBar } from "@/components/calorie/CalorieMobileTdeeBar";
 import { CalorieResultPanel } from "@/components/calorie/CalorieResultPanel";
 import { RecalcToast } from "@/components/calorie/RecalcToast";
+import {
+  CALORIE_RESULT_ANCHOR_ID,
+  CALORIE_RESULT_HEADING_ANCHOR_ID,
+} from "@/constants/calculator";
 import { useCalorieCalculator } from "@/hooks/useCalorieCalculator";
-
-const RESULT_ANCHOR_ID = "calorie-result";
 
 export function CalorieCalculator() {
   const { form, result, recalcMessage } = useCalorieCalculator();
@@ -21,7 +24,7 @@ export function CalorieCalculator() {
 
   return (
     <div
-      className={`mx-auto flex min-w-0 w-full max-w-lg flex-col gap-6 ${result ? "pb-[max(5.5rem,env(safe-area-inset-bottom,0px))] md:pb-0" : ""}`}
+      className={`mx-auto flex min-w-0 w-full max-w-lg flex-col gap-6 ${result ? "pb-[max(7.5rem,calc(4.25rem+env(safe-area-inset-bottom,0px)))] md:pb-0" : ""}`}
     >
       <RecalcToast message={recalcMessage} />
       <CalorieFormCard {...form} />
@@ -32,10 +35,10 @@ export function CalorieCalculator() {
             className="pointer-events-none h-px w-full shrink-0"
             aria-hidden
           />
-          <CalorieResultPanel id={RESULT_ANCHOR_ID} result={result} />
+          <CalorieResultPanel id={CALORIE_RESULT_ANCHOR_ID} result={result} />
           <CalorieMobileTdeeBar
             tdee={result.tdee}
-            scrollTargetId={RESULT_ANCHOR_ID}
+            scrollTargetId={CALORIE_RESULT_HEADING_ANCHOR_ID}
             sentinelRef={sentinelRef}
           />
         </>

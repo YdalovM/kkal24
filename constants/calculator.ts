@@ -23,3 +23,9 @@ export const CALORIE_FORM_STORAGE_KEY = "med_calcul_form_v1";
 
 /** Стартовый уровень активности в UI при пустом состоянии. */
 export const DEFAULT_ACTIVITY_INDEX = 2 as ActivityIndex;
+
+/** `id` обёртки панели результата; якорь для карточки целиком. */
+export const CALORIE_RESULT_ANCHOR_ID = "calorie-result";
+
+/** Якорь заголовка «Расчёт по вашим полям» — скролл после «Показать расчёт» и кнопка мобильной плашки TDEE. */
+export const CALORIE_RESULT_HEADING_ANCHOR_ID = `${CALORIE_RESULT_ANCHOR_ID}-title`;

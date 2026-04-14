@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArticleLeadSummary,
   ArticleSources,
+  ArticleWhatIsBlurb,
   YmylWhenDoctorBlock,
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
@@ -28,6 +29,7 @@ export default function MifflinPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/mifflin-san-zheor/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Формула Миффлина&nbsp;— Сан&nbsp;Жеора</h1>
+      <ArticleWhatIsBlurb path="/mifflin-san-zheor/" />
       <ArticleLeadSummary>
         <p>
           Уравнение <strong>Миффлина — Сан Жеора (1990)</strong> оценивает{" "}

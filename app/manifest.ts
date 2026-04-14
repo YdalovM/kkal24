@@ -10,15 +10,15 @@ export default function manifest(): MetadataRoute.Manifest {
     description: siteContent.description,
     start_url: "/",
     display: "standalone",
-    background_color: "#0a0a0a",
-    theme_color: "#0a0a0a",
+    background_color: "#0a0c0f",
+    theme_color: "#0a0c0f",
     lang: "ru",
     categories: ["health", "lifestyle", "utilities"],
     /** PNG из `app/icon.png` (тот же рисунок, что и `app/favicon.ico`). */
     icons: [
       {
         src: "/icon.png",
-        sizes: "32x32",
+        sizes: "48x48",
         type: "image/png",
         purpose: "any",
       },

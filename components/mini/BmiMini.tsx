@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import {
   type BmiBandLabel,
@@ -12,7 +13,9 @@ import {
   MINI_INPUT_CLASS,
   MINI_SECTION_CLASS,
 } from "@/components/mini/mini-field-classes";
+import { MiniAccordion } from "@/components/mini/MiniAccordion";
 import { useMainFormToMiniSync } from "@/contexts/main-form-to-mini-sync";
+import { calculatorUx } from "@/content/calculator-ux";
 
 function round1(n: number) {
   return Math.round(n * 10) / 10;
@@ -29,6 +32,7 @@ const BMI_LABELS: Record<BmiBandLabel, string> = {
 };
 
 export function BmiMini() {
+  const bmiUx = calculatorUx.miniBmi;
   const [h, setH] = useState("175");
   const [w, setW] = useState("72");
   const { revision, lastHeight, lastWeight } = useMainFormToMiniSync();
@@ -54,10 +58,6 @@ export function BmiMini() {
         <span className={MINI_HEADING_MARK} aria-hidden />
         ИМТ
       </h2>
-      <p className="mb-3 text-sm text-fg-muted">
-        Индекс массы тела — грубая оценка соотношения веса и роста. Не диагноз;
-        интерпретация индивидуальна.
-      </p>
       <div className="flex flex-col gap-2 sm:flex-row sm:items-end">
         <label className="flex flex-1 flex-col gap-1 text-sm">
           Рост, см
@@ -84,16 +84,18 @@ export function BmiMini() {
           — {label}
         </p>
       )}
-      <details className="mt-3 text-sm text-fg-subtle">
-        <summary className="cursor-pointer font-medium text-fg">
-          Кратко про ИМТ
-        </summary>
-        <p className="mt-2">
-          Пороговые значения распространены в популяционной статистике; у
-          спортсменов и при беременности трактовка может отличаться. Для решений
-          о здоровье ориентируйтесь на специалиста.
+      <MiniAccordion summary={bmiUx.aboutSummary}>
+        <p className="text-pretty text-fg-muted">{bmiUx.aboutIntro}</p>
+        <p className="text-pretty text-fg-muted">{bmiUx.aboutExtra}</p>
+        <p className="text-pretty text-sm text-fg-muted">
+          <Link
+            href="/imt/"
+            className="font-medium text-accent underline-offset-2 hover:underline"
+          >
+            {bmiUx.readMore}
+          </Link>
         </p>
-      </details>
+      </MiniAccordion>
     </section>
   );
 }

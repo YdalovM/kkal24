@@ -12,27 +12,25 @@
 @source "../contexts";
 
 /**
- * Визуал: уголь + surface. Акцент — сочный лайм с мятным подтоном (CTA, цифры).
- * `--app-accent-soft` — чуть светлее для крупного текста и hover-свечений без «кислоты» на всём экране.
+ * Визуал: холодный сланцевый тёмный фон. Акцент — приглушённая бирюза (CTA, ссылки, цифры),
+ * без неонового лайма. ИИ: при смене палитры обновите жёсткие rgba в `page.module.css` / OG, если они есть.
  */
 :root {
-  --app-page-base: #0a0a0a;
-  --app-surface: #141414;
-  --app-elevated: #1c1c1c;
-  --app-border: #2a2a2a;
-  /* Фокус клавиатуры: заметный, но не «кислотный» на каждом поле */
-  --app-border-focus: #737373;
+  --app-page-base: #0a0c0f;
+  --app-surface: #12161d;
+  --app-elevated: #1a1f29;
+  --app-border: #2a3140;
+  --app-border-focus: #64748b;
 
-  --app-fg: #fafafa;
-  --app-fg-muted: #a3a3a3;
-  --app-fg-subtle: #737373;
-  --app-fg-dim: #525252;
+  --app-fg: #f1f5f9;
+  --app-fg-muted: #94a3b8;
+  --app-fg-subtle: #64748b;
+  --app-fg-dim: #475569;
 
-  --app-accent: #b8e943;
-  --app-accent-hover: #a3d636;
-  /** Светлый лайм для заголовков и вторичных бликов (читается на #0a0a0a). */
-  --app-accent-soft: #daf97a;
-  --app-on-accent: #0a0a0a;
+  --app-accent: #5fb8ad;
+  --app-accent-hover: #4da396;
+  --app-accent-soft: #8fd4ca;
+  --app-on-accent: #071212;
 
   --app-warn: #e8c84a;
   --app-danger: #f87171;
@@ -138,39 +136,12 @@ html {
   }
 }
 
-/* Лёгкое «дыхание» свечения у главной CTA; отключается при reduced-motion. */
-@keyframes calorie-primary-glow {
-  0%,
-  100% {
-    box-shadow:
-      0 0 28px rgba(184, 233, 67, 0.22),
-      0 0 56px rgba(184, 233, 67, 0.08);
-  }
-  50% {
-    box-shadow:
-      0 0 36px rgba(184, 233, 67, 0.32),
-      0 0 72px rgba(184, 233, 67, 0.12);
-  }
-}
-
-.calorie-primary-glow {
-  animation: calorie-primary-glow 3.2s ease-in-out infinite;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .calorie-primary-glow {
-    animation: none;
-    box-shadow: 0 0 28px rgba(184, 233, 67, 0.24);
-  }
-}
-
-/** Оболочка калькулятора на главной: лёгкий лаймовый кант при наведении. */
+/** Оболочка блока калькулятора на главной: лёгкий акцент при наведении. */
 .calculator-shell:hover {
-  border-color: color-mix(in srgb, var(--app-accent) 22%, transparent);
+  border-color: color-mix(in srgb, var(--app-accent) 28%, transparent);
   box-shadow:
-    0 4px 40px rgba(0, 0, 0, 0.4),
-    0 0 0 1px color-mix(in srgb, var(--app-accent) 14%, transparent),
-    0 0 48px rgba(184, 233, 67, 0.06);
+    0 4px 40px rgba(0, 0, 0, 0.42),
+    0 0 0 1px color-mix(in srgb, var(--app-accent) 18%, transparent);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -239,24 +210,5 @@ input[type="number"].input-no-spin {
 
 input[type="checkbox"] {
   accent-color: var(--app-fg-muted);
-}
-
-/* Выпадающий список: единый стиль с полями, без системного «глянца». */
-select.calorie-select {
-  appearance: none;
-  -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23a3a3a3' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 0.65rem center;
-  background-size: 1.15rem;
-}
-
-select.calorie-select:hover {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='%23c9ff2e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-}
-
-select.calorie-select option {
-  background-color: var(--app-elevated);
-  color: var(--app-fg);
 }
 

@@ -43,6 +43,14 @@ const yandexVerification =
  */
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
+  /** Явные ссылки: вкладка браузера + краулеры (в т.ч. иконка в выдаче Google). */
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png", sizes: "48x48" },
+    ],
+    shortcut: "/favicon.ico",
+  },
   title: {
     default: siteContent.title,
     template: `%s — ${siteContent.shortName}`,
@@ -80,7 +88,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
-  themeColor: "#0a0a0a",
+  themeColor: "#0a0c0f",
   /** Чтобы `env(safe-area-inset-*)` работали на iPhone с вырезом при `viewport-fit=cover`. */
   viewportFit: "cover",
 };

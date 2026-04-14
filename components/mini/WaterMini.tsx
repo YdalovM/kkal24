@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { waterMlRoughDaily } from "@/lib/mini-calculations";
 import {
@@ -8,9 +9,12 @@ import {
   MINI_INPUT_CLASS,
   MINI_SECTION_CLASS,
 } from "@/components/mini/mini-field-classes";
+import { MiniAccordion } from "@/components/mini/MiniAccordion";
 import { useMainFormToMiniSync } from "@/contexts/main-form-to-mini-sync";
+import { calculatorUx } from "@/content/calculator-ux";
 
 export function WaterMini() {
+  const ux = calculatorUx.miniWater;
   const [w, setW] = useState("72");
   const { revision, lastWeight } = useMainFormToMiniSync();
 
@@ -28,14 +32,10 @@ export function WaterMini() {
     <section className={MINI_SECTION_CLASS}>
       <h2 className={MINI_HEADING_ROW}>
         <span className={MINI_HEADING_MARK} aria-hidden />
-        Вода (грубая оценка)
+        {ux.title}
       </h2>
-      <p className="mb-3 text-sm text-fg-muted">
-        Распространённое упрощение — около 30–35 мл на кг массы тела; климат,
-        нагрузка и болезни сильно меняют потребность.
-      </p>
       <label className="flex max-w-xs flex-col gap-1 text-sm">
-        Вес, кг
+        {ux.fieldLabel}
         <input
           className={MINI_INPUT_CLASS}
           type="number"
@@ -45,22 +45,23 @@ export function WaterMini() {
       </label>
       {ml != null && (
         <p className="mt-3 text-sm text-fg-muted">
-          Ориентир: ~<strong className="font-semibold text-accent">{ml}</strong> мл
-          / сут
-          суммарной жидкости (не
-          «выпить разом» и не норматив Минздрава для вас лично).
+          {ux.resultBefore}
+          <strong className="font-semibold text-accent">{ml}</strong>
+          {ux.resultAfter}
         </p>
       )}
-      <details className="mt-3 text-sm text-fg-subtle">
-        <summary className="cursor-pointer font-medium text-fg">
-          Микро-FAQ
-        </summary>
-        <p className="mt-2">
-          Жажда, цвет мочи и самочувствие — грубые ориентиры. При заболеваниях
-          почек, сердца и ряде других состояний норма жидкости обсуждается с
-          врачом.
+      <MiniAccordion summary={ux.aboutSummary}>
+        <p className="text-pretty text-fg-muted">{ux.lead}</p>
+        <p className="text-pretty text-fg-muted">{ux.extraNote}</p>
+        <p className="text-pretty text-sm text-fg-muted">
+          <Link
+            href={ux.readMoreHref}
+            className="font-medium text-accent underline-offset-2 hover:underline"
+          >
+            {ux.readMore}
+          </Link>
         </p>
-      </details>
+      </MiniAccordion>
     </section>
   );
 }

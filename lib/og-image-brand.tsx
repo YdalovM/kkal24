@@ -19,9 +19,9 @@ export function OgBrandMarkup() {
         flexDirection: "column",
         justifyContent: "center",
         padding: 56,
-        backgroundColor: "#0a0a0a",
+        backgroundColor: "#0a0c0f",
         backgroundImage:
-          "linear-gradient(145deg, #141414 0%, #0a0a0a 45%, #0c1208 100%)",
+          "linear-gradient(145deg, #12161d 0%, #0a0c0f 48%, #0a1211 100%)",
       }}
     >
       <div
@@ -29,7 +29,7 @@ export function OgBrandMarkup() {
           fontSize: 54,
           fontWeight: 700,
           letterSpacing: "-0.03em",
-          color: "#daf97a",
+          color: "#8fd4ca",
           lineHeight: 1.08,
           maxWidth: 1000,
         }}

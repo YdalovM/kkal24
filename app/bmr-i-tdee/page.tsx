@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArticleLeadSummary,
   ArticleSources,
+  ArticleWhatIsBlurb,
   YmylWhenDoctorBlock,
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
@@ -28,6 +29,7 @@ export default function BmrTdeePage() {
       <JsonLd data={buildArticleWebPageJsonLd("/bmr-i-tdee/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>BMR и TDEE — базальный обмен и суточная норма калорий</h1>
+      <ArticleWhatIsBlurb path="/bmr-i-tdee/" />
       <ArticleLeadSummary>
         <p>
           <strong>BMR</strong> — ориентир обмена в покое; <strong>TDEE</strong> = BMR

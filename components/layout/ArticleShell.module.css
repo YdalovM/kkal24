@@ -136,6 +136,23 @@
   font-size: 0.9375rem;
 }
 
+.prose .article-what-is-blurb {
+  max-width: 72ch;
+  margin: 0.35rem 0 1rem;
+  padding: 0.65rem 0.9rem;
+  border-radius: 0.5rem;
+  border: 1px solid var(--app-border);
+  background: color-mix(in srgb, var(--app-elevated) 72%, transparent);
+}
+
+.prose .article-what-is-blurb__text {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: var(--app-fg-muted);
+  text-wrap: pretty;
+}
+
 .prose .article-lead-summary {
   border-radius: 0.5rem;
   border: 1px solid color-mix(in srgb, var(--app-accent) 22%, var(--app-border));

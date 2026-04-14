@@ -15,6 +15,7 @@ import {
   MINI_INPUT_CLASS,
   MINI_SECTION_CLASS,
 } from "@/components/mini/mini-field-classes";
+import { MiniAccordion } from "@/components/mini/MiniAccordion";
 import { calculatorUx } from "@/content/calculator-ux";
 
 export function WeeklyDeficitMini() {
@@ -49,7 +50,6 @@ export function WeeklyDeficitMini() {
         <span className={MINI_HEADING_MARK} aria-hidden />
         {ux.title}
       </h2>
-      <p className="mb-3 text-sm text-fg-muted">{ux.lead}</p>
       <label className="flex max-w-xs flex-col gap-1 text-sm">
         {ux.fieldLabel}
         <input
@@ -64,6 +64,14 @@ export function WeeklyDeficitMini() {
       </label>
       {range && (
         <div className="mt-3 space-y-3 text-sm text-fg-muted">
+          {lastTdee == null ? (
+            <p
+              className="rounded-xl border border-accent/45 bg-accent/[0.10] px-3 py-2.5 text-pretty text-fg shadow-sm"
+              role="status"
+            >
+              {ux.hintNeedMainCalc}
+            </p>
+          ) : null}
           <p>
             При ~{kg} кг в неделю по этому приближению выходит порядка{" "}
             <strong className="font-semibold text-accent">
@@ -76,11 +84,7 @@ export function WeeklyDeficitMini() {
             </strong>{" "}
             ккал в сутки — снова как ориентир, а не назначение.
           </p>
-          {lastTdee == null ? (
-            <p className="rounded-lg border border-border bg-elevated/80 px-3 py-2 text-fg">
-              {ux.hintNeedMainCalc}
-            </p>
-          ) : pctOfNorm != null ? (
+          {lastTdee != null && pctOfNorm != null ? (
             <>
               <p>
                 {ux.hintCompareFraction.replace("{pct}", String(pctOfNorm))}
@@ -99,24 +103,23 @@ export function WeeklyDeficitMini() {
           ) : null}
         </div>
       )}
-      <details className="mt-3 text-sm text-fg-subtle">
-        <summary className="cursor-pointer font-medium text-fg">
-          Почему это приближение
-        </summary>
-        <p className="mt-2">
-          Реальный расход и состав потерь веса индивидуальны; число{" "}
-          {KCAL_PER_KG_FAT_APPROX} удобно для порядка величины, не для точного
-          плана без мониторинга и врача / диетолога.
+      <MiniAccordion summary={ux.aboutSummary}>
+        <p className="text-pretty text-fg-muted">{ux.lead}</p>
+        <p className="text-pretty text-fg-muted">
+          {ux.aboutApproxBody.replace(
+            "{kcal}",
+            String(KCAL_PER_KG_FAT_APPROX),
+          )}
         </p>
-      </details>
-      <p className="mt-3 text-sm text-fg-subtle">
-        <Link
-          href="/deficit-kalorij/#deficit"
-          className="font-medium text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
-        >
-          Подробнее про дефицит и диапазоны →
-        </Link>
-      </p>
+        <p className="text-pretty text-sm text-fg-muted">
+          <Link
+            href={ux.readMoreHref}
+            className="font-medium text-accent underline-offset-2 hover:underline"
+          >
+            {ux.readMore}
+          </Link>
+        </p>
+      </MiniAccordion>
     </section>
   );
 }

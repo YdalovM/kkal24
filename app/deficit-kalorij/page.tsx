@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArticleLeadSummary,
   ArticleSources,
+  ArticleWhatIsBlurb,
   YmylWhenDoctorBlock,
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
@@ -29,6 +30,7 @@ export default function DeficitAndSurplusPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/deficit-kalorij/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
         <h1>Дефицит и профицит калорий — ориентиры от TDEE</h1>
+        <ArticleWhatIsBlurb path="/deficit-kalorij/" />
         <ArticleLeadSummary>
           <p>
             <strong>Дефицит</strong> — вы едите меньше суточной траты;{" "}

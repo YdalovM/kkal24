@@ -9,6 +9,10 @@ type CalorieMobileTdeeBarProps = {
   sentinelRef: RefObject<HTMLElement | null>;
 };
 
+/**
+ * Нижняя плашка TDEE только на узком экране (`md:hidden`).
+ * Отступы в `style` — `safe-area-inset-*` под вырез и индикатор «домой».
+ */
 export function CalorieMobileTdeeBar({
   tdee,
   scrollTargetId,
@@ -49,9 +53,11 @@ export function CalorieMobileTdeeBar({
 
   return (
     <div
-      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/90 bg-surface/95 px-3 pt-2 shadow-[0_-8px_32px_rgba(0,0,0,0.45)] backdrop-blur-md motion-reduce:backdrop-blur-none md:hidden"
+      className="fixed inset-x-0 bottom-0 z-40 border-t border-border/90 bg-surface/95 pt-2 shadow-[0_-8px_32px_rgba(0,0,0,0.45)] backdrop-blur-md motion-reduce:backdrop-blur-none md:hidden"
       style={{
         paddingBottom: "max(0.65rem, env(safe-area-inset-bottom, 0px))",
+        paddingLeft: "max(0.75rem, env(safe-area-inset-left, 0px))",
+        paddingRight: "max(0.75rem, env(safe-area-inset-right, 0px))",
       }}
       role="region"
       aria-label={r.stickyBarRegion}

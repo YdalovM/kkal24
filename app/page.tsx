@@ -1,17 +1,13 @@
 /**
  * Главная: композиция, `<main>`, JSON-LD через `buildHomeJsonLd`.
- * ИИ: метаданные — `buildHomeMetadata()`; тексты секций — `content/calculator-ux.ts`.
+ * ИИ: метаданные — `buildHomeMetadata()`; тексты героя и виджетов — `content/calculator-ux.ts`.
  * Расчёты и URL формы — `CalorieCalculator` / `useCalorieCalculator`.
  */
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { CalorieCalculator } from "@/components/calorie";
-import {
-  HomeInteractiveShell,
-  SmoothHashLink,
-  TrustAndFaqSection,
-} from "@/components/home";
+import { HomeInteractiveShell, TrustAndFaqSection } from "@/components/home";
 import { DeferredMiniCalculators } from "@/components/mini/DeferredMiniCalculators";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { calculatorUx } from "@/content/calculator-ux";
@@ -22,81 +18,24 @@ import styles from "@/app/page.module.css";
 
 export const metadata: Metadata = buildHomeMetadata();
 
-function accentTitle(title: string, highlight: string) {
-  const i = title.indexOf(highlight);
-  if (i < 0) {
-    return <>{title}</>;
-  }
-  return (
-    <>
-      {i > 0 ? title.slice(0, i) : null}
-      <span className="text-accent">{highlight}</span>
-      {title.slice(i + highlight.length)}
-    </>
-  );
-}
-
-function SectionStep({
-  step,
-  title,
-  titleHighlight,
-  description,
-  accent,
-  /** Якорь навигации (`#id`): весь блок шага, включая заголовок, попадает в зону прокрутки. */
+/** Якорь `#calc-main` / `#calc-extra`: заголовки внутри виджетов, не дублируем h2 над ними. */
+function CalculatorSection({
   anchorId,
   children,
 }: {
-  step: string;
-  title: string;
-  /** Если задано с `accent`, подсвечиваем эту подстроку целиком. */
-  titleHighlight?: string;
-  description?: string;
-  accent?: boolean;
   anchorId?: string;
   children: ReactNode;
 }) {
-  const stepRing = accent
-    ? `border-accent/55 bg-accent/[0.12] text-accent ${styles.stepRingAccent}`
-    : "border-border bg-elevated text-fg-muted";
-
+  const scrollClass = anchorId ? " scroll-mt-[var(--app-scroll-anchor-offset)]" : "";
   return (
-    <div
-      id={anchorId}
-      className={`flex flex-col gap-6${anchorId ? " scroll-mt-[var(--app-scroll-anchor-offset)]" : ""}`}
-    >
-      <div className="flex min-w-0 gap-3 sm:gap-4 md:items-start">
-        <span
-          className={`flex h-9 min-w-9 shrink-0 items-center justify-center rounded-full border text-xs font-semibold tabular-nums ${stepRing}`}
-          aria-hidden
-        >
-          {step}
-        </span>
-        <div className="min-w-0 flex-1 pt-0.5">
-          <h2 className="text-base font-semibold tracking-tight text-fg md:text-lg">
-            {accent
-              ? accentTitle(
-                  title,
-                  titleHighlight ??
-                    (title.includes(" ")
-                      ? title.slice(0, title.indexOf(" "))
-                      : title),
-                )
-              : title}
-          </h2>
-          {description ? (
-            <p className="mt-1 max-w-2xl text-sm leading-relaxed text-fg-muted">
-              {description}
-            </p>
-          ) : null}
-        </div>
-      </div>
+    <div id={anchorId} className={`flex flex-col gap-6${scrollClass}`}>
       {children}
     </div>
   );
 }
 
 export default function Home() {
-  const { hero, sections } = calculatorUx;
+  const { hero } = calculatorUx;
 
   return (
     <main className="box-border min-h-screen min-w-0 w-full overflow-x-clip">
@@ -116,34 +55,6 @@ export default function Home() {
           <p className="mx-auto mt-4 max-w-xl text-pretty text-sm leading-relaxed text-fg-muted md:mx-0 md:text-base">
             {hero.lead}
           </p>
-          <nav
-            className="mx-auto mt-6 flex w-full max-w-2xl flex-col gap-3 sm:flex-row md:mx-0"
-            aria-label="Быстрый переход по странице"
-          >
-            <SmoothHashLink
-              href="#calc-main"
-              className={`touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-accent/55 bg-accent/[0.14] px-5 py-2.5 text-left text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:inline-flex sm:w-auto ${styles.jumpPrimary}`}
-            >
-              <span className="text-sm font-semibold">
-                {hero.jumpMainLabel}
-              </span>
-              <span className="text-xs text-fg-muted">{hero.jumpMainHint}</span>
-            </SmoothHashLink>
-            <SmoothHashLink
-              href="#calc-extra"
-              className={`touch-manipulation flex min-h-12 w-full flex-col justify-center rounded-xl border border-border bg-elevated/80 px-5 py-2.5 text-left text-fg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent sm:inline-flex sm:w-auto ${styles.jumpSecondary}`}
-            >
-              <span className="text-sm font-semibold">
-                {hero.jumpExtraLabel}
-              </span>
-              <span className="text-xs text-fg-muted">
-                {hero.jumpExtraHint}
-              </span>
-            </SmoothHashLink>
-          </nav>
-          <p className="mx-auto mt-4 max-w-xl text-pretty text-xs leading-relaxed text-fg-subtle md:mx-0">
-            {hero.onPageStrip}
-          </p>
         </header>
 
         <HomeInteractiveShell>
@@ -151,12 +62,7 @@ export default function Home() {
             className={`calculator-shell mt-8 min-w-0 rounded-2xl border border-white/[0.08] bg-surface/85 p-4 transition-[border-color,box-shadow] duration-300 sm:mt-10 sm:p-5 md:bg-surface/50 md:backdrop-blur-sm md:p-8 ${styles.calculatorShell}`}
           >
             <div className="flex flex-col gap-10 sm:gap-14 md:gap-16">
-              <SectionStep
-                step={sections.mainStep}
-                title={sections.mainTitle}
-                description={sections.mainDescription}
-                anchorId="calc-main"
-              >
+              <CalculatorSection anchorId="calc-main">
                 <div className="min-w-0">
                   <Suspense
                     fallback={
@@ -168,25 +74,18 @@ export default function Home() {
                     <CalorieCalculator />
                   </Suspense>
                 </div>
-              </SectionStep>
+              </CalculatorSection>
 
               <div
                 className={`h-px w-full ${styles.sectionDivider}`}
                 aria-hidden
               />
 
-              <SectionStep
-                step={sections.extraStep}
-                title={sections.extraTitle}
-                titleHighlight={sections.extraTitleHighlight}
-                description={sections.extraDescription}
-                accent
-                anchorId="calc-extra"
-              >
+              <CalculatorSection anchorId="calc-extra">
                 <div className="min-w-0">
                   <DeferredMiniCalculators />
                 </div>
-              </SectionStep>
+              </CalculatorSection>
             </div>
           </div>
         </HomeInteractiveShell>

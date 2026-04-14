@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArticleLeadSummary,
   ArticleSources,
+  ArticleWhatIsBlurb,
   YmylWhenDoctorBlock,
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
@@ -24,6 +25,7 @@ export default function ImtPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/imt/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Индекс массы тела (ИМТ)</h1>
+      <ArticleWhatIsBlurb path="/imt/" />
       <ArticleLeadSummary>
         <p>
           <strong>ИМТ</strong> = вес (кг) / рост² (м). По шкале <strong>ВОЗ</strong>{" "}

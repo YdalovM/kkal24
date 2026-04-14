@@ -7,9 +7,9 @@
 ```text
 app/                    маршруты: RootLayout → SiteShell; page.tsx — композиция
   */page.tsx            статьи: metadata + контент, оболочка ArticleShell
-  globals.css           токены темы, skip-link, calorie-select, article-prose
+  globals.css           токены темы, skip-link, article-prose
 components/
-  calorie/              основной калькулятор: форма, результат, RecalcToast, мобильная плашка TDEE
+  calorie/              CalorieCalculator; форма — `CalorieFormCard` (классы `CALORIE_TOOL_*` в `calorie-field-classes.ts`); результат, RecalcToast, мобильная плашка TDEE
   home/                 HomeInteractiveShell, SmoothHashLink, TrustAndFaqSection
   layout/               SiteShell, SiteSidebar, SiteFooter, ArticleShell, Breadcrumbs, AdSlot, CalcAnchorLink
   mini/                 ИМТ, вода, темп веса (дефицит+профицит в одном якоре); MiniCalculators — сетка и id
@@ -45,12 +45,12 @@ docs/                   этот файл
 - `lib/` не импортирует `components/`, `hooks/`, `app/`.
 - `constants/` не импортирует React.
 - `content/` — по умолчанию только данные; без тяжёлых зависимостей.
-- `components/layout/SiteShell.tsx` — клиентский; навигация и активные состояния якорей: `lib/nav-path.ts`, `hooks/useLocationHash.ts`, `CalcAnchorLink`, `SmoothHashLink`.
+- `components/layout/SiteLayoutFrame.tsx` — клиентский (бургер и выезд меню); `SiteSidebar.tsx` — клиентский из‑за `onNavigate`/`onClick`. Якоря на главной: `lib/nav-path.ts`, `hooks/useLocationHash.ts`, `CalcAnchorLink`, `SmoothHashLink`.
 
 ## Расширение (чеклист)
 
 - **Новая формула BMR / PAL**: `lib/calories.ts`, при необходимости `lib/calorie-result.ts`.
-- **Новое поле формы**: `constants/calculator.ts` → `lib/shareUrl.ts` → `lib/calorie-form-validation.ts` → `useCalorieCalculator.ts` → `CalorieFormCard.tsx`.
+- **Новое поле формы**: `constants/calculator.ts` → `lib/shareUrl.ts` → `lib/calorie-form-validation.ts` → `useCalorieCalculator.ts` → `CalorieFormCard.tsx` → при необходимости класс в `calorie-field-classes.ts` (`CALORIE_TOOL_*`).
 - **Новый ряд таблицы дефицита**: `lib/calories.ts` (`DEFICIT_ROWS`) + **две** строки в `calculator-ux.ts` (`deficitLabelsTdee`, `deficitLabelsBmr`).
 - **Новый мини-калькулятор**: `lib/mini-calculations.ts` + компонент в `components/mini/` + обёртка с `id` в `MiniCalculators.tsx` + запись в `siteContent.calcQuickLinks` + при необходимости контекст. Похудение/набор в одном месте меню — расширять блок `#mini-balance`, а не дублировать якоря.
 - **Новая статья (URL)**: `app/<slug>/page.tsx` (`metadata`, `ArticleShell`, контент), строка в `siteContent.articleNavLinks`, запись в `content/seo-routes.ts`, URL попадёт в `app/sitemap.ts` через ключи `articleSeoByPath`.
@@ -60,7 +60,7 @@ docs/                   этот файл
 ## Навигация и якоря (важно для ИИ)
 
 - Калькуляторы в сайдбаре и футере ведут на `/#<id>`; на главной скролл плавный (`SmoothHashLink` через `CalcAnchorLink`).
-- **Постоянный сайдбар**: `SiteShell` → `<aside>` + `SiteSidebar`; на `md+` колонка фиксированной ширины слева, на узких экранах — полоса сверху.
+- **Постоянный сайдбар**: `SiteShell` → `SiteLayoutFrame` (клиент) → `<aside>` + `SiteSidebar`; на `md+` колонка слева. На узких экранах шапка с названием и бургером, меню в выезжающей панели (`SiteLayoutFrame.tsx`).
 - Классы компактных ссылок футера: `components/layout/footer-nav-link-classes.ts` (`footerNavLinkClass`).
 
 ## Комментарии для ИИ и будущих правок
@@ -77,10 +77,11 @@ docs/                   этот файл
 
 ## Визуальная тема
 
-Токены в `app/globals.css`: угольный фон, `surface` / `elevated`, текст `fg` / `fg-muted`, акцент `accent` для CTA. Класс `calorie-select` — нативный `<select>`. Класс `article-prose` — типографика статей без плагина typography.
+Токены в `app/globals.css`: угольный фон, `surface` / `elevated`, текст `fg` / `fg-muted`, акцент `accent` для CTA. Уровень активности — кастомный listbox `ActivityLevelSelect`, не нативный `<select>`. Класс `article-prose` — типографика статей без плагина typography.
 
 ## Мобильная вёрстка и safe-area
 
+- Главный калькулятор: при показе результата нижний отступ обёртки в `CalorieCalculator` — чтобы текст не прятался под фиксированную `CalorieMobileTdeeBar`; у самой плашки в inline-стилях учтены `safe-area-inset-*` (вырез, «домой»).
 - В `layout.tsx` задано `viewport.viewportFit: "cover"`, чтобы работали `env(safe-area-inset-*)` на iPhone.
 - Класс **`.app-gutter-x`** — горизонтальные поля контента (не уже 1rem / 1.5rem на md и с учётом выреза).
 - **`.skip-to-main`** — переход к основному блоку (`#site-primary` в `SiteShell`); не удалять без замены.

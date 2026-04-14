@@ -3,6 +3,7 @@ import Link from "next/link";
 import {
   ArticleLeadSummary,
   ArticleSources,
+  ArticleWhatIsBlurb,
   YmylWhenDoctorBlock,
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
@@ -28,6 +29,7 @@ export default function WaterPage() {
       <JsonLd data={buildArticleWebPageJsonLd("/norma-vody/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
       <h1>Норма воды в день</h1>
+      <ArticleWhatIsBlurb path="/norma-vody/" />
       <ArticleLeadSummary>
         <p>
           Универсальных «двух литров всем» нет: ориентир чаще задают как{" "}

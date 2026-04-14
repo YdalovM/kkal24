@@ -17,7 +17,7 @@ import {
   targetKcalForDeficitRow,
 } from "@/lib/calories";
 
-const RESULT_CARD_SHELL = `${CALORIE_CARD_CLASS} border-accent/25 shadow-[0_0_40px_-8px_rgba(184,233,67,0.14)]`;
+const RESULT_CARD_SHELL = `${CALORIE_CARD_CLASS} border-border shadow-[0_6px_28px_rgba(0,0,0,0.28)]`;
 
 type EnergyBasis = "tdee" | "bmr";
 
@@ -62,28 +62,27 @@ export function CalorieResultPanel({
 
   const cardTdeeActive =
     energyBasis === "tdee"
-      ? "border-accent/50 bg-accent/[0.1] shadow-[inset_0_1px_0_0_rgba(184,233,67,0.1)] ring-2 ring-accent/35"
-      : "border-border bg-elevated/50 hover:border-border-focus";
+      ? "border-accent/40 bg-accent/[0.06]"
+      : "border-border bg-page/20 hover:border-accent/25";
 
   const cardBmrActive =
     energyBasis === "bmr"
-      ? "border-accent/50 bg-accent/[0.1] shadow-[inset_0_1px_0_0_rgba(184,233,67,0.1)] ring-2 ring-accent/35"
-      : "border-border bg-elevated/50 hover:border-border-focus";
+      ? "border-accent/40 bg-accent/[0.06]"
+      : "border-border bg-page/20 hover:border-accent/25";
+
+  const headingAnchorId = `${id}-title`;
 
   return (
     <div
       id={id}
-      className={`${RESULT_CARD_SHELL} flex min-w-0 w-full scroll-mt-[var(--app-scroll-anchor-offset)] flex-col gap-5`}
+      className={`${RESULT_CARD_SHELL} flex min-w-0 w-full flex-col gap-5`}
     >
-      <div className="flex items-start gap-3">
-        <span
-          className="mt-1 h-6 w-1 shrink-0 rounded-full bg-accent shadow-md shadow-accent/10"
-          aria-hidden
-        />
-        <div>
-          <h2 className="text-lg font-semibold tracking-tight text-fg">{r.title}</h2>
-          <p className="mt-1 text-sm text-fg-muted">{result.palLabel}</p>
-        </div>
+      <div
+        id={headingAnchorId}
+        className="scroll-mt-[var(--app-scroll-anchor-offset)]"
+      >
+        <h2 className="text-lg font-semibold tracking-tight text-fg">{r.title}</h2>
+        <p className="mt-1 text-sm text-fg-muted">{result.palLabel}</p>
       </div>
 
       <div>
@@ -195,8 +194,8 @@ export function CalorieResultPanel({
         <p className="mb-3 text-xs text-fg-subtle">
           {energyBasis === "tdee" ? r.deficitNoteTdee : r.deficitNoteBmr}
         </p>
-        <div className="min-w-0 overflow-x-auto rounded-lg border border-border">
-          <table className="w-full min-w-0 text-left text-sm">
+        <div className="min-w-0 overflow-x-auto overscroll-x-contain rounded-lg border border-border [-webkit-overflow-scrolling:touch]">
+          <table className="w-full min-w-[min(100%,18rem)] text-left text-sm">
             <thead>
               <tr className="border-b border-border bg-accent/10">
                 <th className="py-2.5 pl-3 pr-2 font-medium text-accent">

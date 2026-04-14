@@ -36,7 +36,7 @@ export function TrustAndFaqSection() {
         {t.faq.map((item) => (
           <details
             key={item.q}
-            className="group rounded-xl border border-border/90 bg-gradient-to-b from-elevated/50 to-elevated/25 shadow-[0_1px_0_rgba(255,255,255,0.04)] transition-[border-color,box-shadow] duration-200 open:border-accent/35 open:shadow-[0_0_0_1px_rgba(184,233,67,0.12)]"
+            className="group rounded-xl border border-border bg-elevated/40 shadow-sm transition-[border-color,box-shadow] duration-200 open:border-accent/35 open:shadow-[0_0_0_1px_color-mix(in_srgb,var(--app-accent)_16%,transparent)]"
           >
             <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-page [&::-webkit-details-marker]:hidden sm:min-h-0 sm:items-start sm:py-3.5">
               <span

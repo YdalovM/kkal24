@@ -16,6 +16,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import {
   CALCULATOR_FORM_LIMITS,
+  CALORIE_RESULT_HEADING_ANCHOR_ID,
   DEFAULT_ACTIVITY_INDEX,
 } from "@/constants/calculator";
 import {
@@ -179,6 +180,20 @@ export function useCalorieCalculator() {
       palOverride,
     );
     setResult(built);
+
+    const scrollToResultPanel = () => {
+      const el = document.getElementById(CALORIE_RESULT_HEADING_ANCHOR_ID);
+      if (!el) return;
+      const smooth = !window.matchMedia("(prefers-reduced-motion: reduce)")
+        .matches;
+      el.scrollIntoView({
+        behavior: smooth ? "smooth" : "auto",
+        block: "start",
+      });
+    };
+    requestAnimationFrame(() => {
+      requestAnimationFrame(scrollToResultPanel);
+    });
 
     pushToMinis?.(height, weight, built.tdee);
 
