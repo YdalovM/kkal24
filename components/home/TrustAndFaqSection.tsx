@@ -10,7 +10,7 @@ export function TrustAndFaqSection() {
   return (
     <section
       id={t.sectionId}
-      className="scroll-mt-[var(--app-scroll-anchor-offset)] border-t border-border pt-10 text-sm leading-relaxed text-fg-muted"
+      className="scroll-mt-[var(--app-scroll-anchor-offset)] pt-10 text-sm leading-relaxed text-fg-muted"
       aria-labelledby={`${t.sectionId}-heading`}
     >
       <h2
@@ -38,7 +38,7 @@ export function TrustAndFaqSection() {
             key={item.q}
             className="group rounded-xl border border-border bg-elevated/40 shadow-sm transition-[border-color,box-shadow] duration-200 open:border-accent/35 open:shadow-[0_0_0_1px_color-mix(in_srgb,var(--app-accent)_16%,transparent)]"
           >
-            <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-page [&::-webkit-details-marker]:hidden sm:min-h-0 sm:items-start sm:py-3.5">
+            <summary className="flex min-h-12 cursor-pointer list-none items-center gap-3 px-4 py-3 outline-none focus-visible:ring-2 focus-visible:ring-border-focus focus-visible:ring-offset-2 focus-visible:ring-offset-page [&::-webkit-details-marker]:hidden sm:min-h-0 sm:py-3.5">
               <span
                 className="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-lg border border-border/80 bg-page/50 text-fg-dim transition-[transform,color,border-color] group-open:rotate-90 group-open:border-accent/35 group-open:text-accent motion-reduce:transition-none motion-reduce:group-open:rotate-0"
                 aria-hidden
@@ -56,7 +56,7 @@ export function TrustAndFaqSection() {
                   <path d="m9 18 6-6-6-6" />
                 </svg>
               </span>
-              <span className="min-w-0 flex-1 pt-0.5 text-sm font-medium leading-snug text-fg">
+              <span className="min-w-0 flex-1 text-sm font-medium leading-snug text-fg">
                 {item.q}
               </span>
             </summary>

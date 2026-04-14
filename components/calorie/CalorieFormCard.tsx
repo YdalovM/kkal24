@@ -76,10 +76,6 @@ export function CalorieFormCard(props: CalorieFormCardProps) {
     >
       <div className={CALORIE_WIDGET_SHELL}>
         <div
-          className="pointer-events-none absolute -right-24 -top-28 h-72 w-72 rounded-full bg-accent/[0.14] blur-3xl motion-reduce:opacity-40"
-          aria-hidden
-        />
-        <div
           className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-accent/[0.06] blur-3xl motion-reduce:opacity-40"
           aria-hidden
         />

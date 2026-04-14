@@ -12,24 +12,25 @@
 @source "../contexts";
 
 /**
- * Визуал: холодный сланцевый тёмный фон. Акцент — приглушённая бирюза (CTA, ссылки, цифры),
- * без неонового лайма. ИИ: при смене палитры обновите жёсткие rgba в `page.module.css` / OG, если они есть.
+ * Визуал: холодный сланцевый тёмный фон, но чуть светлее для меньшей «мрачности».
+ * Акцент — мягкая бирюза (CTA, ссылки, цифры), без неонового лайма.
+ * ИИ: при смене палитры обновите жёсткие rgba в `page.module.css` / OG, если они есть.
  */
 :root {
-  --app-page-base: #0a0c0f;
-  --app-surface: #12161d;
-  --app-elevated: #1a1f29;
-  --app-border: #2a3140;
-  --app-border-focus: #64748b;
+  --app-page-base: #12151b;
+  --app-surface: #161d27;
+  --app-elevated: #243043;
+  --app-border: #3d4b63;
+  --app-border-focus: #7f8ea8;
 
-  --app-fg: #f1f5f9;
-  --app-fg-muted: #94a3b8;
-  --app-fg-subtle: #64748b;
-  --app-fg-dim: #475569;
+  --app-fg: #f5f8fc;
+  --app-fg-muted: #b5c0d1;
+  --app-fg-subtle: #8d9bb2;
+  --app-fg-dim: #6d7c92;
 
-  --app-accent: #5fb8ad;
-  --app-accent-hover: #4da396;
-  --app-accent-soft: #8fd4ca;
+  --app-accent: #70d0c4;
+  --app-accent-hover: #5ebcaf;
+  --app-accent-soft: #a4e2d9;
   --app-on-accent: #071212;
 
   --app-warn: #e8c84a;
@@ -170,22 +171,32 @@ body {
   overflow-x: clip;
   text-wrap: pretty;
   background-color: var(--app-page-base);
-  /* Нейтральная глубина: лёгкие «прожектора», без цветового каста */
+  /* Нерезкий «пятнистый» фон: разбивает монотонность, но не отвлекает от контента. */
   background-image:
     radial-gradient(
-      ellipse 120% 70% at 50% -30%,
-      rgba(255, 255, 255, 0.055) 0%,
-      transparent 55%
+      42rem 28rem at -6% 14%,
+      color-mix(in srgb, var(--app-accent-soft) 13%, transparent) 0%,
+      transparent 66%
     ),
     radial-gradient(
-      ellipse 50% 45% at 100% 15%,
-      rgba(255, 255, 255, 0.03) 0%,
-      transparent 50%
+      38rem 24rem at 106% 10%,
+      color-mix(in srgb, #ffffff 8%, transparent) 0%,
+      transparent 68%
     ),
     radial-gradient(
-      ellipse 45% 40% at 0% 85%,
-      rgba(255, 255, 255, 0.025) 0%,
-      transparent 45%
+      30rem 22rem at 28% 62%,
+      color-mix(in srgb, #ffffff 5%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      28rem 20rem at 74% 68%,
+      color-mix(in srgb, var(--app-accent) 10%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      24rem 18rem at 10% 92%,
+      color-mix(in srgb, #ffffff 6%, transparent) 0%,
+      transparent 72%
     );
   background-attachment: fixed;
   color: var(--app-fg);

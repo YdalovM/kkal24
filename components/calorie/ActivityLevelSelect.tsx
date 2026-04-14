@@ -44,9 +44,11 @@ export function ActivityLevelSelect({
 
   const currentLabel = ACTIVITY_LEVELS[value].label;
 
-  const close = useCallback(() => {
+  const close = useCallback((opts?: { focusTrigger?: boolean }) => {
     setOpen(false);
-    triggerRef.current?.focus();
+    if (opts?.focusTrigger) {
+      triggerRef.current?.focus();
+    }
   }, []);
 
   const openMenu = useCallback(() => {
@@ -88,7 +90,7 @@ export function ActivityLevelSelect({
       }
       if (e.key === "Escape") {
         e.preventDefault();
-        close();
+        close({ focusTrigger: true });
         return;
       }
       if (e.key === "ArrowDown") {
@@ -120,7 +122,7 @@ export function ActivityLevelSelect({
       if (e.key === "Enter" || e.key === " ") {
         e.preventDefault();
         onChange(highlighted);
-        close();
+        close({ focusTrigger: true });
       }
     };
     window.addEventListener("keydown", onKey);
@@ -142,7 +144,9 @@ export function ActivityLevelSelect({
         aria-expanded={open}
         aria-controls={listboxId}
         aria-describedby={ariaDescribedBy}
-        onClick={() => (open ? close() : openMenu())}
+        onClick={() =>
+          open ? close({ focusTrigger: false }) : openMenu()
+        }
       >
         <span className="min-w-0 flex-1 truncate">{currentLabel}</span>
         <span
@@ -182,7 +186,7 @@ export function ActivityLevelSelect({
                   onMouseEnter={() => setHighlighted(lvl.id as ActivityIndex)}
                   onClick={() => {
                     onChange(lvl.id as ActivityIndex);
-                    close();
+                    close({ focusTrigger: false });
                   }}
                 >
                   {lvl.label}
