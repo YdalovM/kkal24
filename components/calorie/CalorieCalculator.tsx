@@ -35,7 +35,11 @@ export function CalorieCalculator() {
             className="pointer-events-none h-px w-full shrink-0"
             aria-hidden
           />
-          <CalorieResultPanel id={CALORIE_RESULT_ANCHOR_ID} result={result} />
+          <CalorieResultPanel
+            key={`${result.tdee}-${result.bmrRounded}`}
+            id={CALORIE_RESULT_ANCHOR_ID}
+            result={result}
+          />
           <CalorieMobileTdeeBar
             tdee={result.tdee}
             scrollTargetId={CALORIE_RESULT_HEADING_ANCHOR_ID}

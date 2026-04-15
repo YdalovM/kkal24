@@ -20,7 +20,9 @@ export function SiteLayoutFrame({ children }: SiteLayoutFrameProps) {
   const pathname = usePathname();
 
   useEffect(() => {
-    setNavOpen(false);
+    queueMicrotask(() => {
+      setNavOpen(false);
+    });
   }, [pathname]);
 
   useEffect(() => {

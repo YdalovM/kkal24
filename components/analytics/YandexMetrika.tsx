@@ -3,7 +3,7 @@ import { resolveYandexMetrikaCounterId } from "@/lib/yandex-metrika-counter";
 
 /**
  * Яндекс.Метрика: `NEXT_PUBLIC_YM_COUNTER_ID` или резерв из `lib/yandex-metrika-counter.ts`.
- * `beforeInteractive` — ранняя вставка в документ (проверка «код установлен» в кабинете Метрики).
+ * `lazyOnload` — не конкурирует с критическим рендером первого экрана на мобилке.
  * В App Router корневой `layout.tsx` — допустимое место; правило eslint ориентировано на Pages `/_document`.
  */
 export function YandexMetrika() {
@@ -23,10 +23,9 @@ window.YM_COUNTER_ID=${counterId};
 
   return (
     <>
-      {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document -- корневой App Router layout */}
       <Script
         id="ym-metrika"
-        strategy="beforeInteractive"
+        strategy="lazyOnload"
         dangerouslySetInnerHTML={{ __html: inline }}
       />
       <noscript>

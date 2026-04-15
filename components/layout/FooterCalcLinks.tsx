@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { CalcAnchorLink } from "@/components/layout/CalcAnchorLink";
 import { footerNavLinkClass } from "@/components/layout/footer-nav-link-classes";
 import { siteContent } from "@/content/site";
@@ -24,6 +25,13 @@ export function FooterCalcLinks() {
             >
               {item.label}
             </CalcAnchorLink>
+          </li>
+        ))}
+        {siteContent.calcPageLinks.map((link) => (
+          <li key={link.href}>
+            <Link href={link.href} className={`${base} ${idle}`}>
+              {link.label}
+            </Link>
           </li>
         ))}
       </ul>

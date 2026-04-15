@@ -13,10 +13,11 @@ components/
   home/                 HomeInteractiveShell, SmoothHashLink, TrustAndFaqSection
   layout/               SiteShell, SiteSidebar, SiteFooter, ArticleShell, Breadcrumbs, AdSlot, CalcAnchorLink
   mini/                 ИМТ, вода, темп веса (дефицит+профицит в одном якоре); MiniCalculators — сетка и id
+  meal-plan/            калькулятор питания: `MealPlanCalculator`, `MealPlanProductPrefsPanel` (поиск + чипы); домен — `lib/meal-plan*.ts`, query `exclude`/`prefer` — `lib/meal-plan-prefs.ts`
   seo/                  JsonLd
 content/
   site.ts               бренд, SEO-строки, навигация (calcQuickLinks + articleNavLinks)
-  seo-routes.ts         title/description/keywords и каноникалы по статьям
+  seo-routes.ts         title/description/keywords и каноникалы по статьям; ключи = индексируемые URL + sitemap
   calculator-ux.ts      RU-строки UI калькулятора; дефицит — синхрон с DEFICIT_ROWS
   trust-public.ts       блок доверия на главной; FAQ = источник для JSON-LD FAQPage
 contexts/               MainFormToMiniSync: рост/вес/TDEE → мини-калькуляторы
@@ -56,6 +57,7 @@ docs/                   этот файл
 - **Новая статья (URL)**: `app/<slug>/page.tsx` (`metadata`, `ArticleShell`, контент), строка в `siteContent.articleNavLinks`, запись в `content/seo-routes.ts`, URL попадёт в `app/sitemap.ts` через ключи `articleSeoByPath`.
 - **Дефицит + профицит (справка)**: один маршрут `app/deficit-kalorij/page.tsx`; якоря в тексте `#deficit`, `#profic`. Отдельный URL под набор не заводить — плодит дубли и путает меню.
 - **Новый якорь на главной**: согласовать `app/page.tsx`, `MiniCalculators.tsx` (или другой блок) и `calcQuickLinks` в `content/site.ts`.
+- **Калькулятор питания** (`/kalkulyator-pitaniya/`): продукты и id — `lib/meal-plan-products.ts`; тексты порций — `lib/meal-plan-suggestions.ts`; строки UI — `content/meal-plan-ux.ts`. Новый продукт: id в union + `ALL_MEAL_PLAN_PRODUCT_IDS` + логика в suggestions.
 
 ## Навигация и якоря (важно для ИИ)
 
@@ -70,6 +72,13 @@ docs/                   этот файл
 - Публичный экспорт виджета калорий: `components/calorie/index.ts` → `CalorieCalculator`.
 - Общие layout-компоненты реэкспортируются из `components/layout/index.ts`.
 
+## Мёртвый код и производительность (для ИИ)
+
+- Строки в `content/*-ux.ts` должны реально использоваться в компонентах; не оставлять «запасные» ключи без импорта — они путают поиск по проекту.
+- Тяжёлый клиент: калькулятор питания — `dynamic()` + `Suspense` на странице; мини-калькуляторы на главной — `DeferredMiniCalculators` (IntersectionObserver + `dynamic(..., { ssr: false })`), чтобы не раздувать первый бандл.
+- Дорогие пересчёты в клиентских виджетах — `useMemo`; где дочерние компоненты обёрнуты в `memo`, колбэки в пропсы — стабильные (`useCallback` + refs при необходимости), см. `MealPlanCalculator`.
+- Новые зависимости в `package.json` — только при необходимости; проект сознательно без лишних UI-библиотек.
+
 ## Именование
 
 - Домен: `kebab-case.ts`, смысл в имени (`calorie-result.ts`).
@@ -81,6 +90,7 @@ docs/                   этот файл
 
 ## Мобильная вёрстка и safe-area
 
+- Фон `body`: градиенты с `background-attachment: scroll` до `md`, `fixed` только от `768px` — иначе на телефонах страдает плавность скролла (`app/globals.css`).
 - Главный калькулятор: при показе результата нижний отступ обёртки в `CalorieCalculator` — чтобы текст не прятался под фиксированную `CalorieMobileTdeeBar`; у самой плашки в inline-стилях учтены `safe-area-inset-*` (вырез, «домой»).
 - В `layout.tsx` задано `viewport.viewportFit: "cover"`, чтобы работали `env(safe-area-inset-*)` на iPhone.
 - Класс **`.app-gutter-x`** — горизонтальные поля контента (не уже 1rem / 1.5rem на md и с учётом выреза).
@@ -106,7 +116,7 @@ docs/                   этот файл
 | `app/layout.tsx` | `metadataBase`, шаблон `title`, общие robots/OG locale; **без** глобального canonical `/`. |
 | `app/page.tsx` | `export const metadata = buildHomeMetadata()` — полный title главной, canonical `/`. |
 | `app/not-found.tsx` | 404, `robots: { index: false }`. |
-| `app/robots.ts`, `app/sitemap.ts` | `robots.txt`; sitemap + `alternates.languages` (`ru-RU`, `x-default`). |
+| `app/robots.ts`, `app/sitemap.ts` | `robots.txt`; sitemap + `alternates.languages` (`ru-RU`, `x-default`). `lastModified` в sitemap берётся из `homeSeo.lastModified` и дат статей в `articleSeoByPath` (`lib/seo-page-metadata.ts`), не из времени сборки. |
 | `app/manifest.ts` | Web app manifest (`categories` для PWA/витрин). |
 | `components/seo/JsonLd.tsx` | Вставка `<script type="application/ld+json">`. |
 | `.env.example` | Пример переменных для продакшена. |

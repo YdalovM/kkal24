@@ -38,6 +38,19 @@ function articleIsoDates(cfg: ArticleSeoEntry): {
   return { published, modified };
 }
 
+/** Для `app/sitemap.xml`: реальные даты из SEO, а не время сборки. */
+export function sitemapLastModifiedForHome(): Date {
+  return new Date(homeSeo.lastModified);
+}
+
+export function sitemapLastModifiedForArticle(
+  path: ArticleCanonicalPath,
+): Date {
+  const cfg = articleSeoByPath[path];
+  const { modified } = articleIsoDates(cfg);
+  return new Date(modified);
+}
+
 /**
  * Метаданные главной: полный title (без шаблона), canonical `/`, OG и Twitter.
  */

@@ -7,7 +7,11 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Suspense, type ReactNode } from "react";
 import { CalorieCalculator } from "@/components/calorie";
-import { HomeInteractiveShell, TrustAndFaqSection } from "@/components/home";
+import {
+  HomeInteractiveShell,
+  MealPlanHomePromo,
+  TrustAndFaqSection,
+} from "@/components/home";
 import { DeferredMiniCalculators } from "@/components/mini/DeferredMiniCalculators";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { calculatorUx } from "@/content/calculator-ux";
@@ -76,6 +80,8 @@ export default function Home() {
                 </div>
               </CalculatorSection>
 
+              <MealPlanHomePromo />
+
               <div
                 className={`h-px w-full ${styles.sectionDivider}`}
                 aria-hidden
@@ -92,11 +98,30 @@ export default function Home() {
 
         <TrustAndFaqSection />
 
-        {/* Перекрёстные ссылки на статьи — внутренняя перелинковка для SEO */}
+        {/* Перекрёстные ссылки — внутренняя перелинковка для SEO */}
         <nav
-          aria-label="Статьи и материалы"
+          aria-label="Калькуляторы и материалы"
           className="mt-12 border-t border-border pt-8"
         >
+          {siteContent.calcPageLinks.length > 0 ? (
+            <>
+              <p className="mb-4 text-xs font-medium uppercase tracking-widest text-fg-subtle">
+                Калькуляторы
+              </p>
+              <ul className="mb-8 grid grid-cols-1 gap-2 min-[400px]:grid-cols-2 sm:grid-cols-3">
+                {siteContent.calcPageLinks.map((link) => (
+                  <li key={link.href}>
+                    <Link
+                      href={link.href}
+                      className="touch-manipulation flex min-h-11 items-center rounded-lg border border-border bg-elevated/60 px-3 py-2.5 text-xs leading-snug text-fg-muted transition-[border-color,background-color,color,transform] duration-200 [hyphens:auto] hover:-translate-y-px hover:border-accent/50 hover:bg-accent/[0.06] hover:text-fg motion-reduce:hover:translate-y-0"
+                    >
+                      {link.label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </>
+          ) : null}
           <p className="mb-4 text-xs font-medium uppercase tracking-widest text-fg-subtle">
             Полезные материалы
           </p>

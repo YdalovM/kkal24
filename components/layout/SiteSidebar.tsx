@@ -17,7 +17,7 @@ type SiteSidebarProps = {
 /**
  * Постоянный сайдбар: единственный источник структуры меню в боковой колонке.
  * Списки берутся из `siteContent` — не дублируйте URL вручную в JSX.
- * ИИ: активный якорь на главной зависит от `useLocationHash` + `normalizeAppPath`.
+ * ИИ: подсветка «текущего» якоря на главной — в `useLocationHash` (хэш), не в этом файле.
  */
 export function SiteSidebar({ onNavigate }: SiteSidebarProps) {
   const afterNav = () => {
@@ -46,6 +46,13 @@ export function SiteSidebar({ onNavigate }: SiteSidebarProps) {
               >
                 {item.label}
               </a>
+            </li>
+          ))}
+          {siteContent.calcPageLinks.map((link) => (
+            <li key={link.href}>
+              <Link href={link.href} className={linkRow} onClick={afterNav}>
+                {link.label}
+              </Link>
             </li>
           ))}
         </ul>

@@ -6,6 +6,18 @@
   .heroAccent {
     text-shadow: 0 0 14px color-mix(in srgb, var(--app-accent) 28%, transparent);
   }
+
+  .calculatorShell {
+    transform: none;
+    background-color: color-mix(in srgb, var(--app-surface) 68%, transparent);
+    box-shadow:
+      0 8px 24px rgba(0, 0, 0, 0.28),
+      0 0 0 1px color-mix(in srgb, var(--app-accent) 8%, transparent);
+  }
+
+  .calculatorShell::before {
+    display: none;
+  }
 }
 
 .calculatorShell {

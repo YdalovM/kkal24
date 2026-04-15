@@ -16,6 +16,7 @@ import {
   CALORIE_TOOL_INPUT,
   CALORIE_TOOL_LABEL,
   CALORIE_TOOL_SHELL,
+  CALORIE_WIDGET_HEADLINE,
   CALORIE_WIDGET_SHELL,
 } from "@/components/calorie/calorie-field-classes";
 import { ActivityLevelSelect } from "@/components/calorie/ActivityLevelSelect";
@@ -76,11 +77,11 @@ export function CalorieFormCard(props: CalorieFormCardProps) {
     >
       <div className={CALORIE_WIDGET_SHELL}>
         <div
-          className="pointer-events-none absolute -bottom-20 -left-20 h-56 w-56 rounded-full bg-accent/[0.06] blur-3xl motion-reduce:opacity-40"
+          className="pointer-events-none absolute -bottom-20 -left-20 hidden h-56 w-56 rounded-full bg-accent/[0.06] blur-3xl motion-reduce:opacity-40 md:block"
           aria-hidden
         />
         <div
-          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_85%_55%_at_50%_-10%,rgba(95,184,173,0.14),transparent_55%)] motion-reduce:hidden"
+          className="pointer-events-none absolute inset-0 hidden bg-[radial-gradient(ellipse_85%_55%_at_50%_-10%,rgba(95,184,173,0.14),transparent_55%)] motion-reduce:hidden md:block"
           aria-hidden
         />
 
@@ -89,7 +90,7 @@ export function CalorieFormCard(props: CalorieFormCardProps) {
             <span id="cal-widget-sr-hint" className="sr-only">
               {ux.widgetSrHint}
             </span>
-            <h3 className="text-balance text-[1.2rem] font-bold leading-snug tracking-tight text-fg sm:text-[1.4rem]">
+            <h3 className={CALORIE_WIDGET_HEADLINE}>
               {ux.widgetHeadlineStem}{" "}
               <span className="text-accent">{ux.widgetHeadlineFormula}</span>
             </h3>

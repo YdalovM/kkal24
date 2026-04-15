@@ -76,3 +76,10 @@ export const whoHealthyDietRu: ExternalRef = {
   label: "ВОЗ — здоровое питание",
   localeNote: "официально, RU",
 };
+
+/** База состава продуктов (для сверки с этикеткой и порций). */
+export const usdaFoodDataCentral: ExternalRef = {
+  href: "https://fdc.nal.usda.gov/",
+  label: "USDA FoodData Central — база состава продуктов",
+  localeNote: "EN, открытый поиск",
+};

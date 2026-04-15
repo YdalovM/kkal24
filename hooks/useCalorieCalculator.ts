@@ -55,7 +55,10 @@ export function useCalorieCalculator() {
   const pathname = usePathname();
   const pushToMinis = useMainFormToMiniSyncOptional();
   const pushToMinisRef = useRef(pushToMinis);
-  pushToMinisRef.current = pushToMinis;
+
+  useEffect(() => {
+    pushToMinisRef.current = pushToMinis;
+  }, [pushToMinis]);
 
   const [sex, setSex] = useState<Sex>("m");
   const [age, setAge] = useState("");
@@ -99,64 +102,66 @@ export function useCalorieCalculator() {
   );
 
   useEffect(() => {
-    const parsed = parseShareSearchParams(
-      new URLSearchParams(searchParamsKey),
-    );
-    const hasQuery =
-      parsed.sex != null ||
-      parsed.age != null ||
-      parsed.height != null ||
-      parsed.weight != null ||
-      parsed.activity != null ||
-      parsed.pal != null;
+    queueMicrotask(() => {
+      const parsed = parseShareSearchParams(
+        new URLSearchParams(searchParamsKey),
+      );
+      const hasQuery =
+        parsed.sex != null ||
+        parsed.age != null ||
+        parsed.height != null ||
+        parsed.weight != null ||
+        parsed.activity != null ||
+        parsed.pal != null;
 
-    if (hasQuery) {
-      applyParsedQuery(parsed);
-      if (
-        parsed.sex != null &&
-        parsed.age != null &&
-        parsed.height != null &&
-        parsed.weight != null
-      ) {
-        const act = (parsed.activity ?? DEFAULT_ACTIVITY_INDEX) as ActivityIndex;
-        const palO = parsed.pal ?? null;
-        try {
-          const built = buildCalorieResult(
-            parsed.sex,
-            parsed.age,
-            parsed.height,
-            parsed.weight,
-            act,
-            palO,
-          );
-          setResult(built);
-          pushToMinisRef.current?.(
-            String(parsed.height),
-            String(parsed.weight),
-            built.tdee,
-          );
-          prevTdeeAfterUserCalcRef.current = built.tdee;
-        } catch {
+      if (hasQuery) {
+        applyParsedQuery(parsed);
+        if (
+          parsed.sex != null &&
+          parsed.age != null &&
+          parsed.height != null &&
+          parsed.weight != null
+        ) {
+          const act = (parsed.activity ?? DEFAULT_ACTIVITY_INDEX) as ActivityIndex;
+          const palO = parsed.pal ?? null;
+          try {
+            const built = buildCalorieResult(
+              parsed.sex,
+              parsed.age,
+              parsed.height,
+              parsed.weight,
+              act,
+              palO,
+            );
+            setResult(built);
+            pushToMinisRef.current?.(
+              String(parsed.height),
+              String(parsed.weight),
+              built.tdee,
+            );
+            prevTdeeAfterUserCalcRef.current = built.tdee;
+          } catch {
+            setResult(null);
+            prevTdeeAfterUserCalcRef.current = null;
+          }
+        } else {
           setResult(null);
           prevTdeeAfterUserCalcRef.current = null;
         }
       } else {
+        const saved = loadCalorieFormFromStorage();
+        if (saved) {
+          if (saved.sex) setSex(saved.sex);
+          if (saved.age != null) setAge(saved.age);
+          if (saved.height != null) setHeight(saved.height);
+          if (saved.weight != null) setWeight(saved.weight);
+          if (saved.activity != null) setActivity(saved.activity);
+          if (saved.palOverride !== undefined) setPalOverride(saved.palOverride);
+        }
         setResult(null);
         prevTdeeAfterUserCalcRef.current = null;
       }
-    } else {
-      const saved = loadCalorieFormFromStorage();
-      if (saved) {
-        if (saved.sex) setSex(saved.sex);
-        if (saved.age != null) setAge(saved.age);
-        if (saved.height != null) setHeight(saved.height);
-        if (saved.weight != null) setWeight(saved.weight);
-        if (saved.activity != null) setActivity(saved.activity);
-        if (saved.palOverride !== undefined) setPalOverride(saved.palOverride);
-      }
-      setResult(null);
-      prevTdeeAfterUserCalcRef.current = null;
-    }
+    });
   }, [applyParsedQuery, searchParamsKey]);
 
   const onCalculate = useCallback(() => {

@@ -39,8 +39,10 @@ export function BmiMini() {
 
   useEffect(() => {
     if (revision < 1) return;
-    if (lastHeight !== "") setH(lastHeight);
-    if (lastWeight !== "") setW(lastWeight);
+    queueMicrotask(() => {
+      if (lastHeight !== "") setH(lastHeight);
+      if (lastWeight !== "") setW(lastWeight);
+    });
   }, [revision, lastHeight, lastWeight]);
 
   const bmi = useMemo(() => {

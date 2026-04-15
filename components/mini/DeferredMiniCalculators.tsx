@@ -20,7 +20,9 @@ export function DeferredMiniCalculators() {
     if (shouldLoad) return;
     const node = triggerRef.current;
     if (!node || typeof IntersectionObserver === "undefined") {
-      setShouldLoad(true);
+      queueMicrotask(() => {
+        setShouldLoad(true);
+      });
       return;
     }
 

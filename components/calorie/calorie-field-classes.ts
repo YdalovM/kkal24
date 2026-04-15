@@ -3,6 +3,7 @@
  *
  * ИИ:
  * - `CALORIE_FORM_*` / `CALORIE_TOOL_*` — только `CalorieFormCard`.
+ * - `CALORIE_WIDGET_HEADLINE` — шапка виджета: `CalorieFormCard` и `MealPlanCalculator`.
  * - `CALORIE_CARD_CLASS` — панель результата и мини-секции (`MINI_SECTION_CLASS` импортирует его).
  * - Глобальные хелперы: `input-no-spin` в `app/globals.css`; цвета — токены `:root`.
  */
@@ -20,7 +21,12 @@ export const CALORIE_TOOL_BODY = "flex min-w-0 flex-col";
  */
 export const CALORIE_WIDGET_SHELL =
   "relative isolate overflow-visible rounded-2xl border border-accent/30 bg-elevated " +
-  "shadow-[0_0_0_1px_rgba(95,184,173,0.12),0_28px_56px_-18px_rgba(0,0,0,0.72)]";
+  "shadow-[0_0_0_1px_rgba(95,184,173,0.1),0_14px_30px_-18px_rgba(0,0,0,0.62)] " +
+  "md:shadow-[0_0_0_1px_rgba(95,184,173,0.12),0_28px_56px_-18px_rgba(0,0,0,0.72)]";
+
+/** Заголовок в шапке виджета (главная + калькулятор питания): заметно крупнее текста формы. */
+export const CALORIE_WIDGET_HEADLINE =
+  "text-balance text-2xl font-bold leading-snug tracking-tight text-fg sm:text-3xl";
 
 /** Внутренний блок только полей ввода. */
 export const CALORIE_FORM_PANEL =

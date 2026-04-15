@@ -20,7 +20,9 @@ export function WaterMini() {
 
   useEffect(() => {
     if (revision < 1) return;
-    if (lastWeight !== "") setW(lastWeight);
+    queueMicrotask(() => {
+      if (lastWeight !== "") setW(lastWeight);
+    });
   }, [revision, lastWeight]);
 
   const ml = useMemo(() => {

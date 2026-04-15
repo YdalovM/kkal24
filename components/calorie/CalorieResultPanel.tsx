@@ -7,7 +7,8 @@
  * ИИ: при смене `DEFICIT_ROWS` обновите подписи в `content/calculator-ux.ts` (`deficitLabels*`).
  */
 
-import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useMemo, useState } from "react";
 import { CALORIE_CARD_CLASS } from "@/components/calorie/calorie-field-classes";
 import { calculatorUx } from "@/content/calculator-ux";
 import type { CalorieCalculationResult } from "@/lib/calorie-result";
@@ -31,11 +32,8 @@ export function CalorieResultPanel({
   id = "calorie-result",
 }: CalorieResultPanelProps) {
   const r = calculatorUx.results;
+  /** Сброс на TDEE при новом `result` — через `key` на стороне `CalorieCalculator`, без setState в эффекте. */
   const [energyBasis, setEnergyBasis] = useState<EnergyBasis>("tdee");
-
-  useEffect(() => {
-    setEnergyBasis("tdee");
-  }, [result.tdee, result.bmrRounded]);
 
   const basisKcal = energyBasis === "tdee" ? result.tdee : result.bmrRounded;
 
@@ -83,6 +81,27 @@ export function CalorieResultPanel({
       >
         <h2 className="text-lg font-semibold tracking-tight text-fg">{r.title}</h2>
         <p className="mt-1 text-sm text-fg-muted">{result.palLabel}</p>
+        <p className="mt-2 text-xs text-fg-subtle">
+          <span>{r.productsCalorieHint} </span>
+          <Link
+            href="/kkal-produktov/"
+            className="font-medium text-accent underline decoration-accent/35 decoration-1 underline-offset-2 hover:decoration-accent"
+          >
+            {r.productsCalorieLinkLabel}
+          </Link>
+        </p>
+        <div className="mt-4 rounded-xl border border-accent/30 bg-accent/[0.07] p-3 sm:p-4">
+          <p className="text-sm font-semibold text-fg">{r.mealPlanCardTitle}</p>
+          <p className="mt-1.5 text-xs leading-relaxed text-fg-muted">
+            {r.mealPlanCardBody.replace("{kcal}", String(basisKcal))}
+          </p>
+          <Link
+            href={`/kalkulyator-pitaniya/?kcal=${basisKcal}&meals=3&preset=equal`}
+            className="mt-3 inline-flex min-h-[44px] w-full touch-manipulation items-center justify-center rounded-lg bg-accent px-4 py-2.5 text-center text-sm font-semibold text-on-accent shadow-md shadow-black/20 transition-[background-color,transform] hover:bg-accent-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent active:scale-[0.99] motion-reduce:active:scale-100 sm:w-auto"
+          >
+            {r.mealPlanCardCta}
+          </Link>
+        </div>
       </div>
 
       <div>
