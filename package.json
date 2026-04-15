@@ -13,7 +13,7 @@
     "ios_saf >= 15.4"
   ],
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build && node scripts/strip-favicon-query.mjs",
     "start": "npx serve@latest out -p 3000",
     "lint": "eslint"

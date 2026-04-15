@@ -59,4 +59,10 @@ export const siteContent = {
     { href: "/o-proekte/", label: "О проекте" },
     { href: "/politika-konfidencialnosti/", label: "Конфиденциальность" },
   ] as const,
+
+  /** Подпись разработчика в футере (DayLab, без ФИО в UI). */
+  developerCredit: {
+    label: "Разработка DayLab",
+    url: "https://t.me/prostp_proga",
+  },
 } as const;

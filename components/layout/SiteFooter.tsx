@@ -47,6 +47,17 @@ export function SiteFooter() {
         <p className="text-fg-dim">
           Редакция: {siteContent.contentRevision}.
         </p>
+
+        <p className="text-fg-dim">
+          <a
+            href={siteContent.developerCredit.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-fg-subtle underline decoration-border underline-offset-2 hover:text-fg-muted"
+          >
+            {siteContent.developerCredit.label}
+          </a>
+        </p>
       </div>
     </footer>
   );
