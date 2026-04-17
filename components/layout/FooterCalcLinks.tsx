@@ -1,7 +1,4 @@
-"use client";
-
 import Link from "next/link";
-import { CalcAnchorLink } from "@/components/layout/CalcAnchorLink";
 import { footerNavLinkClass } from "@/components/layout/footer-nav-link-classes";
 import { siteContent } from "@/content/site";
 
@@ -19,12 +16,9 @@ export function FooterCalcLinks() {
       <ul className="flex flex-wrap gap-x-1 gap-y-1">
         {siteContent.calcQuickLinks.map((item) => (
           <li key={item.anchorId}>
-            <CalcAnchorLink
-              anchorId={item.anchorId}
-              className={`${base} ${idle}`}
-            >
+            <Link href={`/#${item.anchorId}`} className={`${base} ${idle}`}>
               {item.label}
-            </CalcAnchorLink>
+            </Link>
           </li>
         ))}
         {siteContent.calcPageLinks.map((link) => (
