@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArticleCard,
+  ArticleCardGrid,
+  ArticleFaq,
+  ArticleHighlight,
   ArticleLeadSummary,
   ArticleSources,
   ArticleWhatIsBlurb,
@@ -15,7 +19,7 @@ import {
 } from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
-import { NN, NB } from "@/lib/typography";
+import { NN } from "@/lib/typography";
 
 export const metadata: Metadata = buildArticleMetadata("/norma-vody/");
 
@@ -29,173 +33,195 @@ export default function WaterPage() {
     <>
       <JsonLd data={buildArticleWebPageJsonLd("/norma-vody/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
-      <h1>Норма воды в день</h1>
-      <ArticleWhatIsBlurb path="/norma-vody/" />
-      <ArticleLeadSummary>
+        <h1>Норма воды в день</h1>
+        <ArticleWhatIsBlurb path="/norma-vody/" />
+        <ArticleLeadSummary>
+          <p>
+            Универсальных «двух литров всем» нет. В быту ориентир чаще задают
+            как <strong>30–35 мл на кг</strong> массы тела в сутки.
+          </p>
+          <p>
+            Но жара, спорт, грудное вскармливание и некоторые болезни меняют
+            потребность. Поэтому расчёт — это только отправная точка.
+          </p>
+        </ArticleLeadSummary>
+
+        <AdSlot id="ad-water-top" />
+
+        <h2>Что считать нормой</h2>
+        <ArticleCardGrid>
+          <ArticleCard eyebrow="Что входит" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Вода, чай, кофе, супы и часть жидкости из еды.
+          </ArticleCard>
+          <ArticleCard eyebrow="Что не подходит" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Слепое правило «2 литра всем» без учёта веса, климата и нагрузки.
+          </ArticleCard>
+        </ArticleCardGrid>
         <p>
-          Универсальных «двух литров всем» нет: ориентир чаще задают как{" "}
-          <strong>30–35{NN}мл на кг</strong> массы тела в сутки{" "}
-          <strong>суммарно</strong> по всей жидкости (вода, чай, супы, вода из еды).
+          В официальных справочниках нормы чаще дают не в мл/кг, а как{" "}
+          <strong>общую воду за сутки</strong>. Например, EFSA приводит
+          ориентиры порядка 2,0{NN}л для женщин и 2,5{NN}л для мужчин, включая
+          жидкость из напитков и еды.
         </p>
+
+        <h2>Ориентир 30–35 мл на кг</h2>
+        <ArticleHighlight eyebrow="Пример">
+          <p className="mt-3 rounded-xl border border-border/70 bg-page/40 px-4 py-4 text-sm font-medium leading-7 text-fg">
+            70 кг × 35 мл = 2{NN}450 мл в сутки
+          </p>
+          <p className="mt-4 text-sm leading-6 text-fg-muted">
+            Это около <strong className="text-fg">2,4–2,5 л</strong> общей жидкости
+            в день, а не обязательно только чистой воды.
+          </p>
+        </ArticleHighlight>
+
+        <ArticleCardGrid>
+          <ArticleCard
+            title="50 кг"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,5–1,75 л
+              </span>
+            }
+          />
+          <ArticleCard
+            title="60 кг"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,8–2,1 л
+              </span>
+            }
+          />
+          <ArticleCard
+            title="70 кг"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                2,1–2,45 л
+              </span>
+            }
+          />
+          <ArticleCard
+            title="80 кг"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                2,4–2,8 л
+              </span>
+            }
+          />
+          <ArticleCard
+            title="90 кг"
+            className="sm:col-span-2"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                2,7–3,15 л
+              </span>
+            }
+          />
+        </ArticleCardGrid>
+
+        <h2>Что увеличивает потребность в воде</h2>
+        <ArticleCardGrid>
+          <ArticleCard title="Физическая активность">
+            При длительной или интенсивной нагрузке потери пота заметно растут,
+            поэтому пить часто нужно больше обычного.
+          </ArticleCard>
+          <ArticleCard title="Жара и влажность">
+            Потоотделение возрастает, и потребность легко увеличивается ещё на 0,5–1 л и более.
+          </ArticleCard>
+          <ArticleCard title="Соль и белок">
+            Высокосолевая и высокобелковая еда повышает нагрузку на водный обмен.
+          </ArticleCard>
+          <ArticleCard title="Грудное вскармливание">
+            Потребность обычно увеличивается, ориентировочно ещё примерно на 700 мл в сутки.
+          </ArticleCard>
+        </ArticleCardGrid>
+
+        <AdSlot id="ad-water-mid" />
+
+        <h2>Признаки недостатка воды</h2>
+        <ArticleCardGrid columns={3}>
+          <ArticleCard title="Тёмная моча">
+            Светло-жёлтый цвет обычно спокойнее, чем тёмно-жёлтый.
+          </ArticleCard>
+          <ArticleCard title="Вялость и головная боль">
+            Недостаток жидкости может снижать концентрацию и общее самочувствие.
+          </ArticleCard>
+          <ArticleCard title="Редкое мочеиспускание">
+            Если мочеиспускание стало заметно реже обычного, это повод посмотреть,
+            хватает ли жидкости.
+          </ArticleCard>
+        </ArticleCardGrid>
+        <div className="callout">
+          <p>
+            Практичный бытовой ориентир от NHS — не ждать сильной жажды, а
+            следить, чтобы моча чаще была бледно-жёлтой, а не тёмной.
+          </p>
+        </div>
+
+        <h2>Когда общие расчёты не подходят</h2>
+        <div className="callout">
+          <p>
+            При болезнях почек, сердечной недостаточности, отёках неясного
+            происхождения или приёме мочегонных препаратов нормы воды должен
+            определять врач.
+          </p>
+        </div>
         <p>
-          Жара, спорт, грудное вскармливание и ряд болезней сдвигают норму вверх или
-          вниз. Ниже — таблица и признаки обезвоживания; при отёках, болезнях почек
-          и сердца ориентиры задаёт только врач.
+          Кроме того, значительная часть воды поступает с едой: овощи, фрукты,
+          супы и молочные продукты могут давать заметную долю суточной жидкости.
         </p>
-      </ArticleLeadSummary>
-      <p>
-        Фраза «пейте 2 литра в день» часто упрощает картину: у части людей это
-        разумно, у части — избыточно или недостаточно без учёта контекста.
-      </p>
 
-      <AdSlot id="ad-water-top" />
+        <YmylWhenDoctorBlock />
 
-      <h2>Модель расчёта: 35 мл на кг веса</h2>
-      <p>
-        Один из наиболее распространённых ориентиров — 30–35{NN}мл воды на
-        1{NN}кг массы тела в сутки. Это включает всю поступающую жидкость:
-        воду, чай, кофе, супы и воду из продуктов питания.
-      </p>
-      <p>
-        Пример: человек весом 70{NN}кг × 35{NN}мл = 2{NN}450{NN}мл/сут ≈
-        2,4–2,5{NN}л общей жидкости.
-      </p>
-      <table>
-        <thead>
-          <tr>
-            <th>Вес (кг)</th>
-            <th>Ориентир 30 мл/кг</th>
-            <th>Ориентир 35 мл/кг</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>50</td>
-            <td>1,5 л</td>
-            <td>1,75 л</td>
-          </tr>
-          <tr>
-            <td>60</td>
-            <td>1,8 л</td>
-            <td>2,1 л</td>
-          </tr>
-          <tr>
-            <td>70</td>
-            <td>2,1 л</td>
-            <td>2,45 л</td>
-          </tr>
-          <tr>
-            <td>80</td>
-            <td>2,4 л</td>
-            <td>2,8 л</td>
-          </tr>
-          <tr>
-            <td>90</td>
-            <td>2,7 л</td>
-            <td>3,15 л</td>
-          </tr>
-        </tbody>
-      </table>
+        <h2>Часто задаваемые вопросы</h2>
+        <ArticleFaq
+          items={[
+            {
+              question: "Кофе и чай считаются?",
+              answer:
+                "Да. При умеренном потреблении вода из этих напитков учитывается. Алкоголь — другая история: он действительно может обезвоживать.",
+            },
+            {
+              question: "Можно ли выпить слишком много воды?",
+              answer:
+                "Да, хотя в обычной жизни это редкость. Особенно это актуально при очень больших объёмах за короткое время, например на длинных дистанциях.",
+            },
+            {
+              question: "Нужно ли добирать именно чистую воду?",
+              answer:
+                "Не всегда. Часть жидкости приходит с едой и напитками, поэтому расчёт не равен автоматически количеству чистой воды из бутылки.",
+            },
+          ]}
+        />
 
-      <h2>Что увеличивает потребность в воде</h2>
-      <ul>
-        <li>
-          <strong>Физическая активность</strong> — при тренировке средней
-          интенсивности теряется 0,5–1{NN}л в час в виде пота.
-        </li>
-        <li>
-          <strong>Жаркая погода и высокая влажность</strong> — потоотделение
-          возрастает, потребность увеличивается на 0,5–1{NN}л и более.
-        </li>
-        <li>
-          <strong>Высокобелковая или высокосолевая диета</strong> — почкам
-          требуется больше воды для выведения продуктов обмена.
-        </li>
-        <li>
-          <strong>Больничная или жаркая среда</strong> — повышенная температура
-          воздуха ускоряет потери жидкости.
-        </li>
-        <li>
-          <strong>Кормление грудью</strong> — норма увеличивается примерно на
-          700{NN}мл/сут.
-        </li>
-      </ul>
+        <div className="article-cta">
+          <Link href="/#calc-extra">Рассчитать норму воды онлайн →</Link>
+        </div>
 
-      <AdSlot id="ad-water-mid" />
+        <ArticleSources
+          intro="Оставил международные справочные источники и русскоязычный обзор ВОЗ как базу для бытовых ориентиров."
+          items={[efsaWaterDrv2010, whoDrinkingWaterEn, whoHealthyDietRu]}
+        />
 
-      <h2>Признаки недостаточного потребления воды</h2>
-      <p>
-        Жажда — уже поздний сигнал: к её появлению организм успевает потерять
-        около 1–2{NN}% жидкости. Более ранние ориентиры:
-      </p>
-      <ul>
-        <li>Тёмно-жёлтая моча (светло-жёлтая — норма, почти прозрачная — перебор).</li>
-        <li>Снижение концентрации, головная боль, вялость.</li>
-        <li>Редкие мочеиспускания (менее 3–4 раз в сутки).</li>
-      </ul>
-
-      <h2>Ограничения расчёта</h2>
-      <div className="callout">
-        <p>
-          При заболеваниях почек, сердечной недостаточности, отёках неясного
-          происхождения или приёме мочегонных препаратов нормы потребления воды
-          должны определять только врач. Не ориентируйтесь на общие расчёты.
-        </p>
-      </div>
-      <p>
-        Кроме того, значительная часть воды поступает с едой: овощи, фрукты,
-        супы, молочные продукты. При смешанном питании это может составлять
-        800{NN}мл–1{NN}л{NB}в сутки, то есть «чистой» воды нужно меньше,
-        чем показывает расчёт.
-      </p>
-
-      <YmylWhenDoctorBlock />
-
-      <h2>Часто задаваемые вопросы</h2>
-
-      <h3>Кофе и чай считаются?</h3>
-      <p>
-        Да. Диуретический эффект кофеина при умеренном потреблении (2–3 чашки)
-        незначителен и{NB}не «отменяет» воду из этих напитков. Алкоголь — иначе:
-        он действительно обезвоживает.
-      </p>
-
-      <h3>Можно ли выпить слишком много воды?</h3>
-      <p>
-        Да, хотя это редкость в обычной жизни. Гипонатриемия (разбавление натрия
-        в крови) возникает при очень больших объёмах жидкости за короткое время.
-        Практически это касается прежде всего марафонцев и спортсменов на
-        сверхдлинных дистанциях.
-      </p>
-
-      <div className="article-cta">
-        <Link href="/#calc-extra">Рассчитать норму воды онлайн →</Link>
-      </div>
-
-      <ArticleSources
-        intro="Справочные значения потребления воды — у международных организаций; на бытовом уровне ориентиры всё равно индивидуальны."
-        items={[efsaWaterDrv2010, whoDrinkingWaterEn, whoHealthyDietRu]}
-      />
-
-      <h2>Связанные материалы</h2>
-      <ul>
-        <li>
-          <Link href="/#calc-main">Калькулятор калорий на главной</Link>
-        </li>
-        <li>
-          <Link href="/bmr-i-tdee/">BMR и TDEE</Link>
-        </li>
-        <li>
-          <Link href="/deficit-kalorij/">Дефицит и профицит калорий</Link>
-        </li>
-        <li>
-          <Link href="/imt/">ИМТ — справка</Link>
-        </li>
-        <li>
-          <Link href="/o-proekte/">О проекте и методологии</Link>
-        </li>
-      </ul>
-    </ArticleShell>
+        <h2>Связанные материалы</h2>
+        <ul>
+          <li>
+            <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+          </li>
+          <li>
+            <Link href="/bmr-i-tdee/">BMR и TDEE</Link>
+          </li>
+          <li>
+            <Link href="/deficit-kalorij/">Дефицит и профицит калорий</Link>
+          </li>
+          <li>
+            <Link href="/imt/">ИМТ — справка</Link>
+          </li>
+          <li>
+            <Link href="/o-proekte/">О проекте и методологии</Link>
+          </li>
+        </ul>
+      </ArticleShell>
     </>
   );
 }

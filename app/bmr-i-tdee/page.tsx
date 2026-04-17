@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArticleCard,
+  ArticleCardGrid,
+  ArticleFaq,
+  ArticleHighlight,
   ArticleLeadSummary,
   ArticleSources,
   ArticleWhatIsBlurb,
@@ -12,6 +16,7 @@ import {
   faoWhoUnuHumanEnergy2004,
   frankenfieldMifflinDoi,
   nhsCaloriesOverview,
+  whoHealthyDietRu,
 } from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
@@ -33,25 +38,33 @@ export default function BmrTdeePage() {
         <ArticleWhatIsBlurb path="/bmr-i-tdee/" />
         <ArticleLeadSummary>
           <p>
-            <strong>BMR</strong> — ориентир обмена в покое;{" "}
-            <strong>TDEE</strong> = BMR × <strong>PAL</strong> (коэффициент
-            активности). От TDEE обычно отталкиваются при поддержании, снижении
-            или наборе веса.
+            <strong>BMR</strong> — это расход энергии в покое.{" "}
+            <strong>TDEE</strong> — суточная норма с учётом обычной активности.
+            Одна цифра отвечает на вопрос «сколько организм тратит без движения»,
+            вторая — «сколько примерно нужно на день».
           </p>
           <p>
-            Любая формула даёт лишь приближение: индивидуальная норма часто
-            отличается на порядка <strong>10–15{NN}%</strong>. Таблица PAL и примеры
-            — ниже.
+            Для бытового расчёта это удобная связка: сначала считают BMR, затем
+            переводят его в TDEE через коэффициент активности. Ниже — короткие
+            определения, формула и ориентиры по PAL.
           </p>
         </ArticleLeadSummary>
-        <p>
-          Прежде чем составлять рацион или считать дефицит, имеет смысл
-          зафиксировать обе цифры и затем смотреть на динамику веса 2–3 недели.
-        </p>
 
         <AdSlot id="ad-bmr-top" />
 
-        <h2>BMR — базальный метаболизм</h2>
+        <h2>Что такое BMR и TDEE</h2>
+        <ArticleCardGrid>
+          <ArticleCard eyebrow="BMR" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Базальный обмен: энергия на дыхание, работу сердца, почек,
+            поддержание температуры тела и другие процессы в полном покое.
+          </ArticleCard>
+          <ArticleCard eyebrow="TDEE" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Суточные энергозатраты с учётом образа жизни: шагов, работы,
+            тренировок и общего движения в течение дня.
+          </ArticleCard>
+        </ArticleCardGrid>
+
+        <h2>BMR — базальный обмен</h2>
         <p>
           <strong>BMR (Basal Metabolic Rate)</strong> — энергия, которую
           организм расходует в состоянии полного покоя: на дыхание, поддержание
@@ -74,125 +87,166 @@ export default function BmrTdeePage() {
           старые формулы вроде Харриса — Бенедикта, но для конкретного человека
           разброс всё равно остаётся.
         </p>
+        <div className="callout">
+          <p>
+            BMR — не норма калорий на весь день. Для суточной оценки нужен уже
+            TDEE, где учтена активность.
+          </p>
+        </div>
 
-        <h2>TDEE — суточная потребность в калориях</h2>
+        <h2>TDEE — суточная норма с учётом активности</h2>
         <p>
           <strong>TDEE (Total Daily Energy Expenditure)</strong> — полные
           суточные энергозатраты с учётом образа жизни и физической активности.
-          Рассчитывается по простой формуле:
+          Это более практичная цифра для питания, чем один только BMR.
         </p>
-        <p>
-          <strong>TDEE = BMR × PAL</strong>
-        </p>
+        <ArticleHighlight eyebrow="Формула">
+          <p className="mt-3 rounded-xl border border-border/70 bg-page/40 px-4 py-4 text-sm font-medium leading-7 text-fg">
+            TDEE = BMR × PAL
+          </p>
+          <p className="mt-4 text-sm leading-6 text-fg-muted">
+            Где <strong className="text-fg">PAL</strong> — коэффициент
+            физической активности. Чем активнее образ жизни, тем выше PAL и тем
+            больше калорий нужно организму.
+          </p>
+        </ArticleHighlight>
         <p>
           Где <strong>PAL (Physical Activity Level)</strong> — коэффициент
-          физической активности. Чем активнее образ жизни, тем выше PAL и тем
-          больше калорий нужно организму.
+          физической активности. Его сложнее всего оценить «на глаз», поэтому
+          люди чаще ошибаются именно здесь.
         </p>
 
-        <h2>Таблица коэффициентов активности PAL</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>Уровень активности</th>
-              <th>Кто подходит</th>
-              <th>PAL</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Минимальная</td>
-              <td>Лежачий режим, восстановление после болезни</td>
-              <td>1,2</td>
-            </tr>
-            <tr>
-              <td>Сидячая работа</td>
-              <td>Офис, редкие прогулки (1–2 дня в неделю)</td>
-              <td>1,375</td>
-            </tr>
-            <tr>
-              <td>Умеренная</td>
-              <td>Тренировки 3–5 дней в неделю + активный быт</td>
-              <td>1,55</td>
-            </tr>
-            <tr>
-              <td>Высокая</td>
-              <td>Тренировки 6–7 дней или физический труд</td>
-              <td>1,725</td>
-            </tr>
-            <tr>
-              <td>Очень высокая</td>
-              <td>Профессиональный спорт, тяжёлый физический труд</td>
-              <td>1,9</td>
-            </tr>
-          </tbody>
-        </table>
+        <h2>Коэффициенты активности PAL</h2>
+        <ArticleCardGrid>
+          <ArticleCard
+            title="Минимальная"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,2
+              </span>
+            }
+          >
+            Лежачий режим, восстановление после болезни, почти полное отсутствие движения.
+          </ArticleCard>
+          <ArticleCard
+            title="Сидячая работа"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,375
+              </span>
+            }
+          >
+            Офис, немного шагов, редкие тренировки 1–2 раза в неделю.
+          </ArticleCard>
+          <ArticleCard
+            title="Умеренная"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,55
+              </span>
+            }
+          >
+            Тренировки 3–5 дней в неделю плюс заметно более подвижный быт.
+          </ArticleCard>
+          <ArticleCard
+            title="Высокая"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,725
+              </span>
+            }
+          >
+            Частые тренировки 6–7 дней в неделю или тяжёлый физический труд.
+          </ArticleCard>
+          <ArticleCard
+            title="Очень высокая"
+            className="sm:col-span-2"
+            aside={
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                1,9
+              </span>
+            }
+          >
+            Профессиональный спорт или стабильно тяжёлый физический труд каждый день.
+          </ArticleCard>
+        </ArticleCardGrid>
         <p>
           Большинство городских жителей попадают в диапазон 1,375–1,55. Если вы
           ходите в зал 3 раза в неделю, но при этом весь день сидите — PAL
           скорее 1,4–1,5, чем 1,725.
         </p>
+        <p>
+          Эти коэффициенты удобны как <strong>практические ступени</strong> для
+          онлайн-калькулятора. В реальности активность непрерывна, поэтому PAL —
+          это не пять «официальных полок», а грубая рабочая оценка.
+        </p>
 
         <AdSlot id="ad-bmr-mid" />
 
-        <h2>Как использовать TDEE на практике</h2>
-        <ul>
-          <li>
-            <strong>Поддержание веса</strong> — питайтесь на уровне TDEE. Если
-            вес стабилен 2–3{NN}недели, вы попали в свою реальную норму.
-          </li>
-          <li>
-            <strong>Снижение веса</strong> — создайте умеренный{" "}
-            <Link href="/deficit-kalorij/">дефицит калорий</Link> относительно
-            TDEE (обычно 300–500{NN}ккал/сут).
-          </li>
-          <li>
-            <strong>Набор массы</strong> — добавьте 200–400{NN}ккал к TDEE.
-            Более высокий профицит ускоряет прирост жира.
-          </li>
-        </ul>
-
-        <p className="text-sm text-fg-muted">
-          <strong>О точности.</strong> PAL сложно оценить «на глаз»: два
-          человека с одинаковым TDEE по формуле могут по-разному тратить энергию
-          из-за состава тела, непроизвольной активности, сна и стресса. Имеет
-          смысл трактовать TDEE как стартовую точку и корректировать по реакции
-          веса.
-        </p>
+        <h2>Как читать результат</h2>
+        <ArticleCardGrid columns={3}>
+          <ArticleCard title="Поддержание">
+            Питание около TDEE. Если вес стабилен 2–3{NN}недели, оценка близка к реальности.
+          </ArticleCard>
+          <ArticleCard title="Снижение веса">
+            <>
+              Обычно отталкиваются от TDEE и задают умеренный{" "}
+              <Link href="/deficit-kalorij/">дефицит</Link>.
+            </>
+          </ArticleCard>
+          <ArticleCard title="Набор">
+            К TDEE добавляют умеренный плюс, чтобы не ускорять набор жира.
+          </ArticleCard>
+        </ArticleCardGrid>
+        <div className="callout">
+          <p>
+            PAL часто оценивают слишком оптимистично. Даже при одинаковом TDEE
+            по формуле реальные траты могут различаться из-за шагов, сна,
+            стресса, состава тела и непроизвольной активности.
+          </p>
+        </div>
 
         <YmylWhenDoctorBlock />
 
         <h2>Часто задаваемые вопросы</h2>
-
-        <h3>BMR и основной обмен — это одно и то же?</h3>
-        <p>
-          В быту — да, эти термины используют как синонимы. Строго говоря, BMR
-          измеряется при полном покое натощак в нейтральной температуре, а
-          основной обмен (resting metabolic rate, RMR) — чуть менее строгие
-          условия. Практическая разница небольшая — около 10–15{NN}%.
-        </p>
-
-        <h3>Меняется ли BMR со временем?</h3>
-        <p>
-          Да. С возрастом (примерно от 30 лет) базальный обмен постепенно
-          снижается — в среднем на 1–2{NN}% за десятилетие. Это связано с
-          уменьшением мышечной массы. Силовые тренировки замедляют этот процесс.
-        </p>
-
-        <h3>Почему вес не меняется, хотя ем «по норме»?</h3>
-        <p>
-          Скорее всего, реальная норма немного выше или ниже расчётной. Начните
-          с TDEE, понаблюдайте 2–3{NN}недели и скорректируйте на основе
-          реального результата — это точнее любой формулы.
-        </p>
+        <ArticleFaq
+          items={[
+            {
+              question: "BMR и основной обмен — это одно и то же?",
+              answer:
+                "В быту почти да. Строго говоря, BMR измеряют в очень жёстких условиях, а основной обмен в широком смысле может пониматься чуть свободнее. Практическая разница обычно невелика.",
+            },
+            {
+              question: "Меняется ли BMR со временем?",
+              answer:
+                "Да. С возрастом базальный обмен обычно снижается, главным образом из-за уменьшения мышечной массы и изменений в образе жизни.",
+            },
+            {
+              question: "Почему вес не меняется, хотя ем «по норме»?",
+              answer: (
+                <>
+                  Скорее всего, реальная норма немного выше или ниже расчётной.
+                  Начните с TDEE, понаблюдайте 2–3{NN}недели и затем
+                  корректируйте рацион по реальному результату.
+                </>
+              ),
+            },
+            {
+              question: "Что чаще ошибается: BMR или PAL?",
+              answer:
+                "Чаще ошибаются именно в PAL. Формула BMR относительно стабильна, а вот повседневную активность люди обычно переоценивают.",
+            },
+          ]}
+        />
 
         <div className="article-cta">
           <Link href="/#calc-main">Рассчитать BMR и TDEE онлайн →</Link>
         </div>
 
         <ArticleSources
-          intro="Методология суточной энергии и сравнение уравнений BMR — в международных отчётах и обзорах."
+          intro="Оставил и русскоязычный обзор ВОЗ, и базовые источники по уравнениям BMR и суточной энергии."
           items={[
+            whoHealthyDietRu,
             faoWhoUnuHumanEnergy2004,
             frankenfieldMifflinDoi,
             nhsCaloriesOverview,
@@ -203,6 +257,11 @@ export default function BmrTdeePage() {
         <ul>
           <li>
             <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+          </li>
+          <li>
+            <Link href="/norma-kalorij-dlya-zhenshchin-i-muzhchin/">
+              Норма калорий для женщин и мужчин
+            </Link>
           </li>
           <li>
             <Link href="/mifflin-san-zheor/">Формула Миффлина — Сан Жеора</Link>

@@ -22,6 +22,12 @@ export const whoOverweightEn: ExternalRef = {
   localeNote: "официально, EN",
 };
 
+export const whoOverweightRu: ExternalRef = {
+  href: "https://www.who.int/ru/news-room/fact-sheets/detail/obesity-and-overweight",
+  label: "ВОЗ — избыточный вес и ожирение (обзор)",
+  localeNote: "официально, RU",
+};
+
 /** Энергозатраты, PAL, суточная потребность — методология FAO/WHO/UNU. */
 export const faoWhoUnuHumanEnergy2004: ExternalRef = {
   href: "https://www.fao.org/3/y5546e/y5546e00.htm",

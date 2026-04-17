@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { Suspense } from "react";
-import { ArticleSources, YmylWhenDoctorBlock } from "@/components/article";
+import {
+  ArticleSources,
+  ArticleWhatIsBlurb,
+  YmylWhenDoctorBlock,
+} from "@/components/article";
 import { FoodCalorieTables } from "@/components/food/FoodCalorieTables";
 import { ArticleShell } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
@@ -40,6 +44,7 @@ export default function MealPlanPage() {
       <JsonLd data={buildMealPlanPageJsonLd()} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
         <h1>Калькулятор питания по приёмам</h1>
+        <ArticleWhatIsBlurb path="/kalkulyator-pitaniya/" />
         <p className="max-w-prose text-pretty text-sm leading-relaxed text-fg-muted sm:text-[0.9375rem]">
           Введите суточные ккал и число приёмов — расчёт откроется в блоке ниже.
           Суточную норму можно посчитать на главной: ссылка под полем «Суточные
@@ -65,11 +70,12 @@ export default function MealPlanPage() {
           id="spravochnik-kaloriy"
           className="scroll-mt-[var(--app-scroll-anchor-offset)] mt-12 text-xl font-semibold tracking-tight text-fg"
         >
-          Справочник калорийности продуктов
+          Справочник калорийности и БЖУ продуктов
         </h2>
         <p className="mt-3 max-w-2xl text-pretty text-sm leading-relaxed text-fg-muted">
-          Ориентиры в ккал на 100{NN}г (для напитков — на 100{NN}мл). Как перевести
-          в граммы порции — в блоке «Как пользоваться таблицей» на странице{" "}
+          Ориентиры в ккал и БЖУ на 100{NN}г (для напитков — на 100{NN}мл). Как
+          перевести это в граммы порции — в блоке «Как пользоваться таблицей» на
+          странице{" "}
           <Link href="/kkal-produktov/#kak-polzovatsya">калорийности продуктов</Link>
           .
         </p>
@@ -103,10 +109,32 @@ export default function MealPlanPage() {
 
         <YmylWhenDoctorBlock />
 
+        <div className="article-cta">
+          <Link href="/#calc-main">Сначала рассчитать суточную норму калорий →</Link>
+        </div>
+
         <ArticleSources
           intro="Состав продуктов и здоровое питание — у открытых баз и ВОЗ; рацион подбирайте с врачом или диетологом при заболеваниях."
           items={[usdaFoodDataCentral, whoHealthyDietRu]}
         />
+
+        <h2>Связанные материалы</h2>
+        <ul>
+          <li>
+            <Link href="/#calc-main">Калькулятор калорий на главной</Link>
+          </li>
+          <li>
+            <Link href="/kkal-produktov/">Калорийность продуктов</Link>
+          </li>
+          <li>
+            <Link href="/bmr-i-tdee/">BMR и TDEE: что это и чем отличаются</Link>
+          </li>
+          <li>
+            <Link href="/deficit-kalorij/">
+              Дефицит и профицит калорий
+            </Link>
+          </li>
+        </ul>
       </ArticleShell>
     </>
   );

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArticleCard,
+  ArticleCardGrid,
+  ArticleFaq,
   ArticleLeadSummary,
   ArticleSources,
   ArticleWhatIsBlurb,
@@ -16,7 +19,7 @@ import {
 } from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
-import { NN, NB } from "@/lib/typography";
+import { NN } from "@/lib/typography";
 
 export const metadata: Metadata = buildArticleMetadata("/deficit-kalorij/");
 
@@ -34,269 +37,291 @@ export default function DeficitAndSurplusPage() {
         <ArticleWhatIsBlurb path="/deficit-kalorij/" />
         <ArticleLeadSummary>
           <p>
-            <strong>Дефицит</strong> — вы едите меньше суточной траты;{" "}
-            <strong>профицит</strong> — больше. Обычно оба отсчитывают от{" "}
-            <Link href="/bmr-i-tdee/">TDEE</Link> (норма с учётом активности): калораж
-            ≈ TDEE ± нужный «минус» или «плюс» в ккал/сут.
+            <strong>Дефицит</strong> — это питание ниже суточной траты энергии.
+            <strong> Профицит</strong> — выше неё. Обычно обе стратегии считают
+            от <Link href="/bmr-i-tdee/">TDEE</Link>, то есть от нормы калорий с
+            учётом активности.
           </p>
           <p>
-            Таблицы ниже — широкие ориентиры для взрослых без острой болезни, а не
-            персональная норма. Правило «~7{NN}700{NN}ккал на кг жировой ткани»
-            удобно для грубой оценки, но на практике вес реагирует ещё и водой,
-            гликогеном и мышцами.
+            Ниже — простые формулы, ориентиры по диапазонам и ограничения, из-за
+            которых дефицит или профицит не стоит делать слишком агрессивными.
           </p>
         </ArticleLeadSummary>
-        <p>
-          Быстро перевести желаемые кг в неделю в ккал/день можно в блоке на главной —{" "}
-          <Link href="/#mini-balance">темп веса (похудение и набор)</Link> (после
-          расчёта TDEE в основной форме).
-        </p>
 
         <AdSlot id="ad-deficit-top" />
 
-        <h2 id="deficit">Дефицит калорий</h2>
-        <p>
-          Дефицит — это ситуация, когда вы потребляете{NB}с едой меньше энергии,
-          чем тратит организм.{NB}В ответ тело начинает расходовать запасы —
-          прежде всего жировую ткань. Именно на этом принципе основан любой подход
-          {NB}к снижению веса, независимо от диеты или системы питания.
-        </p>
+        <h2>Что такое дефицит и профицит</h2>
+        <ArticleCardGrid>
+          <ArticleCard eyebrow="Дефицит" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Вы едите меньше энергии, чем тратит организм. В ответ тело начинает
+            использовать запасы, прежде всего жировую ткань.
+          </ArticleCard>
+          <ArticleCard eyebrow="Профицит" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Вы едите больше энергии, чем тратит организм. Это база для набора,
+            но избыток не всегда идёт в мышцы.
+          </ArticleCard>
+        </ArticleCardGrid>
 
-        <h3>Как рассчитать дефицит</h3>
+        <h2>Как считать от TDEE</h2>
+        <ArticleCardGrid>
+          <ArticleCard eyebrow="Для похудения" className="bg-elevated/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <p className="rounded-lg border border-border/70 bg-page/35 px-3 py-3 text-sm font-medium leading-6 text-fg">
+              Калораж = TDEE − дефицит (ккал/сут)
+            </p>
+          </ArticleCard>
+          <ArticleCard eyebrow="Для набора" className="bg-elevated/45 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            <p className="rounded-lg border border-border/70 bg-page/35 px-3 py-3 text-sm font-medium leading-6 text-fg">
+              Калораж = TDEE + профицит (ккал/сут)
+            </p>
+          </ArticleCard>
+        </ArticleCardGrid>
         <p>
-          Отправная точка — <Link href="/bmr-i-tdee/">TDEE</Link> (суточная
-          потребность{NB}в калориях{NB}с учётом активности). Дефицит задаётся
-          как отклонение вниз от этой цифры:
+          Например, при TDEE 2{NN}100 ккал и дефиците 400 ккал/сут ориентир по
+          рациону будет около 1{NN}700 ккал. При TDEE 2{NN}400 ккал и профиците
+          300 ккал/сут — около 2{NN}700 ккал.
         </p>
-        <p>
-          <strong>Калораж = TDEE − дефицит (ккал/сут)</strong>
-        </p>
-        <p>
-          Например, при TDEE 2{NN}100{NN}ккал и{NB}дефиците 400{NN}ккал/сут рацион
-          составит ~1{NN}700{NN}ккал.
-        </p>
+        <div className="callout">
+          <p>
+            Самая частая ошибка здесь — не в математике, а в завышенной оценке{" "}
+            <Link href="/bmr-i-tdee/">TDEE и активности</Link>.
+          </p>
+        </div>
 
-        <h3>Ориентировочные диапазоны дефицита</h3>
-        <table>
-          <thead>
-            <tr>
-              <th>Дефицит в сутки</th>
-              <th>Условное название</th>
-              <th>Ориентир потери</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>100–250{NN}ккал</td>
-              <td>Мягкий</td>
-              <td>~0,1–0,2{NN}кг/нед</td>
-            </tr>
-            <tr>
-              <td>300–500{NN}ккал</td>
-              <td>Умеренный</td>
-              <td>~0,3–0,5{NN}кг/нед</td>
-            </tr>
-            <tr>
-              <td>500–750{NN}ккал</td>
-              <td>Высокий</td>
-              <td>~0,5–0,7{NN}кг/нед</td>
-            </tr>
-            <tr>
-              <td>750+ ккал</td>
-              <td>Агрессивный</td>
-              <td>Требует медицинского контроля</td>
-            </tr>
-          </tbody>
-        </table>
+        <h2 id="deficit">Ориентиры по дефициту</h2>
+        <div className="not-prose mt-5 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Мягкий</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                100–250
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Обычно это самый мягкий и переносимый вариант с медленным темпом.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Умеренный</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                300–500
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Самый частый бытовой диапазон для спокойного старта.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Высокий</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                500–750
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Результат может идти быстрее, но обычно выше и цена: голод,
+              усталость и риск потери мышц.
+            </p>
+          </section>
+          <section className="rounded-xl border border-warn/20 bg-warn/[0.06] p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Агрессивный</h3>
+              <span className="rounded-lg border border-warn/25 bg-page/35 px-2.5 py-1 text-sm font-semibold text-warn">
+                750+
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Такой уровень уже ближе к зоне, где нужен медицинский контроль и осторожность.
+            </p>
+          </section>
+        </div>
         <p>
-          Цифры — приблизительные. Реальная скорость потери зависит от состава тела,
-          задержки воды, качества сна, стресса и ряда других факторов.
+          Цифры здесь приблизительные. Реальная скорость зависит от воды,
+          гликогена, состава тела, сна, стресса и того, насколько точно вы
+          вообще считаете еду.
         </p>
+        <div className="callout">
+          <p>
+            Правило ~7{NN}700 ккал на 1 кг массы — грубое приближение. На весах
+            меняется не только жир, поэтому реальный темп редко идёт по прямой.
+          </p>
+        </div>
 
-        <h3>Правило 7{NN}700 ккал/кг при похудении</h3>
-        <p>
-          Часто сопоставляют потерю порядка 1{NN}кг массы тела с суммарным
-          энергетическим дефицитом ~7{NN}700{NN}ккал — очень грубо. Одно из
-          бытовых обоснований — калорийность жировой ткани
-          (~9{NN}ккал/г × ~85{NN}% жира{NB}в жировой ткани ≈ 7{NN}700{NN}ккал/кг);
-          на весах же меняется не только жир.
-        </p>
-        <p>
-          На практике первые недели диеты вес снижается быстрее из-за потери воды.
-          Затем темп стабилизируется. Ближе{NB}к цели снижение обычно замедляется —
-          организм адаптирует обмен.
-        </p>
-
-        <h3>Когда дефицит становится опасным</h3>
-        <p>
-          Несколько сигналов, при которых стоит остановиться и проконсультироваться
-          со специалистом:
-        </p>
-        <ul>
-          <li>
-            Расчётный дефицит превышает 30–40{NN}% от TDEE — это нагрузка на
-            гормональную систему и риск потери мышечной массы.
-          </li>
-          <li>
-            Итоговый калораж опускается ниже 1{NN}200{NN}ккал/сут (женщины) или
-            1{NN}500{NN}ккал/сут (мужчины) — трудно сбалансировать нутриенты.
-          </li>
-          <li>
-            Хроническая усталость, выпадение волос, нарушения цикла — возможные
-            признаки избыточного ограничения.
-          </li>
-          <li>
-            Исходный вес уже{NB}в диапазоне нормы или ниже по{" "}
-            <Link href="/imt/">ИМТ</Link> — агрессивный дефицит здесь не нужен.
-          </li>
-        </ul>
+        <h2>Когда с дефицитом лучше осторожно</h2>
+        <div className="not-prose mt-5 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Слишком большой минус</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Если дефицит становится слишком большой долей вашего TDEE,
+              переносимость и риск срывов обычно ухудшаются.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Слишком низкий калораж</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Если рацион уходит в очень низкокалорийную зону, становится
+              труднее закрывать белок, жиры и микронутриенты. Диеты ниже
+              800{NN}ккал/сут — это уже не бытовой режим, а история для врача.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Плохое самочувствие</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Хроническая усталость, выпадение волос, нарушения цикла — повод остановиться и пересмотреть стратегию.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Вес уже низкий</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Если <Link href="/imt/">ИМТ</Link> уже в норме или ниже, агрессивный дефицит редко бывает хорошей идеей.
+            </p>
+          </section>
+        </div>
 
         <AdSlot id="ad-deficit-mid" />
 
         <h2 id="profic">Профицит и набор веса</h2>
         <p>
-          Стартовая точка — та же <Link href="/bmr-i-tdee/">TDEE</Link>. Профицит
-          задаётся как прибавка сверх этой цифры:
+          Стартовая точка та же — <Link href="/bmr-i-tdee/">TDEE</Link>. Но
+          при наборе проблема обычно не в том, чтобы «есть больше любой ценой», а
+          в том, чтобы не превращать профицит в бесконтрольный перекорм.
         </p>
+        <div className="not-prose mt-5 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Мягкий</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                100–250
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Часто самый спокойный вариант, особенно если важен контроль качества набора.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Умеренный</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                300–500
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Часто связывают с более заметным набором, но многое зависит от тренировок и сна.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Высокий</h3>
+              <span className="rounded-lg border border-border/70 bg-page/35 px-2.5 py-1 text-sm font-semibold text-accent">
+                500–750
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Растёт риск жира, дискомфорта ЖКТ и ощущения «ем много, а качество набора не растёт».
+            </p>
+          </section>
+          <section className="rounded-xl border border-warn/20 bg-warn/[0.06] p-4">
+            <div className="flex items-start justify-between gap-3">
+              <h3 className="text-sm font-semibold text-fg">Очень высокий</h3>
+              <span className="rounded-lg border border-warn/25 bg-page/35 px-2.5 py-1 text-sm font-semibold text-warn">
+                750+
+              </span>
+            </div>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Обычно имеет смысл только под контролем специалиста и при очень понятной задаче.
+            </p>
+          </section>
+        </div>
         <p>
-          <strong>Калораж ≈ TDEE + профицит (ккал/сут)</strong>
+          При наборе вес на старте часто растёт не только из-за жира, но и из-за
+          воды и гликогена. Поэтому цифра на весах в первые недели не всегда
+          показывает качество профицита.
         </p>
-        <p>
-          Например, при TDEE 2{NN}400{NN}ккал и{NB}профиците 300{NN}ккал/сут ориентир
-          по рациону — около 2{NN}700{NN}ккал в день.
-          Реальный вес на весах реагирует не только на жир: в первые недели часто
-          растёт масса за счёт воды и гликогена.
-        </p>
+        <div className="callout">
+          <p>
+            То же правило ~7{NN}700 ккал здесь ещё грубее, чем при дефиците:
+            при наборе доля воды, гликогена и мышц делает расчёт «на кг»
+            менее точным.
+          </p>
+        </div>
 
-        <h3>Ориентировочные диапазоны профицита</h3>
-        <p>
-          Для многих взрослых без противопоказаний умеренный плюс к норме легче
-          переносится и даёт предсказуемее состав набора, чем очень крупный
-          «перекорм».
-        </p>
-        <table>
-          <thead>
-            <tr>
-              <th>Профицит в сутки</th>
-              <th>Условное название</th>
-              <th>Ориентир набора</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>100–250{NN}ккал</td>
-              <td>Мягкий</td>
-              <td>~0,1–0,2{NN}кг/нед (сильно зависит от состава)</td>
-            </tr>
-            <tr>
-              <td>300–500{NN}ккал</td>
-              <td>Умеренный</td>
-              <td>Часто упоминают порядок ~0,3–0,5{NN}кг/нед</td>
-            </tr>
-            <tr>
-              <td>500–750{NN}ккал</td>
-              <td>Высокий</td>
-              <td>Больше риска жира и дискомфорта ЖКТ</td>
-            </tr>
-            <tr>
-              <td>750+ ккал</td>
-              <td>Очень высокий</td>
-              <td>Имеет смысл только под контролем специалиста</td>
-            </tr>
-          </tbody>
-        </table>
-        <p>
-          Ячейки таблицы — не нормативы Минздрава и не гарантия килограммов на
-          весах: обмен, сон, стресс, тренировки и генетика сдвигают результат.
-        </p>
-
-        <h3>Правило 7{NN}700 ккал и набор</h3>
-        <p>
-          То же грубое приближение, что и при{" "}
-          <Link href="#deficit">дефиците</Link>: порядка 7{NN}700{NN}ккал
-          суммарного избытка энергии часто связывают с прибавкой около 1{NN}кг
-          массы тела — но при наборе доля воды, гликогена и мышц выше, чем при
-          чистой потере жира, поэтому цифра «на кг» ещё менее точная.
-        </p>
-
-        <h3>Когда профицит — плохая идея</h3>
-        <p>Особенно осторожно с намеренным набором, если:</p>
-        <ul>
-          <li>
-            <Link href="/imt/">ИМТ</Link> уже в зоне избыточного веса или ожирения —
-            лишние калории чаще откладываются преимущественно как жир.
-          </li>
-          <li>
-            Нет регулярной нагрузки: без стимула к мышцам избыток калорий реже
-            превращается в желаемый «качественный» набор.
-          </li>
-          <li>
-            Профицит составляет очень большую долю от TDEE — нагрузка на
-            пищеварение, сон и липидный профиль растёт.
-          </li>
-        </ul>
+        <h2>Когда профицит — плохая идея</h2>
+        <div className="not-prose mt-5 grid gap-3 sm:grid-cols-2">
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Уже есть избыток веса</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Если <Link href="/imt/">ИМТ</Link> уже в зоне избыточного веса или ожирения, лишние калории чаще идут в жир.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4">
+            <h3 className="text-sm font-semibold text-fg">Нет регулярной нагрузки</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Без силового стимула избыток энергии реже превращается в желаемый качественный набор.
+            </p>
+          </section>
+          <section className="rounded-xl border border-border/80 bg-elevated/35 p-4 sm:col-span-2">
+            <h3 className="text-sm font-semibold text-fg">Слишком большой плюс</h3>
+            <p className="mt-2 text-sm leading-6 text-fg-muted">
+              Очень крупный профицит чаще добавляет лишний жир и хуже
+              переносится, чем реально помогает качественному набору.
+            </p>
+          </section>
+        </div>
 
         <YmylWhenDoctorBlock />
 
         <h2>Часто задаваемые вопросы</h2>
-
-        <h3>Про дефицит: нужно ли считать калории каждый день?</h3>
-        <p>
-          Систематический подсчёт в исследованиях часто помогает контролировать
-          дефицит, но это не единственный рабочий путь и не гарантия результата.
-          Некоторые люди успешно управляют весом, снижая порции или убирая
-          ультрапереработанные продукты без дневника. Главный ориентир — динамика
-          веса и самочувствие за 2–4{NN}недели.
-        </p>
-
-        <h3>Про дефицит: почему вес стоит при дефиците?</h3>
-        <p>
-          Три главные причины: задержка воды (особенно на фоне стресса или высокого
-          потребления соли), адаптивное снижение обмена при длительном дефиците,
-          и{NB}ошибки{NB}в подсчёте калорий (исследования показывают, что люди
-          систематически занижают реальное потребление на{NN}20–40{NN}%).
-        </p>
-
-        <h3>Про дефицит: можно ли делать большой дефицит периодически?</h3>
-        <p>
-          Прерывистое ограничение изучается, но{NB}не имеет явного преимущества
-          перед умеренным постоянным дефицитом по долгосрочным результатам. Для
-          большинства людей умеренный стабильный дефицит легче поддерживать.
-        </p>
-
-        <h3>Про набор: «грязный» и «чистый» набор — в чём разница?</h3>
-        <p>
-          «Грязный» набор — большой профицит без контроля качества еды; «чистый» —
-          умеренный плюс с акцентом на белок, клетчатку и режим. Для здоровья второй
-          подход обычно предпочтительнее.
-        </p>
-
-        <h3>Про набор: почему ем сверх нормы, а вес не растёт?</h3>
-        <p>
-          Частые причины: завышенная оценка TDEE, недосчёт порций, высокая
-          непроизвольная активность, стресс и плохой сон. Имеет смысл смотреть
-          динамику 2–4{NN}недель и при необходимости уточнять норму на главном
-          калькуляторе или со специалистом.
-        </p>
-
-        <h3>Про набор: нужен ли набор всем с низким ИМТ?</h3>
-        <p>
-          Низкий ИМТ не всегда означает, что нужен именно набор жира: иногда важнее
-          состав тела, гормоны или перенесённые болезни. Стратегию лучше выбирать
-          не по одной цифре на калькуляторе.
-        </p>
+        <ArticleFaq
+          items={[
+            {
+              question: "Нужно ли считать калории каждый день?",
+              answer: (
+                <>
+                  Не обязательно, но систематический подсчёт часто помогает
+                  лучше контролировать дефицит или профицит. Главный ориентир
+                  всё равно — динамика веса и самочувствие за 2–4{NN}недели.
+                </>
+              ),
+            },
+            {
+              question: "Почему вес стоит при дефиците?",
+              answer:
+                "Частые причины — задержка воды, адаптивное снижение расхода и ошибки в подсчёте порций. Короткий отрезок на весах редко даёт полную картину.",
+            },
+            {
+              question: "Можно ли делать большой дефицит периодически?",
+              answer:
+                "Для большинства людей умеренный стабильный дефицит переносится лучше и предсказуемее, чем резкие качели с жёсткими ограничениями.",
+            },
+            {
+              question: "«Грязный» и «чистый» набор — в чём разница?",
+              answer:
+                "В быту под «грязным» набором понимают большой профицит без контроля качества еды, а под «чистым» — умеренный плюс с акцентом на белок, клетчатку и режим.",
+            },
+            {
+              question: "Почему ем сверх нормы, а вес не растёт?",
+              answer:
+                "Часто причина в завышенной оценке TDEE, недосчёте порций, высокой непроизвольной активности, стрессе или плохом сне.",
+            },
+            {
+              question: "Нужен ли набор всем с низким ИМТ?",
+              answer:
+                "Не всегда. Иногда важнее состав тела, гормональный фон и причины низкого веса, а не сама цифра на калькуляторе.",
+            },
+          ]}
+        />
 
         <div className="article-cta">
           <Link href="/#calc-main">Рассчитать норму калорий (TDEE) на главной →</Link>
         </div>
 
         <ArticleSources
-          intro="Ниже — международные обзоры и методические документы; они не подменяют индивидуальную консультацию."
+          intro="Оставил русскоязычный обзор ВОЗ и базовые источники по энергетическому балансу и суточной потребности."
           items={[
+            whoHealthyDietRu,
             faoWhoUnuHumanEnergy2004,
             hallEnergyBalancePmc,
             nhsCaloriesOverview,
-            whoHealthyDietRu,
           ]}
         />
 

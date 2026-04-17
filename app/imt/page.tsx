@@ -1,6 +1,10 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import {
+  ArticleCard,
+  ArticleCardGrid,
+  ArticleFaq,
+  ArticleHighlight,
   ArticleLeadSummary,
   ArticleSources,
   ArticleWhatIsBlurb,
@@ -8,10 +12,10 @@ import {
 } from "@/components/article";
 import { ArticleShell, AdSlot } from "@/components/layout";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { whoBmiRu, whoOverweightEn } from "@/content/external-references";
+import { whoBmiRu, whoOverweightRu } from "@/content/external-references";
 import { buildArticleWebPageJsonLd } from "@/lib/seo-article-jsonld";
 import { buildArticleMetadata } from "@/lib/seo-page-metadata";
-import { NN, NB } from "@/lib/typography";
+import { NN } from "@/lib/typography";
 
 export const metadata: Metadata = buildArticleMetadata("/imt/");
 
@@ -25,190 +29,169 @@ export default function ImtPage() {
     <>
       <JsonLd data={buildArticleWebPageJsonLd("/imt/")} />
       <ArticleShell breadcrumbs={BREADCRUMBS}>
-      <h1>Индекс массы тела (ИМТ)</h1>
-      <ArticleWhatIsBlurb path="/imt/" />
-      <ArticleLeadSummary>
+        <h1>Индекс массы тела (ИМТ)</h1>
+        <ArticleWhatIsBlurb path="/imt/" />
+        <ArticleLeadSummary>
+          <p>
+            <strong>ИМТ</strong> = вес (кг) / рост² (м). Это быстрый способ
+            понять, в какой диапазон массы тела попадает взрослый человек по
+            шкале ВОЗ.
+          </p>
+          <p>
+            Но ИМТ — это <strong>скрининговый</strong> показатель, а не диагноз.
+            Он не показывает состав тела и не заменяет очную оценку здоровья.
+          </p>
+        </ArticleLeadSummary>
+
+        <AdSlot id="ad-imt-top" />
+
+        <h2>Что показывает ИМТ</h2>
+        <ArticleCardGrid>
+          <ArticleCard eyebrow="Для чего полезен" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Быстро показывает, выходит ли масса тела за типичный диапазон для взрослых.
+          </ArticleCard>
+          <ArticleCard eyebrow="Для чего не подходит" className="bg-elevated/40 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)]">
+            Не определяет качество состава тела и не отвечает сам по себе на вопрос о здоровье.
+          </ArticleCard>
+        </ArticleCardGrid>
+
+        <h2>Формула расчёта</h2>
+        <ArticleHighlight eyebrow="Формула">
+          <p className="mt-3 rounded-xl border border-border/70 bg-page/40 px-4 py-4 text-sm font-medium leading-7 text-fg">
+            ИМТ = вес (кг) / рост² (м)
+          </p>
+          <p className="mt-4 text-sm leading-6 text-fg-muted">
+            Пример: вес{NN}75 кг, рост{NN}1,75 м. ИМТ = 75 / (1,75 × 1,75) ≈{" "}
+            <strong className="text-fg">24,5</strong>.
+          </p>
+        </ArticleHighlight>
+
+        <h2>Диапазоны ВОЗ для взрослых</h2>
+        <ArticleCardGrid>
+          <ArticleCard title="Менее 16,0">Выраженный дефицит массы</ArticleCard>
+          <ArticleCard title="16,0–17,9">Умеренный дефицит</ArticleCard>
+          <ArticleCard title="18,0–18,4">Лёгкий дефицит</ArticleCard>
+          <ArticleCard title="18,5–24,9" tone="accent">
+            Нормальный диапазон
+          </ArticleCard>
+          <ArticleCard title="25,0–29,9">Предожирение</ArticleCard>
+          <ArticleCard title="30,0–34,9">Ожирение I степени</ArticleCard>
+          <ArticleCard title="35,0–39,9">Ожирение II степени</ArticleCard>
+          <ArticleCard title="40,0 и более" tone="warn">
+            Ожирение III степени
+          </ArticleCard>
+        </ArticleCardGrid>
         <p>
-          <strong>ИМТ</strong> = вес (кг) / рост² (м). По шкале <strong>ВОЗ</strong>{" "}
-          для взрослых выделяют зоны от дефицита массы до ожирения III степени — в
-          таблице ниже.
+          Пороговые значения приведены в духе классификации ВОЗ; актуальные
+          формулировки — на страницах{" "}
+          <a
+            href={whoBmiRu.href}
+            className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ВОЗ (RU)
+          </a>{" "}
+          и{" "}
+          <a
+            href={whoOverweightRu.href}
+            className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ВОЗ — избыточный вес и ожирение (RU)
+          </a>
+          .
         </p>
-        <p>
-          Это <strong>скрининговый</strong> показатель, а не диагноз: мышечная масса,
-          возраст, этничность и беременность меняют трактовку. Калькулятор на главной
-          даёт число; разбор ограничений — на этой странице.
-        </p>
-      </ArticleLeadSummary>
-      <p>
-        Исторически ИМТ удобен для эпидемиологии; в клинике его дополняют другими
-        данными.
-      </p>
 
-      <AdSlot id="ad-imt-top" />
+        <h2>Когда ИМТ вводит в заблуждение</h2>
+        <div className="callout">
+          <p>
+            ИМТ не учитывает состав тела: долю мышц, жира, воды и костную
+            плотность. Поэтому его нельзя использовать как единственный критерий.
+          </p>
+        </div>
+        <ArticleCardGrid>
+          <ArticleCard title="Спортсмены">
+            Высокая мышечная масса может уводить ИМТ в зону «предожирения» при нормальном проценте жира.
+          </ArticleCard>
+          <ArticleCard title="Пожилые люди">
+            Нормальный ИМТ может скрывать саркопению, то есть потерю мышечной массы.
+          </ArticleCard>
+          <ArticleCard title="Дети и подростки">
+            Для них используют отдельные нормативы и центильные таблицы, а не взрослые диапазоны.
+          </ArticleCard>
+          <ArticleCard title="Беременность">
+            В этот период ИМТ не интерпретируют по стандартной взрослой шкале.
+          </ArticleCard>
+          <ArticleCard title="Разные группы населения" className="sm:col-span-2">
+            Для части популяций пороги риска могут быть ниже стандартных значений ВОЗ для взрослых.
+          </ArticleCard>
+        </ArticleCardGrid>
 
-      <h2>Формула расчёта</h2>
-      <p>
-        <strong>ИМТ = вес (кг) / рост² (м)</strong>
-      </p>
-      <p>
-        Пример: вес{NN}75{NN}кг, рост{NN}1,75{NN}м.
-        ИМТ = 75 / (1,75 × 1,75) = 75 / 3,0625 ≈ <strong>24,5</strong>.
-      </p>
+        <AdSlot id="ad-imt-mid" />
 
-      <h2>Диапазоны ВОЗ для взрослых</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>ИМТ</th>
-            <th>Категория ВОЗ</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Менее 16,0</td>
-            <td>Выраженный дефицит массы</td>
-          </tr>
-          <tr>
-            <td>16,0–17,9</td>
-            <td>Умеренный дефицит</td>
-          </tr>
-          <tr>
-            <td>18,0–18,4</td>
-            <td>Лёгкий дефицит</td>
-          </tr>
-          <tr>
-            <td>18,5–24,9</td>
-            <td>Норма</td>
-          </tr>
-          <tr>
-            <td>25,0–29,9</td>
-            <td>Предожирение</td>
-          </tr>
-          <tr>
-            <td>30,0–34,9</td>
-            <td>Ожирение I степени</td>
-          </tr>
-          <tr>
-            <td>35,0–39,9</td>
-            <td>Ожирение II степени</td>
-          </tr>
-          <tr>
-            <td>40,0 и более</td>
-            <td>Ожирение III степени</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
-        Пороговые значения приведены в духе классификации ВОЗ; актуальные формулировки
-        — на страницах{" "}
-        <a
-          href={whoBmiRu.href}
-          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ВОЗ (RU)
-        </a>{" "}
-        и{" "}
-        <a
-          href={whoOverweightEn.href}
-          className="text-fg-muted underline decoration-border underline-offset-2 hover:text-fg"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          ВОЗ (EN)
-        </a>
-        .
-      </p>
+        <h2>Что смотреть вместе с ИМТ</h2>
+        <ArticleCardGrid columns={3}>
+          <ArticleCard title="Окружность талии">
+            Помогает оценить риск висцерального жира и метаболических нарушений.
+          </ArticleCard>
+          <ArticleCard title="Талия / рост">
+            Иногда полезнее одного ИМТ, когда важно распределение жира.
+          </ArticleCard>
+          <ArticleCard title="Состав тела">
+            При возможности полезно понимать процент жира и мышечную массу, а не только общий вес.
+          </ArticleCard>
+        </ArticleCardGrid>
 
-      <h2>Когда ИМТ вводит в заблуждение</h2>
-      <div className="callout">
-        <p>
-          ИМТ не учитывает состав тела: долю мышц, жира, воды и костную плотность.
-          Не используйте его как единственный критерий оценки здоровья.
-        </p>
-      </div>
-      <ul>
-        <li>
-          <strong>Спортсмены с высокой мышечной массой</strong> — ИМТ может
-          попасть в зону «предожирения» при нормальном проценте жира.
-        </li>
-        <li>
-          <strong>Пожилые люди</strong> — с возрастом мышечная масса снижается, и
-          «нормальный» ИМТ может скрывать саркопению (дефицит мышц).
-        </li>
-        <li>
-          <strong>Дети и подростки</strong> — для них используются отдельные
-          нормативы с центилями; взрослые таблицы{NB}не применяются.
-        </li>
-        <li>
-          <strong>Разные группы населения</strong> — для жителей Азии ВОЗ рекомендует
-          более низкие пороговые значения (норма до 22,9, а не до 24,9).
-        </li>
-        <li>
-          <strong>Беременность</strong> — ИМТ в этот период{NB}не интерпретируется
-          по стандартным диапазонам.
-        </li>
-      </ul>
+        <h2>Часто задаваемые вопросы</h2>
+        <ArticleFaq
+          items={[
+            {
+              question: "ИМТ 26 — это уже обязательно нужно худеть?",
+              answer:
+                "Не обязательно. Это ориентир для наблюдения, а не диагноз. Важны анализы, самочувствие, окружность талии и образ жизни.",
+            },
+            {
+              question: "Почему у спортсмена ИМТ может быть высоким?",
+              answer:
+                "Потому что ИМТ считает только рост и вес. Если большая доля веса — это мышцы, показатель может выглядеть завышенным.",
+            },
+            {
+              question: "Какой ИМТ считается лучшим для здоровья?",
+              answer:
+                "Для большинства взрослых ориентируются на нормальный диапазон ВОЗ, но итоговая оценка всё равно зависит от возраста и состава тела.",
+            },
+          ]}
+        />
 
-      <AdSlot id="ad-imt-mid" />
+        <YmylWhenDoctorBlock />
 
-      <h2>Что важнее ИМТ</h2>
-      <p>
-        Специалисты рекомендуют дополнять ИМТ другими показателями: окружностью
-        талии (риск метаболического синдрома при окружности свыше 80{NN}см у
-        женщин и свыше 94{NN}см у{NB}мужчин по стандартам IDF), соотношением
-        талия/рост и, при возможности,
-        оценкой состава тела.
-      </p>
+        <div className="article-cta">
+          <Link href="/#calc-extra">Рассчитать ИМТ онлайн →</Link>
+        </div>
 
-      <h2>Часто задаваемые вопросы</h2>
+        <ArticleSources
+          intro="Оставил официальные русскоязычные страницы ВОЗ по ИМТ и избыточному весу."
+          items={[whoBmiRu, whoOverweightRu]}
+        />
 
-      <h3>ИМТ 26 — это уже нужно худеть?</h3>
-      <p>
-        ИМТ в диапазоне 25–29,9 — ориентир для наблюдения, а не диагноз и не
-        показание{NB}к диете. Врач оценивает{NB}в совокупности{NB}с анализами,
-        состоянием здоровья и образом жизни. Если вес стабилен, самочувствие хорошее
-        и нет сопутствующих заболеваний — решение принимается индивидуально.
-      </p>
-
-      <h3>Какой ИМТ оптимален для долголетия?</h3>
-      <p>
-        В ряде крупных наблюдательных исследований минимум смертности чаще
-        приходится на ИМТ вблизи «нормального» диапазона ВОЗ, но точные цифры
-        расходятся между когортами и методами. Показатель сильно зависит от
-        возраста, пола и популяции: у части пожилых людей более высокий ИМТ в
-        наблюдении связывали с лучшими исходами («парадокс ожирения») — это не
-        повод игнорировать врача и анализы.
-      </p>
-
-      <YmylWhenDoctorBlock />
-
-      <div className="article-cta">
-        <Link href="/#calc-extra">Рассчитать ИМТ онлайн →</Link>
-      </div>
-
-      <ArticleSources
-        intro="Официальные страницы ВОЗ по ИМТ и избыточному весу."
-        items={[whoBmiRu, whoOverweightEn]}
-      />
-
-      <h2>Связанные материалы</h2>
-      <ul>
-        <li>
-          <Link href="/#calc-main">Калькулятор калорий и КБЖУ на главной</Link>
-        </li>
-        <li>
-          <Link href="/bmr-i-tdee/">Что такое BMR и TDEE</Link>
-        </li>
-        <li>
-          <Link href="/deficit-kalorij/">Дефицит и набор веса</Link>
-        </li>
-        <li>
-          <Link href="/mifflin-san-zheor/">Формула Миффлина — Сан Жеора</Link>
-        </li>
-      </ul>
-    </ArticleShell>
+        <h2>Связанные материалы</h2>
+        <ul>
+          <li>
+            <Link href="/#calc-main">Калькулятор калорий и КБЖУ на главной</Link>
+          </li>
+          <li>
+            <Link href="/bmr-i-tdee/">Что такое BMR и TDEE</Link>
+          </li>
+          <li>
+            <Link href="/deficit-kalorij/">Дефицит и набор веса</Link>
+          </li>
+          <li>
+            <Link href="/mifflin-san-zheor/">Формула Миффлина — Сан Жеора</Link>
+          </li>
+        </ul>
+      </ArticleShell>
     </>
   );
 }
